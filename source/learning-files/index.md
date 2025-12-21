@@ -1,6 +1,7 @@
 ---
 title: learning-files
 date: 2025-12-21 22:25:49
+layout: page
 ---
 
 这里收录 3 份期末复习知识点笔记：已在不改动正文内容的前提下补齐 Hexo 需要的 Front-matter，方便在站点中正常渲染与访问。
