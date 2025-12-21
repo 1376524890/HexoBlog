@@ -6,12 +6,12 @@ layout: about
 
 ## About
 
-- 网名：MarkTom
-- 城市：北京
-- 邮箱：plk161211@163.com / plkplk161211@gmail.com
+- Name：MarkTom
+- City：北京
+- Email：plk161211@163.com / plkplk161211@gmail.com
 - GitHub：https://github.com/1376524890
-- 学校：中央财经大学（CUFE）本科在读
-- 专业：网络安全
+- School：中央财经大学（CUFE）本科在读
+- Major：网络安全
 
 ## Focus
 
