@@ -1,0 +1,1206 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mark Tom">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="信息内容安全 Information Content Security随手记词性标注，词义消歧，垃圾邮件过滤，隐性马尔科夫 获取，分析识别，管控 获取：主动获取，被动获取【ch1-信息内容安全概论.pdf p4】 分析识别：文本预处理（语法，语义，语用角度分析）【ch1-信息内容安全概论.pdf p4】 管控：贝叶斯，信息隐藏，数字水印【ch1-信息内容安全概论.pdf p86】  第一章：绪论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信息内容安全期末知识点">
+<meta property="og:url" content="http://blog.plk161211.top/2025/12/23/info-content-security-final-notes/index.html">
+<meta property="og:site_name" content="MarkTom">
+<meta property="og:description" content="信息内容安全 Information Content Security随手记词性标注，词义消歧，垃圾邮件过滤，隐性马尔科夫 获取，分析识别，管控 获取：主动获取，被动获取【ch1-信息内容安全概论.pdf p4】 分析识别：文本预处理（语法，语义，语用角度分析）【ch1-信息内容安全概论.pdf p4】 管控：贝叶斯，信息隐藏，数字水印【ch1-信息内容安全概论.pdf p86】  第一章：绪论">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-23T12:52:35.000Z">
+<meta property="article:modified_time" content="2026-03-06T12:56:52.860Z">
+<meta property="article:author" content="Mark Tom">
+<meta property="article:tag" content="信息内容安全">
+<meta property="article:tag" content="期末">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>信息内容安全期末知识点 - MarkTom</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.plk161211.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MarkTom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/learning-files/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>学习资料</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="信息内容安全期末知识点"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-23 20:52" pubdate>
+          2025年12月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          97 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">信息内容安全期末知识点</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="信息内容安全-Information-Content-Security"><a href="#信息内容安全-Information-Content-Security" class="headerlink" title="信息内容安全 Information Content Security"></a>信息内容安全 Information Content Security</h1><h2 id="随手记"><a href="#随手记" class="headerlink" title="随手记"></a>随手记</h2><p>词性标注，词义消歧，垃圾邮件过滤，隐性马尔科夫</p>
+<h3 id="获取，分析识别，管控"><a href="#获取，分析识别，管控" class="headerlink" title="获取，分析识别，管控"></a>获取，分析识别，管控</h3><ul>
+<li>获取：主动获取，被动获取【ch1-信息内容安全概论.pdf p4】</li>
+<li>分析识别：文本预处理（语法，语义，语用角度分析）【ch1-信息内容安全概论.pdf p4】</li>
+<li>管控：贝叶斯，信息隐藏，数字水印【ch1-信息内容安全概论.pdf p86】</li>
+</ul>
+<h2 id="第一章：绪论-20-40-（客观题为主）"><a href="#第一章：绪论-20-40-（客观题为主）" class="headerlink" title="第一章：绪论 20:40 （客观题为主）"></a>第一章：绪论 20:40 （客观题为主）</h2><ul>
+<li>信息内容安全是什么，目标是什么，支撑性技术是什么，与信息安全关系是什么（？主观题）【ch1-信息内容安全概论.pdf p11】<br><strong>了解信息安全现状、概念与目标</strong>【ch1-信息内容安全概论.pdf p97】</li>
+<li>信息在产生、传输、处理和存储过程中不被泄露或破坏，确保信息的<em>机密性、完整性和可用性（三种基本属性）</em>，并保证信息系统的可控性和不可否认性。【ch1-信息内容安全概论.pdf p49】</li>
+<li>目标：进不来，拿不走，看不懂，改不了，跑不了【ch1-信息内容安全概论.pdf p52】</li>
+<li>层次模型：物理安全，运行安全，数据安全，内容安全【ch1-信息内容安全概论.pdf p59】<br><strong>理解信息内容概念与特征</strong>【ch1-信息内容安全概论.pdf p97】</li>
+<li>信息内容的定义：【ch1-信息内容安全概论.pdf p66】<ul>
+<li>信息内容是信息的一种表现形式【ch1-信息内容安全概论.pdf p66】</li>
+<li>信息内容的记录载体是数字化设备【ch1-信息内容安全概论.pdf p66】</li>
+<li>信息内容的传播手段是网络【ch1-信息内容安全概论.pdf p66】</li>
+<li><em>信息内容三大要素：信息内容来源，信息内容归宿，信息内容传播信道</em>【ch1-信息内容安全概论.pdf p66】</li>
+</ul>
+</li>
+<li>信息内容特征：<em>数字化，交互性，多样性，集成性，分发性</em>【ch1-信息内容安全概论.pdf p68】<br><strong>掌握信息内容安全概念及内涵</strong>【ch1-信息内容安全概论.pdf p68】</li>
+<li>信息内容的产生、发布和传播过程中对信息内容本身及其相应执行者行为进行安全防护、管理和控制【ch1-信息内容安全概论.pdf p78】</li>
+<li>目标：保证信息利用的安全，即在获取信息内容的基础上，分析信息内容是否合法，确保合法内容的安全，阻止非法内容的传播和利用。【ch1-信息内容安全概论.pdf p78】<br><strong>熟悉信息内容安全研究内容、关键技术与特点</strong>【ch1-信息内容安全概论.pdf p97】</li>
+<li>信息内容获取（主动获取&#x2F;被动获取）【ch1-信息内容安全概论.pdf p57】</li>
+<li>信息内容识别（文本识别，语音识别，图像识别）【ch1-信息内容安全概论.pdf p82】</li>
+<li>信息内容分析（舆情分析，信息渗透与检测）【ch1-信息内容安全概论.pdf p82】</li>
+<li>信息内容管控（信息过滤，信息隐藏）【ch1-信息内容安全概论.pdf p82】<br><strong>信息内容安全是信息安全发展到特定阶段的细分领域，主要聚焦于信息本身，而不是传输系统或设备</strong>【ch1-信息内容安全概论.pdf p80】</li>
+</ul>
+<h2 id="第二章：主动获取（爬虫搜索引擎，web网络挖掘）-23-20"><a href="#第二章：主动获取（爬虫搜索引擎，web网络挖掘）-23-20" class="headerlink" title="第二章：主动获取（爬虫搜索引擎，web网络挖掘） 23:20"></a>第二章：主动获取（爬虫搜索引擎，web网络挖掘） 23:20</h2><ul>
+<li><p>搜索引擎基本概念，分类（3 全文，目录式，元搜索引擎）【ch2-网络信息主动获取技术 .pdf p80】</p>
+</li>
+<li><p><strong>概念：</strong>【ch2-网络信息主动获取技术 .pdf p80】</p>
+<ul>
+<li>搜索引擎是一种在Web上应用的软件系统，它以一定的策略在Web上搜集和发现信息，在对信息进行处理和组织而建库，为用户提供Web信息查询服务。【ch2-网络信息主动获取技术 .pdf p39】</li>
+<li>搜索引擎提供一个网页界面，让用户通过浏览器提交一个词语或者短语，然后很快返回一个可能和用户输入内容相关的信息列表（含标题、URL和摘要）。【ch2-网络信息主动获取技术 .pdf p39】</li>
+</ul>
+</li>
+<li><p><strong>搜索引擎按工作原理不同分为：</strong>【ch2-网络信息主动获取技术 .pdf p39】</p>
+<ul>
+<li>全文搜索引擎【ch2-网络信息主动获取技术 .pdf p41】<ul>
+<li>通过从互联网上提取的各个网站的信息（以网页文字为主）而建立的数据库中，检索与用户查询条件匹配的相关记录，然后按一定的排列顺序将结果返回给用户【ch2-网络信息主动获取技术 .pdf p42】</li>
+<li>拥有自己的检索程序(Indexer)，俗称“蜘蛛”(Spider)程序或“机器人”(Robot)程序，并自建网页数据库，搜索结果直接从自身的数据库中调用；【ch2-网络信息主动获取技术 .pdf p43】</li>
+</ul>
+</li>
+<li>目录式搜索引擎【ch2-网络信息主动获取技术 .pdf p41】<ul>
+<li>由分类专家将网络信息按照主题分成若干个大类，每个大类再分为若干个小类，依次细分，形成了一个可浏览式等级主题索引式搜索引擎；【ch2-网络信息主动获取技术 .pdf p44】</li>
+</ul>
+</li>
+<li>元搜索引擎【ch2-网络信息主动获取技术 .pdf p41】<ul>
+<li>在统一的的用户查询界面与信息反馈的形式下，共享多个搜索引擎的资源库为用户提供信息服务的系统。【ch2-网络信息主动获取技术 .pdf p46】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>结构4： 搜集器，检索器，索引器，用户接口</strong>【ch2-网络信息主动获取技术 .pdf p54】</p>
+<ul>
+<li>搜集器：搜集器是一个计算机程序,其功能是在互联网中漫游,发现和搜集信息,又称网络爬虫(Web Crawler)或网络蜘蛛 (Web Spider)【ch2-网络信息主动获取技术 .pdf p55】</li>
+<li>检索器：根据用户的查询在索引库中快速检索出文档,并进行文档与查询的相关度评价,从而对输出结果进行排序。【ch2-网络信息主动获取技术 .pdf p66】<ul>
+<li>集合理论模型、代数论模型、概率模型和混合模型四种【ch2-网络信息主动获取技术 .pdf p66】</li>
+</ul>
+</li>
+<li>索引器：理解搜索器所搜索的信息,从中抽取出索引项,用于表示文档以及生成文档库的索引表。【ch2-网络信息主动获取技术 .pdf p65】<ul>
+<li>客观项：与文档文档语义无关【ch2-网络信息主动获取技术 .pdf p65】</li>
+<li>内容索引项：反应文档内容——关键词及其权重、短语、单字【ch2-网络信息主动获取技术 .pdf p65】<ul>
+<li>单索引项【ch2-网络信息主动获取技术 .pdf p65】</li>
+<li>多索引项（短语索引项）【ch2-网络信息主动获取技术 .pdf p65】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>用户接口：输入用户查询、显示查询结果、提供用户相关性反馈机制。【ch2-网络信息主动获取技术 .pdf p67】</li>
+</ul>
+</li>
+<li><p>爬虫策略 大站优先，OPIC（对页面进行打分），深度优先（大网站，快速获取信息），广度优先（小网站，减轻服务器压力），最佳优先【ch2-网络信息主动获取技术 .pdf p60】</p>
+</li>
+<li><p><strong>网页排级算法</strong>【ch2-网络信息主动获取技术 .pdf p68】</p>
+<ul>
+<li><p><strong>PageRank算法</strong>：一个网页的重要性取决于指向这个网站页面的数量，也取决于指向这个网站的页面的重要性  30:00【ch2-网络信息主动获取技术 .pdf p63】</p>
+<ul>
+<li>计算公式：<code>PR(u)=(1-d)/N + d*Σ_{v∈In(u)} PR(v)/L(v)</code>（<code>d</code>阻尼系数常取0.85，<code>L(v)</code>为v的出链数）。【ch2-网络信息主动获取技术 .pdf p63】</li>
+<li>迭代计算直至收敛；“随机跳转&#x2F;均匀分布”可缓解等级沉没&#x2F;泄漏（无出链页可视作指向所有页）。【ch2-网络信息主动获取技术 .pdf p85】</li>
+<li>等级泄漏——一个独立的网页如果没有外出的链接就产生等级泄漏。【ch2-网络信息主动获取技术 .pdf p84】</li>
+<li>等级沉没——整个网页图中的一组紧密链接成环的网页如果没有外出的链接就产生等级沉没【ch2-网络信息主动获取技术 .pdf p85】</li>
+</ul>
+</li>
+<li><p><strong>HITS算法</strong>：【ch2-网络信息主动获取技术 .pdf p85】</p>
+<ul>
+<li>迭代更新：<code>a(p)=Σ_{q→p} h(q)</code>，<code>h(p)=Σ_{p→q} a(q)</code>；每轮后对向量做归一化。【ch2-网络信息主动获取技术 .pdf p85】</li>
+<li>典型流程：先由查询得到Root集合→扩展成Base集合→在子图上迭代求Authority&#x2F;Hub。【ch2-网络信息主动获取技术 .pdf p98】</li>
+<li>HITS算法的目的即是通过一定的技术手段,在海量网页中找到 与用户查询主题相关的高质量权威页面和枢纽页面,尤其是权威页面,因为这些页面代表了能够满足用户查询的高质量内容 搜索引擎以此作为搜索结果返回给用户。【ch2-网络信息主动获取技术 .pdf p93】</li>
+<li>权威(Authority)页面——与某个领域或者某个话题相关的高质量页面 <em>（拥有很多入链）</em>【ch2-网络信息主动获取技术 .pdf p91】</li>
+<li>枢纽(Hub)页面——包含了很多指向高质量权威页面链接的网页 <em>(拥有很多出链)</em>【ch2-网络信息主动获取技术 .pdf p91】</li>
+</ul>
+</li>
+<li><p><strong>两种算法的优缺点</strong>【ch2-网络信息主动获取技术 .pdf p91】</p>
+<ul>
+<li><strong>PageRank算法：</strong>【ch2-网络信息主动获取技术 .pdf p63】<ul>
+<li>计算公式：<code>PR(u)=(1-d)/N + d*Σ_{v∈In(u)} PR(v)/L(v)</code>（<code>d</code>阻尼系数常取0.85，<code>L(v)</code>为v的出链数）。【ch2-网络信息主动获取技术 .pdf p63】</li>
+<li>迭代计算直至收敛；“随机跳转&#x2F;均匀分布”可缓解等级沉没&#x2F;泄漏（无出链页可视作指向所有页）。【ch2-网络信息主动获取技术 .pdf p85】</li>
+<li>优点：【ch2-网络信息主动获取技术 .pdf p85】<ul>
+<li>与查询主题无关【ch2-网络信息主动获取技术 .pdf p89】</li>
+<li>直接高效【ch2-网络信息主动获取技术 .pdf p89】</li>
+</ul>
+</li>
+<li>缺点：【ch2-网络信息主动获取技术 .pdf p89】<ul>
+<li>过重依赖于链接。一些权威网页往往是相互不链接的,比如新浪、搜狐、 网易及腾讯这些门户之间,基本是不相互链接的,学术领域也是这样。【ch2-网络信息主动获取技术 .pdf p89】</li>
+<li>人们的查询具有主题特征,PageRank忽略了主题相关性,导致结果的 相关性和主题性降低【ch2-网络信息主动获取技术 .pdf p89】</li>
+<li>旧的页面等级会比新页面高。因为即使是非常好的新页面也不会有很多 上游链接,除非它是某个站点的子站点。【ch2-网络信息主动获取技术 .pdf p89】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>HITS算法：</strong>【ch2-网络信息主动获取技术 .pdf p89】<ul>
+<li>优点：【ch2-网络信息主动获取技术 .pdf p89】<ul>
+<li>根据查询主题来为网页评级,能提供与查询更加相关的权威页和枢纽页;【ch2-网络信息主动获取技术 .pdf p101】</li>
+<li>知识范围扩大:base集合是在root集合的基础上通过链接扩充而来。【ch2-网络信息主动获取技术 .pdf p101】</li>
+</ul>
+</li>
+<li>缺点：【ch2-网络信息主动获取技术 .pdf p101】<ul>
+<li>容易作弊:因为在自己的网页上添加大量的指向权威页的链接很容易 【ch2-网络信息主动获取技术 .pdf p101】</li>
+<li>话题漂移:在扩充的根集中很多网页可能和搜索话题无关【ch2-网络信息主动获取技术 .pdf p101】</li>
+<li>查询时低效:查询时计算是很慢的。选择根集→扩展根集→计算权威 权值和枢纽权值【ch2-网络信息主动获取技术 .pdf p101】</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>搜索引擎与垃圾信息博弈关系</strong>：不是消除，是降低【ch2-网络信息主动获取技术 .pdf p103】</p>
+<ul>
+<li>垃圾信息的产生：通过寻找所谓的的“捷径”手段来提高排名，包括<strong>提高排名(Boosting)<strong>技术和</strong>隐藏技术(Hiding)</strong>.【ch2-网络信息主动获取技术 .pdf p106】<ul>
+<li><strong>Boosting技术：</strong>【ch2-网络信息主动获取技术 .pdf p106】<br><strong>- 关键字垃圾(Term Spamming):</strong> 对用户不可见的网页中插 入误导性关键字,使其内容和众多的用户查询尽可能相关。 如在白色背景上的白色文字,零点文字或者元标记。<br><strong>- 链接垃圾(Link Spamming):</strong> 构造链接工厂(Link Farm,一 种专门提供到其他网络链接的网页)来提高目标页面的排名 结果,并且相关的链接工程之间构成威力更大的工厂联盟 (Farm Alliance)。</li>
+<li><strong>Hiding技术：</strong> 对所使用Boosting技术进行隐藏【ch2-网络信息主动获取技术 .pdf p108】<ul>
+<li>内容隐藏(Content Hiding):将正文和页面背景设定为相 同的颜色。如, 2006年初,德国宝马公司网站就因使用 了隐藏欺骗技术而遭到Google的技术惩罚。【ch2-网络信息主动获取技术 .pdf p108】</li>
+<li>伪装(Cloaking):给网络采集器返回不同的页面,从而欺 骗搜索引擎;【ch2-网络信息主动获取技术 .pdf p108】</li>
+<li>重定向(Redirection):本质上和伪装类似,只不过针对浏 览器不同的页面。【ch2-网络信息主动获取技术 .pdf p108】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>这场竞赛并非是纯技术的追求,实际上它有着很强的博弈色彩。搜索引擎设计者只要让自己的系统和算法有足够的防范能力,使垃圾信息制造者的进攻代价大于预期收益, 那么垃圾信息制造者就没有理由继续从事这项无利可图的工作。如此,搜索引擎也就达到了目的。</strong>【ch2-网络信息主动获取技术 .pdf p109】</li>
+</ul>
+</li>
+<li><p><strong>数据挖掘五大功能：</strong> 33:00【ch2-网络信息主动获取技术 .pdf p109】</p>
+<ul>
+<li><strong>关联关系:</strong> 发现数据之间的关联规则,这些规则给出了 属性-值频繁的在给定的数据中所一起出现的条件【ch2-网络信息主动获取技术 .pdf p136】</li>
+<li><strong>聚类分析:</strong> 将类似的数据归类到一起,形成一个新的类别进行分析【ch2-网络信息主动获取技术 .pdf p136】</li>
+<li><strong>异常点分析:</strong> “噪音”或异常点背丢弃【ch2-网络信息主动获取技术 .pdf p136】</li>
+<li><strong>分类分析:</strong> 描述和区分类别【ch2-网络信息主动获取技术 .pdf p136】</li>
+<li><strong>预测分析:</strong> 回归分析和序列模式分析【ch2-网络信息主动获取技术 .pdf p136】</li>
+</ul>
+</li>
+<li><p><strong>web挖掘3：</strong>【ch2-网络信息主动获取技术 .pdf p136】</p>
+<ul>
+<li><strong>内容挖掘：</strong> 从Web页面内容或其描述中抽取有用信息的过程。【ch2-网络信息主动获取技术 .pdf p172】<ul>
+<li>利用搜索引擎技术直接挖掘文档的内容。【ch2-网络信息主动获取技术 .pdf p172】</li>
+<li>在搜索引擎等工具处理的基础上做进一步处理,以获得更为精确和有用的信息,如聚类分析等。【ch2-网络信息主动获取技术 .pdf p172】</li>
+</ul>
+</li>
+<li><strong>结构挖掘：</strong> 从Web 组织结构和链接关系中推导知识。重点在于链接信息，目的是生成Web页面的结构和页面之间的概括信息。【ch2-网络信息主动获取技术 .pdf p173】<ul>
+<li><strong>分类：</strong> web页面内部结构挖掘、Web页面间的超链接结构挖掘【ch2-网络信息主动获取技术 .pdf p173】</li>
+<li><strong>主要方法：</strong> PageRank、HITS【ch2-网络信息主动获取技术 .pdf p173】</li>
+</ul>
+</li>
+<li><strong>使用挖掘：</strong> 通过挖掘相关的Web日志记录，来发现用户访问Web页面的模式，通过分析日志记录中的规律，可以识别用户的忠实度、喜好、满意度，可以发现潜在的用户、增强站点的服务竞争力。【ch2-网络信息主动获取技术 .pdf p174】<ul>
+<li><strong>分类：</strong>【ch2-网络信息主动获取技术 .pdf p174】<ul>
+<li>访问模式挖掘：通过分析日志文件，发现用户访问Web页面的特征、页面被用户访问的规律、用户频繁访问的页组。【ch2-网络信息主动获取技术 .pdf p174】</li>
+<li>个性化服务记录挖掘：根据发现的用户喜好、动态地为用户定制观看的内容或提供浏览建议。【ch2-网络信息主动获取技术 .pdf p174】</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>Web内容挖掘</th>
+<th>Web内容挖掘</th>
+<th>Web结构挖掘</th>
+<th>Web使用挖掘</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>细分角度</td>
+<td>信息检索角度</td>
+<td>数据库角度</td>
+<td>——</td>
+<td>——</td>
+</tr>
+<tr>
+<td>数据形式</td>
+<td>半 &#x2F; 非结构化</td>
+<td>半结构化</td>
+<td>链接结构</td>
+<td>交互形式</td>
+</tr>
+<tr>
+<td>主要数据</td>
+<td>自由化文本、HTML标记的超文本</td>
+<td>HTML标记的超文本</td>
+<td>Web文档内及文档间的超链接</td>
+<td>服务器日志、代理服务器日志、客户端日志</td>
+</tr>
+<tr>
+<td>表示方法</td>
+<td>词集、段落、概念、信息检索的经典模型</td>
+<td>对象关系模型</td>
+<td>图模型</td>
+<td>关系表、图</td>
+</tr>
+<tr>
+<td>处理方法</td>
+<td>统计、机器学习、自然语言理解</td>
+<td>数据库技术</td>
+<td>机器学习、专用算法</td>
+<td>统计、机器学习、关联规则</td>
+</tr>
+<tr>
+<td>主要应用</td>
+<td>分类、聚类、模式发现</td>
+<td>模式发现、数据向导、多层数据库、站点创建与维护</td>
+<td>页面权重</td>
+<td>分类聚类</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="第三章：被动获取（推荐技术，数据捕获）"><a href="#第三章：被动获取（推荐技术，数据捕获）" class="headerlink" title="第三章：被动获取（推荐技术，数据捕获）"></a>第三章：被动获取（推荐技术，数据捕获）</h2><ul>
+<li>信息检索：所处理的信息集合在一段时间内保持相对稳定不变,用户的信息需 求则是不断变化的。<em>（缺乏用户个性化）</em>【ch3-网络信息被动获取技术.pdf p25】</li>
+<li>信息推荐：所面对的信息集合则相对是动态的,而来自用户的信息需求则相对 不变或变化甚小的。<em>（满足用户个性化需求）</em>【ch3-网络信息被动获取技术.pdf p25】</li>
+</ul>
+<h3 id="协同过滤：掌握计算过程（计算题）用户-项目协同给出。。。-35-20"><a href="#协同过滤：掌握计算过程（计算题）用户-项目协同给出。。。-35-20" class="headerlink" title="协同过滤：掌握计算过程（计算题）用户&#x2F;项目协同给出。。。 35:20"></a>协同过滤：掌握计算过程（计算题）用户&#x2F;项目协同给出。。。 35:20</h3><ul>
+<li><strong>协同过滤(CF)的 两个过程:</strong>【ch3-网络信息被动获取技术.pdf p49】<ul>
+<li>相似度常用：余弦相似度、Pearson相关系数（计算题常用）。【ch3-网络信息被动获取技术.pdf p58】</li>
+<li>User-based预测（常见）：<code>\r_u,i=\bar r_u + Σ_v sim(u,v)(r_{v,i}-\bar r_v)/Σ_v |sim(u,v)|</code>。【ch3-网络信息被动获取技术.pdf p50】</li>
+<li>Item-based预测（常见）：<code>\r_u,i=Σ_j sim(i,j)·r_{u,j}/Σ_j |sim(i,j)|</code>（对Top-K相似项目求和）。【ch3-网络信息被动获取技术.pdf p50】</li>
+<li>预测过程是预测用户对没有购买过的物品的可能打分值;【ch3-网络信息被动获取技术.pdf p49】</li>
+<li>推荐过程是根据预测阶段的结果推荐用户最可能喜欢的一个或Top-N个物品。【ch3-网络信息被动获取技术.pdf p49】</li>
+</ul>
+</li>
+<li><strong>协同过滤的主要分类：</strong>【ch3-网络信息被动获取技术.pdf p50】<ul>
+<li><strong>基于启发式(Heuristic-based)的协同过滤，又称基于内存(Memory-based)的协同过滤</strong>【ch3-网络信息被动获取技术.pdf p50】<ul>
+<li><strong>基于用户的协同过滤推荐(User-based CF)：</strong> 通过用户之间的相似性 ，预测用户对未评分项目的【ch3-网络信息被动获取技术.pdf p53】<br>的评分，产生推荐结果。<ul>
+<li><strong>优点:</strong> 【ch3-网络信息被动获取技术.pdf p53】<ul>
+<li>通过用户间相互协作，根据用户对项目的评价的相似性对用户进行分类，故所得结果是比较精确的；【ch3-网络信息被动获取技术.pdf p65】</li>
+<li>容易挖掘出目标用户潜在的新兴趣。【ch3-网络信息被动获取技术.pdf p65】</li>
+</ul>
+</li>
+<li><strong>缺点：</strong>【ch3-网络信息被动获取技术.pdf p65】<ul>
+<li>稀疏性问题：用户只对很少或根本不对项目做出评价，进而用户评分矩阵非常稀疏，导致用户之间或项目之间的相似度计算不准确，最终影响了推荐精度。【ch3-网络信息被动获取技术.pdf p65】</li>
+<li>冷启动问题：一个新的项目首次出现的时候，没有用户对它作过评价，故而无法对其进行预测评分和推荐；在新项目出现的早期，用户评价较少，推荐精度比较差。【ch3-网络信息被动获取技术.pdf p65】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>基于项目的协同过滤推荐(Item-based CF)：</strong>【ch3-网络信息被动获取技术.pdf p66】<ul>
+<li><strong>优点：</strong>【ch3-网络信息被动获取技术.pdf p66】<ul>
+<li>不需要使用者的历史资料，或进行用户识别；【ch3-网络信息被动获取技术.pdf p73】</li>
+<li>项目的相似性比用户的相似性要稳定很多，故可以离线完成工作量最大的相似性计算，从而降低线上计算量，提高推荐效率。【ch3-网络信息被动获取技术.pdf p73】</li>
+</ul>
+</li>
+<li><strong>缺点：</strong>【ch3-网络信息被动获取技术.pdf p73】<ul>
+<li>精度问题:以项目为基础的协同过滤不用考虑用户间的差别,所以精度比较差。【ch3-网络信息被动获取技术.pdf p73】</li>
+<li>相似性的计算同样是基于用户的评分,故而仍存在稀疏性问题和冷启动问题。【ch3-网络信息被动获取技术.pdf p73】</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>基于模型（Model- based）的协同过滤：</strong> 先用历史资料得到一个模型，再用此模型进行预测【ch3-网络信息被动获取技术.pdf p50】<ul>
+<li>先将已有的用户喜好信息作为训练样本，训练出一个预测用户喜好的模型；此后，用户在进入系统，基于此模型进行预测，进行系统推荐。【ch3-网络信息被动获取技术.pdf p77】</li>
+<li>典型的技术：<em>潜在因素模型、贝叶斯模型、概率相关模型、线性回归模型、最大熵模型</em>等。【ch3-网络信息被动获取技术.pdf p77】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>协同过滤的优缺点总结：</strong>【ch3-网络信息被动获取技术.pdf p77】<ul>
+<li><strong>优点：</strong>【ch3-网络信息被动获取技术.pdf p77】<ul>
+<li>不需要对用户或者项目进行严格的建模，而且不要求项目的描述是机器可理解的，因而与领域是无关的；【ch3-网络信息被动获取技术.pdf p78】</li>
+<li>共用其他人的经验，避免了内容分析的不完全或不精确，并且能够基于一些复杂的，难以表述的概念（如资讯品质、个人品味）进行过滤。【ch3-网络信息被动获取技术.pdf p78】</li>
+<li>有推荐新资讯的能力，可发现用户潜在的但自己尚未发现的兴趣偏好。【ch3-网络信息被动获取技术.pdf p78】</li>
+</ul>
+</li>
+<li><strong>缺点：</strong> 【ch3-网络信息被动获取技术.pdf p78】<ul>
+<li><strong>“冷启动”问题：</strong> 方法的核心是基于历史数据，故对新项目推荐效果较差。【ch3-网络信息被动获取技术.pdf p78】</li>
+<li><strong>稀疏矩阵存储问题：</strong> 存在少部分人的错误偏好影响推荐的准确率；对一些特殊品味的用户不能给予很好的推荐；【ch3-网络信息被动获取技术.pdf p78】</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="基于内容的推荐："><a href="#基于内容的推荐：" class="headerlink" title="基于内容的推荐："></a>基于内容的推荐：</h3><ul>
+<li><strong>协同过滤推荐：</strong> 主要考虑用户的评分数据，忽略了用户和项目本身的很多特性。【ch3-网络信息被动获取技术.pdf p80】</li>
+<li><strong>基于内容的推荐系统：</strong> 根据历史信息(如评级、分享、收藏过的文档)构造用户的偏好文档，计算推荐项目与用户的偏好文档的相似性，将最相似的项目推荐给用户。【ch3-网络信息被动获取技术.pdf p80】</li>
+<li><strong>优点：</strong>【ch3-网络信息被动获取技术.pdf p80】<ul>
+<li><strong>用户之间的独立性：</strong> 每个用户的配置项都是依据自己的偏好获得；与CF相反，CF需要利用很多其他人的数据，故没有稀疏性问题。【ch3-网络信息被动获取技术.pdf p91】</li>
+<li><strong>好的可解释性：</strong> 推荐的原因只需要告知该产品有某某属性，这些属性符合你的配置项。【ch3-网络信息被动获取技术.pdf p91】</li>
+<li><strong>新的项目立即可得到推荐：</strong> 新项目加入到项目库就可以立即被推荐，其推荐机会和老项目一样。CF因为新项目为评分，故而无法实现推荐。【ch3-网络信息被动获取技术.pdf p91】</li>
+</ul>
+</li>
+<li><strong>缺点：</strong>【ch3-网络信息被动获取技术.pdf p91】<ul>
+<li><strong>项目的特征抽取一般很难：</strong>【ch3-网络信息被动获取技术.pdf p92】<ul>
+<li>文档可利用信息检索里面的相关方法，其他的多媒体文件属性不好抽取。【ch3-网络信息被动获取技术.pdf p92】</li>
+<li>可能从两个项目抽取出来的特征完全相同，这种情况下CB就完全无法区分这两个项目了。【ch3-网络信息被动获取技术.pdf p92】</li>
+</ul>
+</li>
+<li><strong>无法挖掘出用户的潜在兴趣：</strong> CB的推荐只依赖于用户过去对某些项目的喜好，它产生的推荐也都会和用户过去喜欢的项目相似。【ch3-网络信息被动获取技术.pdf p92】</li>
+<li><strong>无法为新用户产生推荐：</strong> 新用户没有喜好历史，故无法得到推荐。CF也存在此问题。【ch3-网络信息被动获取技术.pdf p92】</li>
+</ul>
+</li>
+</ul>
+<h3 id="内容过滤（基于内容的网页过滤）"><a href="#内容过滤（基于内容的网页过滤）" class="headerlink" title="内容过滤（基于内容的网页过滤）"></a>内容过滤（基于内容的网页过滤）</h3><ul>
+<li><p><strong>内容过滤&#x2F;内容安全目的：</strong> 禁止非法的内容进入；防止有价值的内容泄露。【ch3-网络信息被动获取技术.pdf p92】</p>
+</li>
+<li><p><strong>核心思想：</strong> 依据“访问对象&#x2F;内容本身”是否符合策略（法律法规、组织制度、未成年人保护等）来决定放行或阻断。【ch3-网络信息被动获取技术.pdf p92】</p>
+</li>
+<li><p><strong>为什么提出：</strong> 信息爆炸导致有害内容传播&#x2F;接触成本极低；仅靠人工审核或事后追责难以及时、规模化治理。【ch3-网络信息被动获取技术.pdf p92】</p>
+</li>
+<li><p><strong>能解决什么问题：</strong> 对网页&#x2F;站点进行访问控制；对不良&#x2F;敏感内容进行拦截预警；对企业&#x2F;校园网进行合规管控与审计支撑。【ch3-网络信息被动获取技术.pdf p92】</p>
+</li>
+<li><p><strong>局限：</strong>【ch3-网络信息被动获取技术.pdf p92】</p>
+<ul>
+<li><strong>误判与漏判：</strong> 关键词、URL黑白名单容易过度拦截或放过变体。【ch3-网络信息被动获取技术.pdf p92】</li>
+<li><strong>对抗与绕过：</strong> 图片垃圾、文本加噪、加密&#x2F;混淆、镜像站点等都会降低过滤效果。【ch3-网络信息被动获取技术.pdf p92】</li>
+<li><strong>效率与成本：</strong> 深度内容分析需要语义分析&#x2F;机器学习&#x2F;图像处理等，精度高但低效且受限。【ch3-网络信息被动获取技术.pdf p92】</li>
+</ul>
+</li>
+<li><p><strong>基于内容的网页过滤方法4：</strong>【ch3-网络信息被动获取技术.pdf p92】</p>
+<ul>
+<li><strong>基于分级标注的过滤：</strong> 利用浏览器&#x2F;第三方的分级标注体系（如PICS、ICRA），通过浏览器安全设置实现分级审查。【ch3-网络信息被动获取技术.pdf p92】</li>
+<li><strong>基于URL的过滤：</strong> 维护URL黑&#x2F;白名单；命中黑名单阻断，否则放行（可结合数据包过滤与URL过滤）。【ch3-网络信息被动获取技术.pdf p92】</li>
+<li><strong>基于关键词的过滤：</strong> 对文本内容、元数据、检索词、URL等做关键词匹配；与不良&#x2F;敏感关键词库比对并设阈值判定。【ch3-网络信息被动获取技术.pdf p92】</li>
+<li><strong>基于内容分析的过滤：</strong> 用语义分析、机器学习、图像处理等直接分析网页内容来判断是否过滤。【ch3-网络信息被动获取技术.pdf p35】</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据捕获"><a href="#数据捕获" class="headerlink" title="数据捕获"></a>数据捕获</h3><ul>
+<li>数据捕获（客观题）：套接字，网卡，共享&#x2F;交换以太网怎么操作 36:40【ch4-网络数据捕获技术.pdf p53】<ul>
+<li><strong>共享式以太网（HUB）：</strong> 通过网络的数据包广播到每台主机，天然“可被旁路侦听”。【ch4-网络数据捕获技术.pdf p37】</li>
+<li><strong>交换式以太网（Switch）：</strong> 交换机构造“MAC地址-端口”映射表，报文只转发到特定端口，普通主机难以直接嗅探全网流量。【ch4-网络数据捕获技术.pdf p37】<ul>
+<li>交换环境抓包常见手段：端口镜像&#x2F;SPAN、网络TAP；或通过ARP欺骗&#x2F;中间人、MAC泛洪等让流量经过抓包主机（对抗性强但有风险&#x2F;可被检测）。【ch4-网络数据捕获技术.pdf p37】</li>
+</ul>
+</li>
+<li><strong>网卡接收模式4：</strong>【ch4-网络数据捕获技术.pdf p39】<ul>
+<li><strong>广播模式：</strong> 接收广播信息。【ch4-网络数据捕获技术.pdf p39】</li>
+<li><strong>组播模式：</strong> 接收特定组播数据。【ch4-网络数据捕获技术.pdf p39】</li>
+<li><strong>直接模式：</strong> 只接收目的MAC为本机的数据帧。【ch4-网络数据捕获技术.pdf p39】</li>
+<li><strong>混杂模式（promiscuous）：</strong> 接收所有经过的数据（嗅探&#x2F;抓包的关键）。【ch4-网络数据捕获技术.pdf p53】</li>
+</ul>
+</li>
+<li><strong>套接字（Socket）概述：</strong> 用IP地址+端口号+传输层协议区分连接与进程，实现并发通信的接口。【ch4-网络数据捕获技术.pdf p43】</li>
+<li><strong>原始套接字（Raw Socket）：</strong>【ch4-网络数据捕获技术.pdf p34】<ul>
+<li>区别于<code>SOCK_STREAM</code>(TCP)与<code>SOCK_DGRAM</code>(UDP)，可直接处理底层网络协议数据报（如IP报文）。【ch4-网络数据捕获技术.pdf p34】</li>
+<li>适用场景：基于数据包捕获的应用、特殊探测应用、特殊传输应用等。【ch4-网络数据捕获技术.pdf p49】</li>
+</ul>
+</li>
+<li><strong>原始套接字捕获设计原理：</strong> 常规套接字只接收“目的MAC匹配&#x2F;广播”的帧；要捕获所有经过的数据包，需要将网卡置为混杂模式。【ch4-网络数据捕获技术.pdf p53】</li>
+<li><strong>典型实现要点（Windows）：</strong>【ch4-网络数据捕获技术.pdf p53】<ul>
+<li><code>socket(AF_INET, SOCK_RAW, IPPROTO_IP)</code> 创建原始套接字；【ch4-网络数据捕获技术.pdf p55】</li>
+<li><code>ioctlsocket(..., SIO_RCVALL, ...)</code> 打开网卡混杂抓包（示例接口）。【ch4-网络数据捕获技术.pdf p55】</li>
+</ul>
+</li>
+<li><strong>WinPcap结构：</strong> NPF(驱动) + <code>packet.dll</code>(低级库) + <code>wpcap.dll</code>(高级库)；常用工具：Sniffer、Wireshark。【ch4-网络数据捕获技术.pdf p67】</li>
+</ul>
+</li>
+</ul>
+<h3 id="文本预处理"><a href="#文本预处理" class="headerlink" title="文本预处理"></a>文本预处理</h3><ul>
+<li>分词：基于词典，统计，知识理解【ch5-文本预处理技术过程.pdf p2】<ul>
+<li><strong>基于字符串匹配（词典&#x2F;机械分词）：</strong> 按扫描规则在词典中匹配切分（如最大匹配、最少切分等）；实现简单、速度快，但精度依赖词库。【ch5-文本预处理技术过程.pdf p38】</li>
+<li><strong>基于统计（无词典&#x2F;统计取词）：</strong> 根据字&#x2F;词共现统计规律进行切分；通常对未登录词更友好，但需要语料与统计模型。【ch5-文本预处理技术过程.pdf p35】</li>
+<li><strong>基于知识理解：</strong> 结合句法&#x2F;语义知识判断切分歧义；效果潜力大但工程代价高，实践中多处于试验阶段。【ch5-文本预处理技术过程.pdf p37】</li>
+</ul>
+</li>
+<li>歧义问题，未登陆词【ch5-文本预处理技术过程.pdf p37】<ul>
+<li><strong>歧义3：</strong> 交叉型歧义（ABC→AB&#x2F;BC），组合型歧义（AB、A、B同时成词），混合型歧义（两类同时存在）。【ch5-文本预处理技术过程.pdf p20】</li>
+<li><strong>未登录词识别：</strong> 词典外新词（人名、地名、机构名、新词等）需要通过统计、规则、词性&#x2F;上下文约束等方式补充发现。【ch5-文本预处理技术过程.pdf p20】</li>
+</ul>
+</li>
+<li>去停用词3【ch5-文本预处理技术过程.pdf p20】<ul>
+<li><strong>停用词定义：</strong> 文档中出现过于频繁、区分能力弱的词（如冠词、介词、连词等）。【ch5-文本预处理技术过程.pdf p41】</li>
+<li><strong>优点：</strong> 减少特征项数量，降低存储与计算开销。【ch5-文本预处理技术过程.pdf p41】</li>
+<li><strong>缺点：</strong> 有些高频词在特定任务中仍可能有意义，删除会影响检索&#x2F;分类效果（如专有表达）。【ch5-文本预处理技术过程.pdf p41】</li>
+<li><strong>去停用词的方法2：</strong>【ch5-文本预处理技术过程.pdf p42】<ul>
+<li><strong>查表法：</strong> 建停用词表，查表删除。【ch5-文本预处理技术过程.pdf p42】</li>
+<li><strong>基于DF的方法：</strong> 统计词的DF，超过阈值（如总文档数的80%）则作为停用词去掉。【ch5-文本预处理技术过程.pdf p42】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>文本标识【ch5-文本预处理技术过程.pdf p42】<ul>
+<li><strong>文本表示目标：</strong> 既能反映文本特征，又不过度复杂到使学习算法无法处理。【ch5-文本预处理技术过程.pdf p45】</li>
+<li><strong>文本表示与特征项：</strong> 将非结构化文本转为机器内部结构，可用字&#x2F;词&#x2F;短语&#x2F;n-gram等形成向量（维度高、开销大）。【ch5-文本预处理技术过程.pdf p46】</li>
+<li><strong>常见表示模型3：</strong> 基于集合论（布尔模型等）、基于代数论（向量空间&#x2F;潜在语义等）、基于概率统计（语言模型等）。【ch5-文本预处理技术过程.pdf p47】</li>
+</ul>
+</li>
+<li>向量空间（必考）【ch5-文本预处理技术过程.pdf p47】<ul>
+<li><strong>核心思想：</strong> 将文档与查询表示为由特征项（Term）及其权重组成的向量（空间中的点）。【ch5-文本预处理技术过程.pdf p57】</li>
+<li><strong>基本假设：</strong> Term独立性假设（词项出现相互独立）。【ch5-文本预处理技术过程.pdf p57】</li>
+<li><strong>关键问题3：</strong> 如何选择特征项；如何计算特征项权重；如何度量查询与文档相似性。【ch5-文本预处理技术过程.pdf p61】</li>
+<li><strong>权重：TF-IDF</strong>（高TF、低DF→高权重；倾向过滤常见词，保留区分度高的词），可结合归一化处理文档长度影响。【ch5-文本预处理技术过程.pdf p65】<ul>
+<li>常用形式：<code>tfidf(t,d)=tf(t,d)·log(N/df(t))</code>（也常用<code>log(1+tf)</code>等平滑）；相似度常用余弦：<code>cos(d,q)=d·q/(||d||·||q||)</code>。【ch5-文本预处理技术过程.pdf p65】</li>
+</ul>
+</li>
+<li><strong>相似度：</strong> 向量内积易偏向长文档；常用<strong>夹角余弦</strong>做长度归一化；也可用Dice系数等特征项匹配相似度。【ch5-文本预处理技术过程.pdf p76】</li>
+</ul>
+</li>
+<li>特征提取方法40:00【ch5-文本预处理技术过程.pdf p76】<ul>
+<li><strong>必要性：</strong> 分词后维度可达数十万，高维会增加学习成本且不一定带来更好效果，需要选取特征子集并降维。【ch5-文本预处理技术过程.pdf p76】</li>
+<li><strong>通用流程：</strong> 定义评价函数→逐特征打分→排序→选取Top-N（N与评价函数需结合任务实验确定）。【ch5-文本预处理技术过程.pdf p76】</li>
+<li><strong>常用方法5：</strong> 信息增益IG、文档频率DF、互信息MI、卡方统计量χ2、交叉熵（Cross Entropy）。【ch5-文本预处理技术过程.pdf p110】</li>
+</ul>
+</li>
+</ul>
+<h2 id="第四章：文本内容安全：词义标注，词义消歧，信息抽取，话题检测与跟踪，情感分析"><a href="#第四章：文本内容安全：词义标注，词义消歧，信息抽取，话题检测与跟踪，情感分析" class="headerlink" title="第四章：文本内容安全：词义标注，词义消歧，信息抽取，话题检测与跟踪，情感分析"></a>第四章：文本内容安全：词义标注，词义消歧，信息抽取，话题检测与跟踪，情感分析</h2><ul>
+<li>隐性马尔科夫词性标注- 3个基本问题，阐述算法过程【ch6-文本内容分析.pdf p32】<ul>
+<li><strong>HMM模型λ&#x3D;{A,B,π}：</strong> 状态&#x3D;词性标记集合；输出&#x3D;词集合；A&#x3D;状态转移概率；B&#x3D;输出概率；π&#x3D;初始分布。【ch6-文本内容分析.pdf p35】</li>
+<li><strong>三个基本问题3：</strong>【ch6-文本内容分析.pdf p32】<ul>
+<li><strong>评估问题：</strong> 给定模型λ，求观察序列σ的概率<code>p(σ|λ)</code>。【ch6-文本内容分析.pdf p32】</li>
+<li><strong>解码问题：</strong> 给定模型λ与观测序列，求最可能的状态序列（词性序列）。【ch6-文本内容分析.pdf p32】</li>
+<li><strong>学习问题：</strong> 给定观测序列，调整参数λ，使<code>p(σ|λ)</code>最大。【ch6-文本内容分析.pdf p32】</li>
+</ul>
+</li>
+<li><strong>词性标注计算要点：</strong> <code>T’=argmax_T p(T|W)</code>，用Bayes分解为<code>p(W|T)p(T)</code>，并在马尔科夫假设下转为<code>∏ p(wi|ti)p(ti|ti-1)</code>；实际求解常用Viterbi动态规划。【ch6-文本内容分析.pdf p33】<ul>
+<li>Viterbi递推：<code>δ_t(j)=max_i δ_{t-1}(i)·a_{ij}·b_j(o_t)</code>，并记录回溯指针求最优路径。【ch6-文本内容分析.pdf p33】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>词义消歧2：有监督的，无监督的（分类）【ch6-文本内容分析.pdf p64】<ul>
+<li><strong>WSD概念：</strong> 根据多义词在上下文环境C中的信息，确定其正确词义S’（<code>S’=argmax R(Sk,C)</code>）。【ch6-文本内容分析.pdf p61】</li>
+<li><strong>基础资源：</strong> 义类&#x2F;同义词词典；标注好义项的语料库（training corpus）。【ch6-文本内容分析.pdf p65】</li>
+<li><strong>两类方法2：</strong>【ch6-文本内容分析.pdf p65】<ul>
+<li><strong>有监督：</strong> 从标注语料提取特征，训练分类器&#x2F;规则做判定（本质：分类问题）。【ch6-文本内容分析.pdf p65】</li>
+<li><strong>无监督：</strong> 从未标注资源中挖掘消歧信息（本质：聚类&#x2F;知识推断问题）。【ch6-文本内容分析.pdf p65】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基于贝叶斯的有监督的，基于词典释义的（算法原理阐述）【ch6-文本内容分析.pdf p66】<ul>
+<li><strong>Bayesian WSD（监督）：</strong> 在上下文<code>C={w1..wn}</code>下取<code>max P(si|C)</code>对应义项；用Bayes转化为<code>argmax P(C|si)P(si)</code>，并以共现统计估计条件概率（基于标注训练库的<code>Count(wj,si)</code>等）。【ch6-文本内容分析.pdf p68】</li>
+<li><strong>基于词典释义的WSD（无监督）：</strong> 对每个义项si取其释义Di与上下文特征词释义集合的交集大小作为<code>Score(si)</code>，取最大者；受限于词典释义概括性，实料效果不一定理想。【ch6-文本内容分析.pdf p72】</li>
+</ul>
+</li>
+<li>信息抽取 42:30：分类（模版元素），与检索关系（片段&#x2F;文档）【ch6-文本内容分析.pdf p72】<ul>
+<li><strong>IE定义：</strong> 直接从自然语言文本中抽取事实信息，并以结构化形式描述（结合NLP、语料资源与语义技术）。【ch6-文本内容分析.pdf p76】</li>
+<li><strong>IE vs IR：</strong> IR返回“相关文档集合”；IE返回“满足需求的信息片段”；IR更多统计&#x2F;关键词匹配（bag of words），IE需要句子&#x2F;篇章级分析且领域相关。【ch6-文本内容分析.pdf p77】</li>
+<li><strong>MUC对IE的分类：</strong> 命名实体识别NER、多语种实体识别MET、模板元素TE、指代消解Co、情节模板ST（事件抽取）。【ch6-文本内容分析.pdf p78】</li>
+<li><strong>抽取结果类型：</strong> 实体、属性、关系、事件。【ch6-文本内容分析.pdf p81】</li>
+</ul>
+</li>
+<li>情感倾向分析（词语，句子，篇章），话题检测跟踪（任务）【ch6-文本内容分析.pdf p86】<ul>
+<li><strong>情感倾向性分析3层：</strong> 词语级（极性&#x2F;强度&#x2F;上下文敏感）、句子级（提取持有者&#x2F;对象&#x2F;极性&#x2F;强度&#x2F;重要性等要素）、篇章级（句子情感综合，整体褒贬；受“同一对象假设”限制）。【ch6-文本内容分析.pdf p91】</li>
+<li><strong>词语级方法3：</strong> 电子词典&#x2F;知识库扩展（WordNet&#x2F;HowNet等，种子词扩展）；无监督共现学习；基于人工标注语料的学习方法。【ch6-文本内容分析.pdf p89】</li>
+<li><strong>TDT背景：</strong> 信息爆炸导致同一话题信息分散且检索冗余高，需自动汇总话题相关报道。【ch6-文本内容分析.pdf p96】</li>
+<li><strong>TDT任务4：</strong> 话题跟踪、话题检测、首次报道检测（New Event Detection）、关联检测（Link Detection）。【ch6-文本内容分析.pdf p102】</li>
+<li><strong>TDT评测：</strong> 以漏报与误报的加权开销<code>Cdet</code>衡量（含归一化）。【ch6-文本内容分析.pdf p102】</li>
+</ul>
+</li>
+<li>网页过滤方法：关键字，ip设置【ch6-文本内容分析.pdf p102】<ul>
+<li><strong>基于分级标注：</strong> PICS&#x2F;ICRA等分级标注+浏览器安全设置。【ch6-文本内容分析.pdf p111】</li>
+<li><strong>基于URL：</strong> 黑&#x2F;白名单；可结合数据包过滤实现IP&#x2F;域名&#x2F;URL层面的阻断与放行。【ch6-文本内容分析.pdf p112】</li>
+<li><strong>基于关键词：</strong> 从网页提取关键词，与敏感词库匹配并设阈值判定。【ch6-文本内容分析.pdf p113】</li>
+<li><strong>基于内容分析：</strong> 语义分析&#x2F;机器学习&#x2F;图像处理判断是否过滤（精度高但低效受限）。【ch6-文本内容分析.pdf p114】</li>
+</ul>
+</li>
+</ul>
+<h2 id="第五章：电子邮件安全：怎样使用贝叶斯实现垃圾邮件过滤（过程，算法）"><a href="#第五章：电子邮件安全：怎样使用贝叶斯实现垃圾邮件过滤（过程，算法）" class="headerlink" title="第五章：电子邮件安全：怎样使用贝叶斯实现垃圾邮件过滤（过程，算法）"></a>第五章：电子邮件安全：怎样使用贝叶斯实现垃圾邮件过滤（过程，算法）</h2><ul>
+<li>垃圾邮件产生的原因：技术&#x2F;商业【ch9-电子邮件内容安全.pdf p21】<ul>
+<li><strong>技术原因：</strong> SMTP缺乏身份认证与合法性校验；ESMTP虽引入认证但Open Relay仍带来大量垃圾邮件。【ch9-电子邮件内容安全.pdf p21】</li>
+<li><strong>商业原因：</strong> 利益驱动是最主要的非技术因素。【ch9-电子邮件内容安全.pdf p21】</li>
+<li><strong>常见发送手段：</strong> 伪装发件人&#x2F;内容；图片替代文字；内容加噪（“视觉战术”）；动态&#x2F;伪装IP与僵尸网络等。【ch9-电子邮件内容安全.pdf p22】</li>
+</ul>
+</li>
+<li>信头，信体，通信过滤特征【ch9-电子邮件内容安全.pdf p22】<ul>
+<li><strong>通信特征：</strong> IP是否可信；连接数量&#x2F;频率是否异常等。【ch9-电子邮件内容安全.pdf p29】</li>
+<li><strong>信头特征：</strong> <code>Received/Reply-to/Message-id/Date/Subject/Cc</code>等字段的异常、伪造与关键词痕迹。【ch9-电子邮件内容安全.pdf p29】</li>
+<li><strong>信体&#x2F;附件特征：</strong> 大小异常、附件类型异常（可执行&#x2F;宏等）、关键词&#x2F;语义特征等。【ch9-电子邮件内容安全.pdf p29】</li>
+</ul>
+</li>
+<li>基于统计，基于黑白名单（用户，网络，自适应），基于关键字，基于规则的过滤方法【ch9-电子邮件内容安全.pdf p37】<ul>
+<li><strong>黑白名单：</strong> 用户黑白名单；网络黑白名单；分布式自适应黑白名单（利用重复发送与邮件指纹查询等）。【ch9-电子邮件内容安全.pdf p38】</li>
+<li><strong>关键字过滤：</strong> 检查信头&#x2F;信体关键字库；简单直接但易躲避、资源消耗大且存在误判。【ch9-电子邮件内容安全.pdf p38】</li>
+<li><strong>统计内容过滤：</strong> 将过滤视为模式分类问题（如Bayes、kNN等），训练得到分类器。【ch9-电子邮件内容安全.pdf p44】</li>
+<li><strong>规则内容过滤：</strong> 规则库+评分累计，得分超过阈值则判为垃圾邮件；规则需要持续更新。【ch9-电子邮件内容安全.pdf p53】</li>
+<li><strong>过滤部署位置：</strong> 邮件系统级拒收&#x2F;收后过滤、用户级过滤、客户端过滤等（主流是“已产生邮件的发现与过滤”）。【ch9-电子邮件内容安全.pdf p53】</li>
+</ul>
+</li>
+<li>贝叶斯：学习阶段（训练方法），预测阶段【ch9-电子邮件内容安全.pdf p53】<ul>
+<li>朴素贝叶斯判别：<code>P(S|w)∝P(S)·∏ P(w_k|S)</code>，实现时多取对数相加避免下溢；可用拉普拉斯平滑处理未见词。【ch9-电子邮件内容安全.pdf p53】</li>
+<li><strong>学习阶段：</strong> 分别统计合法邮件&#x2F;垃圾邮件的TOKEN串字频（哈希表），估计<code>P(垃圾|ti)</code>并生成<code>(ti, P(垃圾|ti))</code>概率表。【ch9-电子邮件内容安全.pdf p47】</li>
+<li><strong>判别阶段：</strong> 新邮件分词得TOKEN串→查概率表→组合N个TOKEN的概率→与阈值比较，判为垃圾或正常（阈值越低越敏感，越高越保守）。【ch9-电子邮件内容安全.pdf p49】</li>
+</ul>
+</li>
+</ul>
+<h2 id="第六章：信息隐藏与数字水印"><a href="#第六章：信息隐藏与数字水印" class="headerlink" title="第六章：信息隐藏与数字水印"></a>第六章：信息隐藏与数字水印</h2><ul>
+<li>信息隐藏与密码学（形式泄漏问题）相互增强相互融合【ch10-消息隐藏与数字水印(1).pdf p12】<ul>
+<li><strong>加密：</strong> 隐藏“内容”，但通信行为本身可见。【ch10-消息隐藏与数字水印(1).pdf p12】</li>
+<li><strong>信息隐藏：</strong> 隐藏“存在性&#x2F;载体中的痕迹”，减少被注意到的风险；两者互补用于综合防护。【ch10-消息隐藏与数字水印(1).pdf p12】</li>
+</ul>
+</li>
+<li>分类4:隐写，隐秘通信，数字水印（脆弱性，鲁棒性），匿名通信【ch10-消息隐藏与数字水印(1).pdf p20】<ul>
+<li><strong>隐秘信道：</strong> 不为外人所知、仅通信双方知道的通信信道。【ch10-消息隐藏与数字水印(1).pdf p21】</li>
+<li><strong>隐写术：</strong> 将秘密信息隐藏到不易引起怀疑的公开数据中（技术隐写&#x2F;语义隐写）。【ch10-消息隐藏与数字水印(1).pdf p21】</li>
+<li><strong>匿名通信：</strong> 隐藏消息来源（发送方&#x2F;接收方&#x2F;双方匿名取决于场景）。【ch10-消息隐藏与数字水印(1).pdf p21】</li>
+<li><strong>数字水印：</strong> 用于版权保护、身份认证、完整性保护；可分鲁棒性水印与脆弱性水印（IH的重要分支）。【ch10-消息隐藏与数字水印(1).pdf p21】</li>
+</ul>
+</li>
+<li>相关算法：信息隐藏（空域，变换域算法–调色板，LSB，傅立叶等）【ch10-消息隐藏与数字水印(1).pdf p21】<ul>
+<li><strong>按嵌入域：</strong>【ch10-消息隐藏与数字水印(1).pdf p21】<ul>
+<li><strong>空域：</strong> 直接修改载体冗余部分（如LSB、Patchwork、调色板等）；容量大、实现简便，但抗攻击能力较差。【ch10-消息隐藏与数字水印(1).pdf p19】</li>
+<li><strong>变换域：</strong> 变换到频域&#x2F;变换域后修改系数（DCT&#x2F;DWT&#x2F;DFT等），再反变换得到含密载体；鲁棒性强但嵌入容量相对较小。【ch10-消息隐藏与数字水印(1).pdf p30】</li>
+</ul>
+</li>
+<li><strong>变换域主要步骤：</strong> 变换→选择n个系数→按规则修改→反变换得到掩密载体。【ch10-消息隐藏与数字水印(1).pdf p30】</li>
+<li><strong>数字水印基本概念：</strong> 将版权标识嵌入数字媒体中，表面“不可感知”，仅授权者可检测&#x2F;提取；具有双重安全性（不可见性+提取受保护性）。【ch10-消息隐藏与数字水印(1).pdf p40】</li>
+<li><strong>数字水印基本特征4：</strong> 不可见性（透明性）、安全性、鲁棒性、确定性（可作为法律证据支撑）。【ch10-消息隐藏与数字水印(1).pdf p41】<ul>
+<li>常见评价维度：不可感知性（透明性）、鲁棒性（抗压缩&#x2F;噪声&#x2F;裁剪&#x2F;缩放等）、容量（嵌入比特数）、安全性（密钥&#x2F;检测抗伪造）。【ch10-消息隐藏与数字水印(1).pdf p25】</li>
+</ul>
+</li>
+<li><strong>数字水印一般模型：</strong> 嵌入算法&#x2F;提取算法均依赖密钥；输出水印载体与提取的水印信息。【ch10-消息隐藏与数字水印(1).pdf p42】</li>
+<li><strong>数字水印分类：</strong> 载体类型（文本&#x2F;图像&#x2F;音频&#x2F;视频…）；特性（鲁棒&#x2F;脆弱）；外观（可见&#x2F;不可见）；提取要求（明文&#x2F;盲目）。【ch10-消息隐藏与数字水印(1).pdf p43】</li>
+</ul>
+</li>
+</ul>
+<h2 id="题型："><a href="#题型：" class="headerlink" title="题型："></a>题型：</h2><ul>
+<li>客观题 40：选择20，判断15，填空5【ch10-消息隐藏与数字水印(1).pdf p43】</li>
+<li>主观题 60：问答30，计算30【ch10-消息隐藏与数字水印(1).pdf p43】</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/learning-files/" class="category-chain-item">学习资料</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AC%94%E8%AE%B0/" class="print-no-link">#笔记</a>
+      
+        <a href="/tags/%E6%9C%9F%E6%9C%AB/" class="print-no-link">#期末</a>
+      
+        <a href="/tags/%E4%BF%A1%E6%81%AF%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8/" class="print-no-link">#信息内容安全</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>信息内容安全期末知识点</div>
+      <div>http://blog.plk161211.top/2025/12/23/info-content-security-final-notes/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Mark Tom</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/24/software-security-final-review/" title="软件安全期末复习知识点（串讲转录 + 讲义PDF）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">软件安全期末复习知识点（串讲转录 + 讲义PDF）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/21/data-mining-final-notes/" title="数据挖掘期末知识点">
+                        <span class="hidden-mobile">数据挖掘期末知识点</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>© MarkTom</span> <span class="mx-2">·</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <span class="mx-2">·</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

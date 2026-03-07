@@ -1,0 +1,765 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mark Tom">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="软件安全复习提纲 说明：本篇由课堂录音要点整理而来，已去掉口语化与时间戳，按“可复习&#x2F;可检索”的结构重排。  题型（参考） 填空题：约 10 题 × 1 分 单选题：约 20 题 × 1 分 简答题：约 5 题（合计约 30 分） 代码题：若干题（通常占比最大）  代码题关注点（参考） 异常处理相关（SEH） 堆相关问题（堆溢出&#x2F;堆管理机制）  复习主线 安全开发生命周期（SD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件安全复习提纲">
+<meta property="og:url" content="http://blog.plk161211.top/2025/12/24/software-security/index.html">
+<meta property="og:site_name" content="MarkTom">
+<meta property="og:description" content="软件安全复习提纲 说明：本篇由课堂录音要点整理而来，已去掉口语化与时间戳，按“可复习&#x2F;可检索”的结构重排。  题型（参考） 填空题：约 10 题 × 1 分 单选题：约 20 题 × 1 分 简答题：约 5 题（合计约 30 分） 代码题：若干题（通常占比最大）  代码题关注点（参考） 异常处理相关（SEH） 堆相关问题（堆溢出&#x2F;堆管理机制）  复习主线 安全开发生命周期（SD">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-24T17:05:55.000Z">
+<meta property="article:modified_time" content="2026-03-06T12:56:52.862Z">
+<meta property="article:author" content="Mark Tom">
+<meta property="article:tag" content="期末">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="软件安全">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>软件安全复习提纲 - MarkTom</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.plk161211.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MarkTom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/learning-files/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>学习资料</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="软件安全复习提纲"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-25 01:05" pubdate>
+          2025年12月25日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">软件安全复习提纲</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="软件安全复习提纲"><a href="#软件安全复习提纲" class="headerlink" title="软件安全复习提纲"></a>软件安全复习提纲</h1><blockquote>
+<p>说明：本篇由课堂录音要点整理而来，已去掉口语化与时间戳，按“可复习&#x2F;可检索”的结构重排。</p>
+</blockquote>
+<h2 id="题型（参考）"><a href="#题型（参考）" class="headerlink" title="题型（参考）"></a>题型（参考）</h2><ul>
+<li>填空题：约 10 题 × 1 分</li>
+<li>单选题：约 20 题 × 1 分</li>
+<li>简答题：约 5 题（合计约 30 分）</li>
+<li>代码题：若干题（通常占比最大）</li>
+</ul>
+<h3 id="代码题关注点（参考）"><a href="#代码题关注点（参考）" class="headerlink" title="代码题关注点（参考）"></a>代码题关注点（参考）</h3><ul>
+<li>异常处理相关（SEH）</li>
+<li>堆相关问题（堆溢出&#x2F;堆管理机制）</li>
+</ul>
+<h2 id="复习主线"><a href="#复习主线" class="headerlink" title="复习主线"></a>复习主线</h2><ol>
+<li>安全开发生命周期（SDL）与威胁建模</li>
+<li>漏洞基础与利用链路（概念层面）</li>
+<li>程序内存布局、栈与寄存器</li>
+<li>Windows 常见防护机制（&#x2F;GS、SafeSEH、DEP、ASLR…）</li>
+<li>Web 常见漏洞（XSS、SQL 注入、Session 相关攻击）</li>
+</ol>
+<h2 id="安全开发生命周期（SDL）"><a href="#安全开发生命周期（SDL）" class="headerlink" title="安全开发生命周期（SDL）"></a>安全开发生命周期（SDL）</h2><ul>
+<li>目标：把安全活动前移到需求&#x2F;设计阶段，降低缺陷成本。</li>
+<li>常见活动：安全需求、设计评审、威胁建模、安全编码规范、静态&#x2F;动态测试、上线前安全验收、应急响应与复盘。</li>
+</ul>
+<h2 id="威胁建模（Threat-Modeling）"><a href="#威胁建模（Threat-Modeling）" class="headerlink" title="威胁建模（Threat Modeling）"></a>威胁建模（Threat Modeling）</h2><ul>
+<li>作用：识别产品的安全风险与攻击面，确定需要优先控制的威胁与缓解措施。</li>
+<li>常见产物：数据流图（DFD）、信任边界、资产清单、威胁列表、缓解方案与验证用例。</li>
+<li>常见流程（思路）：识别资产与入口 → 画 DFD&#x2F;划信任边界 → 用模型枚举威胁 → 评估风险 → 设计缓解与验证。</li>
+<li>常见模型：<ul>
+<li>STRIDE：Spoofing &#x2F; Tampering &#x2F; Repudiation &#x2F; Information Disclosure &#x2F; Denial of Service &#x2F; Elevation of Privilege</li>
+<li>DREAD（有时用于风险评估）：Damage &#x2F; Reproducibility &#x2F; Exploitability &#x2F; Affected users &#x2F; Discoverability</li>
+</ul>
+</li>
+</ul>
+<h2 id="漏洞与“利用流程”（概念）"><a href="#漏洞与“利用流程”（概念）" class="headerlink" title="漏洞与“利用流程”（概念）"></a>漏洞与“利用流程”（概念）</h2><ul>
+<li>0day &#x2F; 1day：是否已公开与是否已有补丁&#x2F;细节披露，核心在于“攻击者可用性”与“防守方可见性”。</li>
+<li>常见链路：漏洞发现 → 漏洞分析 → 影响评估 → 修复与验证 → 发布与跟踪。</li>
+</ul>
+<h2 id="调试-分析工具（常见）"><a href="#调试-分析工具（常见）" class="headerlink" title="调试&#x2F;分析工具（常见）"></a>调试&#x2F;分析工具（常见）</h2><ul>
+<li>IDE&#x2F;调试：<code>VS Code</code>（配合编译&#x2F;调试扩展）</li>
+<li>逆向&#x2F;调试：<code>OllyDbg</code> &#x2F; <code>x64dbg</code> 等（按课程环境为准）</li>
+<li>辅助：符号（PDB）、断点、调用栈、内存&#x2F;寄存器窗口、日志与脚本化插件</li>
+</ul>
+<h2 id="程序内存与栈基础"><a href="#程序内存与栈基础" class="headerlink" title="程序内存与栈基础"></a>程序内存与栈基础</h2><h3 id="典型内存区域（概念）"><a href="#典型内存区域（概念）" class="headerlink" title="典型内存区域（概念）"></a>典型内存区域（概念）</h3><ul>
+<li>代码区（Text）：指令</li>
+<li>数据区（Data&#x2F;BSS）：全局&#x2F;静态数据</li>
+<li>堆（Heap）：动态分配</li>
+<li>栈（Stack）：函数调用帧、局部变量、返回地址等</li>
+</ul>
+<h3 id="常见寄存器（以-x86-为例）"><a href="#常见寄存器（以-x86-为例）" class="headerlink" title="常见寄存器（以 x86 为例）"></a>常见寄存器（以 x86 为例）</h3><ul>
+<li><code>EIP</code>：下一条指令地址（控制流关键）</li>
+<li><code>ESP</code>：栈顶指针</li>
+<li><code>EBP</code>：栈帧基址（便于定位局部变量&#x2F;参数）</li>
+</ul>
+<h3 id="栈帧（概念）"><a href="#栈帧（概念）" class="headerlink" title="栈帧（概念）"></a>栈帧（概念）</h3><ul>
+<li>函数调用通常会在栈上保存：返回地址、参数、局部变量、保存的寄存器等。</li>
+<li>理解栈帧有助于：读懂调用栈、定位崩溃点、分析越界写对“数据&#x2F;控制流”的影响。</li>
+</ul>
+<h2 id="栈溢出与防护机制（高层）"><a href="#栈溢出与防护机制（高层）" class="headerlink" title="栈溢出与防护机制（高层）"></a>栈溢出与防护机制（高层）</h2><h3 id="栈溢出要点"><a href="#栈溢出要点" class="headerlink" title="栈溢出要点"></a>栈溢出要点</h3><ul>
+<li>本质：写越界导致覆盖相邻内存（可能影响控制流或关键数据）。</li>
+<li>关注：溢出来源（输入）、边界检查、函数调用&#x2F;栈帧结构、异常处理链等。</li>
+</ul>
+<h3 id="Windows-编译器常见防护（按课程为准）"><a href="#Windows-编译器常见防护（按课程为准）" class="headerlink" title="Windows&#x2F;编译器常见防护（按课程为准）"></a>Windows&#x2F;编译器常见防护（按课程为准）</h3><ul>
+<li><code>/GS</code>（栈保护&#x2F;栈金丝雀）：检测返回前栈是否被破坏（主要防“直接覆盖返回地址”类问题）。</li>
+<li>SafeSEH &#x2F; SEHOP：增强异常处理链的完整性校验，降低利用异常链劫持的风险。</li>
+<li>DEP&#x2F;NX：将数据页标记为不可执行，降低“直接执行注入代码”的风险。</li>
+<li>ASLR：随机化模块与关键地址，增加利用稳定性成本。</li>
+<li>CFG 等控制流保护：限制间接跳转目标，降低控制流劫持风险。</li>
+</ul>
+<h2 id="异常处理（SEH）与堆（概念）"><a href="#异常处理（SEH）与堆（概念）" class="headerlink" title="异常处理（SEH）与堆（概念）"></a>异常处理（SEH）与堆（概念）</h2><h3 id="SEH"><a href="#SEH" class="headerlink" title="SEH"></a>SEH</h3><ul>
+<li>Windows 异常处理用于在异常发生时转移到处理程序；相关元数据与链路在运行期需要保持一致性。</li>
+<li>SafeSEH &#x2F; SEHOP 等机制本质上是在“异常处理的控制流跳转”上增加校验与约束。</li>
+</ul>
+<h3 id="堆与常见机制"><a href="#堆与常见机制" class="headerlink" title="堆与常见机制"></a>堆与常见机制</h3><ul>
+<li>堆用于动态内存分配与释放；不同版本 Windows&#x2F;不同分配器会有不同的管理策略。</li>
+<li>常见考点关键词：空闲链表、分配&#x2F;释放流程、完整性检查（如 safe unlink 思想）、Lookaside list、LFH（Low Fragmentation Heap）等。</li>
+</ul>
+<h2 id="Web-常见考点"><a href="#Web-常见考点" class="headerlink" title="Web 常见考点"></a>Web 常见考点</h2><h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><ul>
+<li>分类：反射型、存储型（以及 DOM 型作为扩展理解）。</li>
+<li>关注：触发条件（输入点&#x2F;输出点）、上下文（HTML&#x2F;属性&#x2F;JS&#x2F;URL）、防护（输出编码、CSP、模板默认转义等）。</li>
+</ul>
+<h3 id="SQL-注入"><a href="#SQL-注入" class="headerlink" title="SQL 注入"></a>SQL 注入</h3><ul>
+<li>核心：把“数据”当成“指令”拼接执行。</li>
+<li>防护：参数化查询（Prepared Statement）、最小权限、输入校验与错误处理、审计与监控。</li>
+</ul>
+<h3 id="Session-相关攻击（概念）"><a href="#Session-相关攻击（概念）" class="headerlink" title="Session 相关攻击（概念）"></a>Session 相关攻击（概念）</h3><ul>
+<li>会话固定&#x2F;劫持：围绕 Session 标识的获取、预测、复用与保护。</li>
+<li>防护：HTTPS、<code>HttpOnly</code>&#x2F;<code>Secure</code> Cookie、合理的过期与轮换、绑定关键属性（可用性与安全性权衡）。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/learning-files/" class="category-chain-item">学习资料</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AC%94%E8%AE%B0/" class="print-no-link">#笔记</a>
+      
+        <a href="/tags/%E6%9C%9F%E6%9C%AB/" class="print-no-link">#期末</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/" class="print-no-link">#软件安全</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>软件安全复习提纲</div>
+      <div>http://blog.plk161211.top/2025/12/24/software-security/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Mark Tom</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/04/AutoAgent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" title="AutoAgent学习笔记（1）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">AutoAgent学习笔记（1）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/24/software-security-final-review/" title="软件安全期末复习知识点（串讲转录 + 讲义PDF）">
+                        <span class="hidden-mobile">软件安全期末复习知识点（串讲转录 + 讲义PDF）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>© MarkTom</span> <span class="mx-2">·</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <span class="mx-2">·</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

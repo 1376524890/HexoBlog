@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mark Tom">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在使用 OpenClaw 处理复杂任务时，你是否遇到过这样的情况：任务进行到一半，会话突然崩溃或重启，之前的进度全部丢失，不得不从头再来？这篇是系列第 3 篇，介绍如何通过任务追踪系统实现会话恢复，让任务进度不再因意外中断而丢失。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenClaw折腾指北（第3篇）：任务追踪与会话恢复">
+<meta property="og:url" content="http://blog.plk161211.top/2026/03/07/OpenClaw%E6%8A%98%E8%85%BE%E6%8C%87%E5%8C%97%EF%BC%88%E7%AC%AC3%E7%AF%87%EF%BC%89%EF%BC%9A%E4%BB%BB%E5%8A%A1%E8%BF%BD%E8%B8%AA%E4%B8%8E%E4%BC%9A%E8%AF%9D%E6%81%A2%E5%A4%8D/index.html">
+<meta property="og:site_name" content="MarkTom">
+<meta property="og:description" content="在使用 OpenClaw 处理复杂任务时，你是否遇到过这样的情况：任务进行到一半，会话突然崩溃或重启，之前的进度全部丢失，不得不从头再来？这篇是系列第 3 篇，介绍如何通过任务追踪系统实现会话恢复，让任务进度不再因意外中断而丢失。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-07T04:56:00.000Z">
+<meta property="article:modified_time" content="2026-03-07T05:00:32.594Z">
+<meta property="article:author" content="Mark Tom">
+<meta property="article:tag" content="OpenClaw">
+<meta property="article:tag" content="任务追踪">
+<meta property="article:tag" content="持久化">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>OpenClaw折腾指北（第3篇）：任务追踪与会话恢复 - MarkTom</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.plk161211.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MarkTom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/learning-files/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>学习资料</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OpenClaw折腾指北（第3篇）：任务追踪与会话恢复"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-03-07 12:56" pubdate>
+          2026年3月7日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">OpenClaw折腾指北（第3篇）：任务追踪与会话恢复</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>在使用 OpenClaw 处理复杂任务时，你是否遇到过这样的情况：任务进行到一半，会话突然崩溃或重启，之前的进度全部丢失，不得不从头再来？这篇是系列第 3 篇，介绍如何通过任务追踪系统实现会话恢复，让任务进度不再因意外中断而丢失。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="问题：不稳定环境中的任务丢失"><a href="#问题：不稳定环境中的任务丢失" class="headerlink" title="问题：不稳定环境中的任务丢失"></a>问题：不稳定环境中的任务丢失</h2><h3 id="现实场景"><a href="#现实场景" class="headerlink" title="现实场景"></a>现实场景</h3><p>想象一下这些令人沮丧的时刻：</p>
+<ul>
+<li><strong>长文撰写</strong>：写了一小时的博客大纲，会话崩溃，一切归零</li>
+<li><strong>代码重构</strong>：刚分析完项目结构，还没开始改就断了线</li>
+<li><strong>数据分析</strong>：处理到一半的数据集，重启后要从头再来</li>
+<li><strong>多步骤任务</strong>：完成了前3步，第4步时网络波动导致会话重置</li>
+</ul>
+<p><strong>问题的核心</strong>：AI 会话是”无状态”的，每次重启都是一张白纸。</p>
+<h3 id="为什么这很重要？"><a href="#为什么这很重要？" class="headerlink" title="为什么这很重要？"></a>为什么这很重要？</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>损失</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>简单问答</td>
+<td>低，可以重新问</td>
+</tr>
+<tr>
+<td>单文件编辑</td>
+<td>中，文件可能已保存</td>
+</tr>
+<tr>
+<td>多步骤复杂任务</td>
+<td><strong>高</strong>，上下文和进度全部丢失</td>
+</tr>
+<tr>
+<td>长时间运行任务</td>
+<td><strong>极高</strong>，数小时工作白费</td>
+</tr>
+</tbody></table>
+<p>对于需要多步骤协作的复杂任务，<strong>进度持久化</strong>不是锦上添花，而是必需。</p>
+<h2 id="解决方案：Task-Tracker-任务追踪系统"><a href="#解决方案：Task-Tracker-任务追踪系统" class="headerlink" title="解决方案：Task Tracker 任务追踪系统"></a>解决方案：Task Tracker 任务追踪系统</h2><h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p>Task Tracker 的核心思想很简单：</p>
+<blockquote>
+<p><strong>把任务进度写入文件，让文件系统成为记忆的备份。</strong></p>
+</blockquote>
+<p>每次会话启动时，自动检查未完成的任务，询问是否继续。这样即使会话崩溃，进度也不会丢失。</p>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs prolog">用户下达复杂任务<br>       ↓<br><span class="hljs-symbol">AI</span> 拆解为具体步骤<br>       ↓<br>创建任务文件 (memory/tasks/<span class="hljs-symbol">ACTIVE</span>-xxx.md)<br>       ↓<br>执行步骤<span class="hljs-number">1</span> → 更新文件 → 执行步骤<span class="hljs-number">2</span> → 更新文件...<br>       ↓<br>[会话崩溃/重启]<br>       ↓<br>新会话启动 → 自动检查任务文件<br>       ↓<br>向用户汇报进度 → 询问是否继续<br>       ↓<br>从断点恢复执行<br></code></pre></td></tr></table></figure>
+
+<h2 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h2><h3 id="1-任务文件格式"><a href="#1-任务文件格式" class="headerlink" title="1. 任务文件格式"></a>1. 任务文件格式</h3><p>任务文件使用 Markdown 格式，位于 <code>workspace/memory/tasks/</code>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 任务: 撰写OpenClaw博客系列</span><br><br><span class="hljs-bullet">-</span> <span class="hljs-strong">**任务ID**</span>: openclaw-blog-series<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**创建时间**</span>: 2026-03-06T10:00:00Z<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**状态**</span>: active<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**优先级**</span>: high<br><br><span class="hljs-section">## 步骤清单</span><br><br><span class="hljs-bullet">-</span> [x] 步骤1: 规划文章大纲 (完成于: 2026-03-06 10:30)<br><span class="hljs-bullet">-</span> [x] 步骤2: 撰写第0篇部署指南 (完成于: 2026-03-06 11:15)<br><span class="hljs-bullet">-</span> [ ] 步骤3: 撰写第1篇记忆管理<br><span class="hljs-bullet">-</span> [ ] 步骤4: 撰写第2篇任务追踪<br><span class="hljs-bullet">-</span> [ ] 步骤5: 发布到博客<br><br><span class="hljs-section">## 上下文</span><br><br><span class="hljs-bullet">-</span> 博客仓库: ~/blog<br><span class="hljs-bullet">-</span> 已确定系列共3篇<br><span class="hljs-bullet">-</span> 目标读者: OpenClaw新手用户<br><br><span class="hljs-section">## 备注</span><br><br>第2篇需要重点讲解task-tracker的实现原理<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-会话启动时的自动检查"><a href="#2-会话启动时的自动检查" class="headerlink" title="2. 会话启动时的自动检查"></a>2. 会话启动时的自动检查</h3><p>每次会话启动（包括 <code>/new</code> 或 <code>/reset</code> 后），AI 会：</p>
+<ol>
+<li><strong>扫描任务目录</strong>：读取 <code>memory/tasks/</code> 下的所有 <code>ACTIVE-*.md</code> 文件</li>
+<li><strong>解析任务状态</strong>：提取任务标题、进度、剩余步骤</li>
+<li><strong>向用户汇报</strong>：<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs makefile">你有 1 个进行中的任务：<br><br>📋 撰写OpenClaw博客系列<br><span class="hljs-section">进度: 2/5 完成 (40%)</span><br><span class="hljs-section">下一步: 步骤3 - 撰写第1篇记忆管理</span><br><br>是否继续执行？[是/否/稍后]<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="3-进度更新机制"><a href="#3-进度更新机制" class="headerlink" title="3. 进度更新机制"></a>3. 进度更新机制</h3><p>每完成一个步骤：</p>
+<ol>
+<li><strong>更新复选框</strong>：将 <code>[ ]</code> 改为 <code>[x]</code></li>
+<li><strong>记录时间戳</strong>：添加完成时间</li>
+<li><strong>追加上下文</strong>：记录执行过程中的关键信息</li>
+<li><strong>原子写入</strong>：确保文件写入完整，避免半写状态</li>
+</ol>
+<h3 id="4-任务完成处理"><a href="#4-任务完成处理" class="headerlink" title="4. 任务完成处理"></a>4. 任务完成处理</h3><p>全部步骤完成后：</p>
+<ul>
+<li>将 <code>ACTIVE-&lt;task-id&gt;.md</code> 重命名为 <code>COMPLETED-&lt;task-id&gt;.md</code></li>
+<li>或移动到 <code>memory/tasks/completed/</code> 目录</li>
+<li>添加完成时间戳和总结</li>
+</ul>
+<h2 id="实际使用示例"><a href="#实际使用示例" class="headerlink" title="实际使用示例"></a>实际使用示例</h2><h3 id="场景：撰写博客系列"><a href="#场景：撰写博客系列" class="headerlink" title="场景：撰写博客系列"></a>场景：撰写博客系列</h3><p><strong>用户</strong>：帮我写一个关于 OpenClaw 的3篇博客系列</p>
+<p><strong>AI</strong>：</p>
+<blockquote>
+<p>这是一个复杂任务，我来为你创建任务追踪。</p>
+<p>拆解步骤：</p>
+<ol>
+<li>规划3篇文章的大纲和主题</li>
+<li>撰写第0篇：部署指南</li>
+<li>撰写第1篇：记忆管理</li>
+<li>撰写第2篇：任务追踪</li>
+<li>本地预览并发布</li>
+</ol>
+<p>已创建任务文件，我们开始吧。</p>
+</blockquote>
+<p><em>[执行步骤1-2，写入文件]</em></p>
+<p><strong>[会话意外崩溃]</strong></p>
+<p><strong>[新会话启动]</strong></p>
+<p><strong>AI</strong>：</p>
+<blockquote>
+<p>欢迎回来。检查到你有进行中的任务：</p>
+<p>📋 撰写OpenClaw博客系列<br>进度: 2&#x2F;5 完成<br>已完成: 规划大纲 ✓、第0篇部署指南 ✓<br>下一步: 撰写第1篇记忆管理</p>
+<p>是否继续？</p>
+</blockquote>
+<p><strong>用户</strong>：继续</p>
+<p><strong>AI</strong>：</p>
+<blockquote>
+<p>好的，从步骤3开始。根据之前的上下文，我们已经确定了…</p>
+</blockquote>
+<h3 id="对比：有无-Task-Tracker"><a href="#对比：有无-Task-Tracker" class="headerlink" title="对比：有无 Task Tracker"></a>对比：有无 Task Tracker</h3><table>
+<thead>
+<tr>
+<th>情况</th>
+<th>无 Task Tracker</th>
+<th>有 Task Tracker</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>会话崩溃后</td>
+<td>从头解释需求，重新拆解</td>
+<td>自动恢复进度，从断点继续</td>
+</tr>
+<tr>
+<td>多步骤任务</td>
+<td>容易遗漏步骤</td>
+<td>清单确保不遗漏</td>
+</tr>
+<tr>
+<td>长时间任务</td>
+<td>上下文窗口溢出</td>
+<td>文件持久化，无窗口限制</td>
+</tr>
+<tr>
+<td>跨会话协作</td>
+<td>几乎不可能</td>
+<td>自然流畅</td>
+</tr>
+</tbody></table>
+<h2 id="进阶：自定义和扩展"><a href="#进阶：自定义和扩展" class="headerlink" title="进阶：自定义和扩展"></a>进阶：自定义和扩展</h2><h3 id="添加优先级和截止日期"><a href="#添加优先级和截止日期" class="headerlink" title="添加优先级和截止日期"></a>添加优先级和截止日期</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">-</span> <span class="hljs-strong">**优先级**</span>: high | medium | low<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**截止日期**</span>: 2026-03-10<br></code></pre></td></tr></table></figure>
+
+<h3 id="添加依赖关系"><a href="#添加依赖关系" class="headerlink" title="添加依赖关系"></a>添加依赖关系</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section">## 步骤清单</span><br><br><span class="hljs-bullet">-</span> [x] 步骤1: 收集资料<br><span class="hljs-bullet">-</span> [ ] 步骤2: 撰写草稿 (依赖: 步骤1)<br><span class="hljs-bullet">-</span> [ ] 步骤3: 校对发布 (依赖: 步骤2)<br></code></pre></td></tr></table></figure>
+
+<h3 id="多人协作场景"><a href="#多人协作场景" class="headerlink" title="多人协作场景"></a>多人协作场景</h3><p>虽然 OpenClaw 主要是个人助手，但任务文件可以：</p>
+<ul>
+<li>放在 Git 仓库中同步</li>
+<li>通过云盘共享</li>
+<li>作为项目文档的一部分</li>
+</ul>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="1-任务粒度"><a href="#1-任务粒度" class="headerlink" title="1. 任务粒度"></a>1. 任务粒度</h3><p><strong>好的任务拆解</strong>：</p>
+<ul>
+<li>✅ 具体、可执行、有明确完成标准</li>
+<li>✅ “撰写第1篇：记忆管理”</li>
+<li>✅ “配置 Telegram Bot 并测试”</li>
+</ul>
+<p><strong>不好的任务拆解</strong>：</p>
+<ul>
+<li>❌ 模糊、过大、难以判断完成</li>
+<li>❌ “写博客”</li>
+<li>❌ “配置消息渠道”</li>
+</ul>
+<h3 id="2-及时更新"><a href="#2-及时更新" class="headerlink" title="2. 及时更新"></a>2. 及时更新</h3><ul>
+<li>完成一个步骤，立即更新文件</li>
+<li>不要等到所有步骤完成才更新</li>
+<li>遇到阻碍时，在”备注”中记录</li>
+</ul>
+<h3 id="3-上下文记录"><a href="#3-上下文记录" class="headerlink" title="3. 上下文记录"></a>3. 上下文记录</h3><p>在”上下文”区域记录：</p>
+<ul>
+<li>关键决策和原因</li>
+<li>重要的中间结果</li>
+<li>下一步需要的资源</li>
+</ul>
+<h3 id="4-定期归档"><a href="#4-定期归档" class="headerlink" title="4. 定期归档"></a>4. 定期归档</h3><p>已完成的任务：</p>
+<ul>
+<li>保留记录，但移动到 completed 目录</li>
+<li>或重命名前缀，避免干扰活跃任务</li>
+<li>定期回顾，总结经验</li>
+</ul>
+<h2 id="与其他系统的配合"><a href="#与其他系统的配合" class="headerlink" title="与其他系统的配合"></a>与其他系统的配合</h2><h3 id="与-Git-配合"><a href="#与-Git-配合" class="headerlink" title="与 Git 配合"></a>与 Git 配合</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 任务文件也应该版本控制</span><br>git add memory/tasks/<br>git commit -m <span class="hljs-string">&quot;更新任务进度: 完成博客系列第1篇&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="与日历配合"><a href="#与日历配合" class="headerlink" title="与日历配合"></a>与日历配合</h3><p>对于有截止日期的任务：</p>
+<ul>
+<li>在任务文件中记录截止日期</li>
+<li>同时在日历应用中创建提醒</li>
+<li>AI 可以在心跳检查中提醒即将到期的任务</li>
+</ul>
+<h3 id="与笔记系统配合"><a href="#与笔记系统配合" class="headerlink" title="与笔记系统配合"></a>与笔记系统配合</h3><p>任务文件可以链接到：</p>
+<ul>
+<li>项目文档</li>
+<li>参考资料</li>
+<li>相关笔记</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section">## 相关链接</span><br><br><span class="hljs-bullet">-</span> [<span class="hljs-string">项目文档</span>](<span class="hljs-link">./projects/openclaw-blog/README.md</span>)<br><span class="hljs-bullet">-</span> [<span class="hljs-string">参考资料</span>](<span class="hljs-link">https://docs.openclaw.ai</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="局限性和注意事项"><a href="#局限性和注意事项" class="headerlink" title="局限性和注意事项"></a>局限性和注意事项</h2><h3 id="1-不是数据库"><a href="#1-不是数据库" class="headerlink" title="1. 不是数据库"></a>1. 不是数据库</h3><p>Task Tracker 是简单的文件系统方案：</p>
+<ul>
+<li>不适合超大规模任务管理</li>
+<li>不适合复杂依赖图</li>
+<li>不适合多用户并发编辑</li>
+</ul>
+<h3 id="2-文件一致性"><a href="#2-文件一致性" class="headerlink" title="2. 文件一致性"></a>2. 文件一致性</h3><p>虽然使用原子写入，但极端情况下（系统崩溃）仍可能丢失最后一次更新。重要任务建议：</p>
+<ul>
+<li>关键节点手动备份</li>
+<li>结合 Git 版本控制</li>
+</ul>
+<h3 id="3-会话恢复不是万能的"><a href="#3-会话恢复不是万能的" class="headerlink" title="3. 会话恢复不是万能的"></a>3. 会话恢复不是万能的</h3><p>Task Tracker 恢复的是<strong>任务进度</strong>，不是<strong>完整的会话状态</strong>：</p>
+<ul>
+<li>已加载的文件内容需要重新读取</li>
+<li>临时的分析结果需要重新生成</li>
+<li>但<strong>任务上下文和进度</strong>是保留的</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Task Tracker 解决了 OpenClaw 在不稳定环境中的核心痛点：<strong>任务进度丢失</strong>。</p>
+<p>通过简单的文件持久化机制，它实现了：</p>
+<ol>
+<li><strong>断点续传</strong>：会话崩溃后从断点恢复</li>
+<li><strong>进度可视化</strong>：清晰的步骤清单和完成状态</li>
+<li><strong>上下文保留</strong>：关键信息写入文件，不依赖会话内存</li>
+<li><strong>零配置</strong>：开箱即用，无需额外设置</li>
+</ol>
+<p>对于需要多步骤协作的复杂任务，Task Tracker 让 OpenClaw 从”一次性对话工具”进化为”可信赖的长期协作伙伴”。</p>
+<hr>
+<p><strong>系列文章：</strong></p>
+<ul>
+<li><a href="./openclaw-guide-0-deploy">第0篇：部署指南</a></li>
+<li><a href="./openclaw-guide-1-memory">第1篇：记忆管理与工作空间</a></li>
+<li><a href="./openclaw-guide-2-morning-skill">第2篇：我给自己写了一个晨报Skill</a></li>
+<li><strong>第3篇：任务追踪与会话恢复</strong>（本文）</li>
+</ul>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.openclaw.ai/skills/task-tracker">OpenClaw 任务追踪文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.openclaw.ai/concepts/memory">OpenClaw 记忆系统</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%98%E8%85%BE%E6%8C%87%E5%8C%97/" class="category-chain-item">折腾指北</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OpenClaw/" class="print-no-link">#OpenClaw</a>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%BF%BD%E8%B8%AA/" class="print-no-link">#任务追踪</a>
+      
+        <a href="/tags/%E6%8C%81%E4%B9%85%E5%8C%96/" class="print-no-link">#持久化</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OpenClaw折腾指北（第3篇）：任务追踪与会话恢复</div>
+      <div>http://blog.plk161211.top/2026/03/07/OpenClaw折腾指北（第3篇）：任务追踪与会话恢复/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Mark Tom</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年3月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/03/07/OpenClaw%E6%8A%98%E8%85%BE%E6%8C%87%E5%8C%97%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E7%94%A8Subagent%E6%89%93%E9%80%A0%E4%B8%93%E5%B1%9E%E5%8D%9A%E5%AE%A2%E5%86%99%E4%BD%9C%E5%8A%A9%E6%89%8B/" title="OpenClaw折腾指北（四）：用Subagent打造专属博客写作助手">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OpenClaw折腾指北（四）：用Subagent打造专属博客写作助手</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/03/07/OpenClaw%E6%8A%98%E8%85%BE%E6%8C%87%E5%8C%97%EF%BC%88%E7%AC%AC2%E7%AF%87%EF%BC%89%EF%BC%9A%E6%88%91%E7%BB%99%E8%87%AA%E5%B7%B1%E5%86%99%E4%BA%86%E4%B8%80%E4%B8%AA%E6%99%A8%E6%8A%A5Skill/" title="OpenClaw折腾指北（第2篇）：我给自己写了一个晨报Skill">
+                        <span class="hidden-mobile">OpenClaw折腾指北（第2篇）：我给自己写了一个晨报Skill</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>© MarkTom</span> <span class="mx-2">·</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <span class="mx-2">·</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
