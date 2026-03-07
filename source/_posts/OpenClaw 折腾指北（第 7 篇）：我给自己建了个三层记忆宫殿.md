@@ -276,5 +276,5 @@ echo "$SUMMARY" >> "$MEMORY_FILE"
 **下一篇预告**：第 8 篇，我们将聊聊如何构建一个**智能体动机系统**，让 AI 也有"成就感"和"连胜 streak"！
 
 **参考链接**：
-- [ClawIntelligentMemory GitHub](https://github.com/denda188/ClawIntelligentMemory)
+- [denda188/ClawIntelligentMemory](https://github.com/denda188/ClawIntelligentMemory) - 三层智能记忆系统开源项目
 - [OpenClaw Cron 文档](https://docs.openclaw.ai/guides/cron-jobs)
