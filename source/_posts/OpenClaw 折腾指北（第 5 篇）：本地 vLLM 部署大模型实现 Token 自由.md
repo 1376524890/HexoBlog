@@ -1,8 +1,14 @@
 ---
 title: OpenClaw 折腾指北（第 5 篇）：本地 vLLM 部署大模型实现 Token 自由
 date: 2026-03-07 12:00:00
-tags: [vLLM, 大模型，本地部署，Qwen3.5, SSH 隧道]
-categories: [技术实践]
+tags:
+  - vLLM
+  - 大模型
+  - 本地部署
+  - Qwen3.5
+  - SSH 隧道
+categories:
+  - 折腾指北
 ---
 
 # 起因：Token 消耗过快，阿里云 Coding Plan 撑不住
