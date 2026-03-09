@@ -1,30 +1,45 @@
-# OpenClaw 知识学习汇报 - 2026 年 3 月 9 日
+# OpenClaw 知识学习汇报
 
-**学习时间**: 2026 年 3 月 9 日 5:00-15:15 UTC  
+**学习时间**: 2026 年 3 月 9 日 5:00-16:15 UTC  
 **汇报时间**: 2026 年 3 月 10 日 7:00 AM (UTC+8)  
-**整理者**: 御坂美琴一号  
+**汇报者**: 御坂美琴一号 ⚡  
 **状态**: ✅ 学习完成，汇报准备就绪
 
 ---
 
-## 📋 核心知识点速查
+## 🎯 一、OpenClaw 是什么？（5 分钟）
 
-### 一、OpenClaw 是什么？
+### 核心定义
 
-**核心定义**：OpenClaw 是一个**AI Agent 运行时平台**，核心是**智能网关（Runtime Gateway）**。
+OpenClaw 是一个**AI Agent 运行时平台**，核心是**智能网关（Runtime Gateway）**。
 
 **关键理解**：
-- ❌ 不是聊天机器人
+- ❌ **不是聊天机器人**
 - ✅ 是 AI 模型连接到真实世界的桥梁
 - ✅ 是一个**安全**的 Agent 运行时系统
 
-**四大核心理念**：
-1. **Access control before intelligence**（访问控制先于智能）
-2. **隐私优先**：私有数据保持私有
-3. **工具优先**：第一类工具而非 skill 包裹
-4. **记忆即文件**：所有记忆写入磁盘 Markdown 文件
+### 四大核心理念
 
-**OpenClaw vs 传统聊天机器人**：
+1. **Access control before intelligence**（访问控制先于智能）⭐⭐⭐⭐⭐
+   - 先定义权限边界，再赋予智能
+   - 不是"能做什么"，而是"允许做什么"
+
+2. **隐私优先**：私有数据保持私有
+   - 数据完全本地化
+   - 用户拥有数据控制权
+   - 不上传到第三方服务器
+
+3. **工具优先**：第一类工具而非 skill 包裹
+   - 工具是一等公民
+   - 直接调用而非间接封装
+   - 透明的工具使用过程
+
+4. **记忆即文件**：所有记忆写入磁盘 Markdown 文件
+   - 持久化存储
+   - 人类可读
+   - 版本可控（Git 管理）
+
+### OpenClaw vs 传统聊天机器人
 
 | 特性 | 聊天机器人 | OpenClaw |
 |------|-----------|----------|
@@ -33,10 +48,14 @@
 | **安全性** | 通常无权限控制 | 多层安全模型（沙箱、权限、审计） |
 | **可扩展性** | 固定功能 | 通过 Skills 和工具扩展 |
 | **架构** | 单一模型 | Gateway+Agent+Node 三层架构 |
+| **工具** | 有限或无 | 第一类工具，直接调用 |
+| **多智能体** | 不支持 | 支持子代理系统 |
 
 ---
 
-### 二、核心架构（三层模型）
+## 🏗️ 二、核心架构（10 分钟）
+
+### 三层架构模型
 
 ```
 ┌─────────────────────────────────────┐
@@ -61,26 +80,55 @@
 └─────────────────────────────────────┘
 ```
 
-**四大核心组件**：
+### 四大核心组件
 
-1. **Gateway（网关）**：系统的"大脑"和"路由器"
-   - 职责：生命周期管理、消息路由、工具协调、安全控制
-   - 特点：Gateway **本身不运行 AI 模型**，只是调度员
+#### 1️⃣ Gateway（网关）
 
-2. **Agent（AI 执行体）**：实际执行 AI 任务的实例
-   - 包含：身份、配置、状态、运行时
-   - 运行环境：隔离环境，通过 Bridge Protocol 与 Gateway 通信
+**职责**：系统的"大脑"和"路由器"
 
-3. **Session（会话容器）**：有状态的会话容器
-   - 包含：消息历史、上下文窗口、工具状态、元数据
-   - 核心挑战：上下文长度管理 → 通过**Compaction（压缩）**解决
+**功能**：
+- 生命周期管理（启动/停止/监控 Agent）
+- 消息路由（从 Channel 到 Session）
+- 工具协调（Skill 注册与调用）
+- 安全控制（沙箱策略、权限管理）
 
-4. **Channel（消息通道）**：与外部世界连接的协议适配器
-   - 官方支持：Telegram、Discord、Slack、WhatsApp、飞书等
+**特点**：Gateway **本身不运行 AI 模型**，只是调度员
+
+#### 2️⃣ Agent（AI 执行体）
+
+**包含**：身份、配置、状态、运行时
+
+**运行环境**：隔离环境，通过 Bridge Protocol 与 Gateway 通信
+
+**类型**：
+- Main Agent：主会话（直接聊天）
+- Subagent：子代理（后台运行）
+- ACP Agent：编码代理（专用）
+
+#### 3️⃣ Session（会话容器）
+
+**定义**：OpenClaw 的**有状态会话容器**
+
+**包含**：
+- 消息历史（完整对话记录）
+- 上下文窗口（经过压缩处理）
+- 工具状态（中间结果）
+- 元数据（创建时间、最后活跃时间等）
+
+**核心挑战**：上下文长度管理 → 通过**Compaction（压缩）**解决
+
+#### 4️⃣ Channel（消息通道）
+
+**定义**：与外部世界连接的**协议适配器**
+
+**官方支持**：
+- **即时通讯**：Telegram、Discord、Slack、WhatsApp、Signal
+- **企业平台**：飞书、Microsoft Teams、Google Chat
+- **其他**：IRC、Matrix、iMessage
 
 ---
 
-### 三、Agent Loop（核心循环）
+### Agent Loop（核心循环）
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -108,32 +156,58 @@
 
 ---
 
-### 四、工具与技能系统
+## 🛠️ 三、工具与技能系统（8 分钟）
 
-#### 基础工具（内置）
+### 基础工具（内置）
+
+| 工具 | 功能 | 说明 |
+|------|------|------|
+| `read` | 读取文件 | 支持文本和图片 |
+| `write` | 创建/覆盖文件 | 自动创建父目录 |
+| `edit` | 编辑文件 | 精确替换文本 |
+| `exec` | 执行命令 | 支持后台运行、PTY |
+| `browser` | 浏览器控制 | 页面控制、截图、自动化 |
+| `message` | 消息管理 | 发送、删除、频道操作 |
+| `nodes` | 节点管理 | 设备状态、相机、屏幕录制 |
+| `process` | 管理进程 | list, poll, log, write, send-keys |
+
+### 网络工具
+
+| 工具 | API | 特点 |
+|------|-----|------|
+| `web_search` | Perplexity API | 结构化搜索 |
+| `tavily` | Tavily API | AI 优化搜索 |
+| `multi-search-engine` | **无需 API** | **17 个引擎免费搜索** |
+
+### Feishu 集成工具
 
 | 工具 | 功能 |
 |------|------|
-| `read` | 读取文件 |
-| `write` | 创建/覆盖文件 |
-| `edit` | 编辑文件 |
-| `exec` | 执行命令 |
-| `browser` | 浏览器控制 |
-| `message` | 消息管理 |
-| `nodes` | 节点管理 |
-| `process` | 管理进程 |
+| `feishu_doc` | 文档操作（读写、编辑、创建表格等） |
+| `feishu_drive` | 云盘文件管理 |
+| `feishu_wiki` | 知识库导航 |
+| `feishu_chat` | 聊天操作 |
+| `feishu_bitable_*` | 多维表格操作（增删改查） |
+| `feishu_app_scopes` | 应用权限管理 |
 
-#### 技能系统（Skills）
+### 技能系统（Skills）
 
-**什么是 Skill**：专用任务的能力模块，提供特定领域的操作指导。
+#### 📖 什么是 Skill？
 
-**特点**：
+Skill 是**专用任务的能力模块**，提供：
+- 特定领域的操作指导
+- 工具调用最佳实践
+- 领域知识和约束
+
+#### ✨ Skills 特点
+
 1. **模块化**：每个 Skill 是独立包
 2. **可扩展**：用户可以自定义 Skill
-3. **标准化**：通过 SKILL.md 定义功能
+3. **标准化**：通过 SKILL.md 定义功能和配置
 4. **可组合**：多个 Skill 协同工作
 
-**已安装的 16 个 Skills**：
+#### 📦 已安装的 16 个 Skills
+
 - `hexo-blog` - Hexo 博客管理
 - `task-tracker` - 任务追踪
 - `weather` - 天气查询
@@ -153,19 +227,61 @@
 
 ---
 
-### 五、子代理与多智能体协作
+## 👥 四、子代理与多智能体协作（7 分钟）
 
-**子代理（Subagent）**：从主会话启动的后台代理运行，用于并行化耗时任务。
+### 什么是子代理（Subagent）？
 
-**御坂网络第一代架构**：
+子代理是从主会话启动的**后台代理运行**，用于：
+- 并行化耗时任务
+- 隔离敏感/复杂操作
+- 支持嵌套编排模式
+
+**核心思想**：主 Agent 负责任务拆解与调度，子 Agent 负责具体执行。
+
+### 启动方式
+
+**工具方式**（推荐）：
+```python
+sessions_spawn({
+  task: "研究 XX 主题",
+  runtime: "subagent",
+  agentId: "research-analyst",
+  mode: "run",
+  label: "task-label"
+})
+```
+
+**Slash 命令**：
+```
+/subagents spawn <agentId> <task>
+/subagents list
+/subagents kill <id>
+/subagents log <id>
+/subagents steer <id> <message>
+```
+
+### 御坂网络第一代架构 ⚡
 
 ```
-御坂美琴一号（主 Agent）
-     ↓ 任务拆解与调度
-┌────┴────┬───────┬───────┐
-▼         ▼       ▼       ▼
-11 号    12 号   13 号   14 号
-Code    Write  Research File
+┌─────────────────────────────────────────────────────────────┐
+│                    御坂美琴一号（主 Agent）                   │
+│                   职责：任务拆解与调度                       │
+└─────────────────────────┬───────────────────────────────────┘
+                          │
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+   ┌──────────┐    ┌──────────┐    ┌──────────┐
+   │ 11 号     │    │ 12 号     │    │ 13 号     │
+   │ Code      │    │ Write    │    │ Research  │
+   │ 代码执行者│    │ 内容创作者│    │ 研究分析师│
+   └──────────┘    └──────────┘    └──────────┘
+          │               │               │
+          ▼               ▼               ▼
+   ┌──────────┐    ┌──────────┐    ┌──────────┐
+   │ 14 号     │    │ 15 号     │    │ 16 号     │
+   │ File      │    │ Sys      │    │ Crawler   │
+   │ 文件管理器│    │ 系统管理员│    │ 网络爬虫  │
+   └──────────┘    └──────────┘    └──────────┘
 ```
 
 **子代理 Agent 列表**：
@@ -179,25 +295,34 @@ Code    Write  Research File
 
 ---
 
-### 六、记忆系统（Memory）
+## 🧠 五、记忆系统（3 分钟）
 
-**三层架构**：
+### 三层架构
 
 ```
-Layer 1: 会话记忆（Session Memory）
-- 当前会话上下文
-- 临时决策和中间结果
-
-Layer 2: 任务记忆（Task Memory）
-- 任务计划文件
-- 子代理执行结果
-
-Layer 3: 长期记忆（Long-term Memory）
-- MEMORY.md: 精选记忆
-- memory/YYYY-MM-DD.md: 每日日志
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 1: 会话记忆（Session Memory）                          │
+│ - 当前会话上下文                                             │
+│ - 临时决策和中间结果                                         │
+└─────────────────────────────────────────────────────────────┘
+         │ 同步关键信息
+         ▼
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 2: 任务记忆（Task Memory）                             │
+│ - 任务计划文件                                               │
+│ - 子代理执行结果                                             │
+└─────────────────────────────────────────────────────────────┘
+         │ 同步重要发现
+         ▼
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 3: 长期记忆（Long-term Memory）                        │
+│ - MEMORY.md: 精选记忆                                       │
+│ - memory/YYYY-MM-DD.md: 每日日志                            │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-**记忆管理最佳实践**：
+### 记忆管理最佳实践
+
 1. **DECIDE to write**：决定、偏好、持久事实 → MEMORY.md
 2. **Daily notes**：日常记录 → memory/YYYY-MM-DD.md
 3. **定期 review**：定期清理 MEMORY.md，移除过时信息
@@ -208,117 +333,50 @@ Layer 3: 长期记忆（Long-term Memory）
 
 ---
 
-### 七、安全模型
+## 🔐 六、安全模型（5 分钟）
 
-**核心原则**：
+### 核心原则
+
 1. **单一信任边界**：Gateway 和 Node 属于同一信任域
 2. **私有数据保持私有**：不泄露用户隐私
 3. **权限最小化**：按需开放工具权限
 4. **审计追踪**：所有操作记录到审计日志
 
-**权限层级**：
-- Level 5: 主 Agent - 完全权限
-- Level 4: 可信子 Agent - 受限系统权限（需批准）
-- Level 3: 标准子 Agent - 标准开发权限
-- Level 2: 受限子 Agent - 严格受限权限
-- Level 1: 只读子 Agent - 只读访问
+### 工具安全策略
 
-**安全审计命令**：
+#### Tool Profile
+
+- `minimal`：只有 `session_status`
+- `coding`：文件系统 + 运行时 + 记忆
+- `messaging`：消息相关工具
+- `full`：无限制
+
+#### 安全控制
+
+- `tools.allow` / `tools.deny`：允许/拒绝工具
+- `sandbox`：沙箱隔离
+- `elevated`：提权执行（需显式启用）
+- `ask always`：高风险操作需确认
+
+### 安全审计命令
+
 ```bash
-openclaw security audit          # 基本检查
-openclaw security audit --deep   # 深度检查
-openclaw security audit --fix    # 自动修复
-openclaw security audit --json   # JSON 格式
+# 基本检查
+openclaw security audit
+
+# 深度检查
+openclaw security audit --deep
+
+# 自动修复
+openclaw security audit --fix
+
+# JSON 格式输出
+openclaw security audit --json
 ```
 
 ---
 
-### 八、常用命令
-
-**Gateway 管理**：
-```bash
-openclaw gateway status
-openclaw gateway start/stop/restart
-```
-
-**配置管理**：
-```bash
-openclaw configure
-openclaw config.apply
-```
-
-**技能管理**：
-```bash
-clawhub sync
-clawhub fetch <skill-name>
-clawhub publish <skill-folder>
-```
-
-**会话管理**：
-```python
-sessions_spawn({
-  task: "研究 XX 主题",
-  runtime: "subagent",
-  agentId: "research-analyst",
-  mode: "run"
-})
-```
-
----
-
-## 🎯 汇报大纲（30-40 分钟）
-
-### 第一部分：OpenClaw 是什么（5 分钟）
-- 核心定义：AI Agent 运行时平台
-- 四大核心理念
-- 与传统聊天机器人的区别
-
-### 第二部分：核心架构（10 分钟）
-- 三层架构：Agent/Gateway/Node
-- 四大组件：Gateway/Agent/Session/Channel
-- Agent Loop 工作流程
-
-### 第三部分：工具与技能系统（8 分钟）
-- 基础工具：read/write/edit/exec/browser 等
-- 技能系统：模块化、可扩展
-- Feishu 集成完整工具集
-
-### 第四部分：子代理与多智能体协作（7 分钟）
-- 子代理系统介绍
-- 御坂网络第一代架构
-- 任务调度机制
-
-### 第五部分：安全与最佳实践（5 分钟）
-- 安全模型：权限层级、审计日志
-- 最佳实践：记忆管理、工具使用
-- 常见错误和解决方案
-
-### 第六部分：总结与问答（5 分钟）
-- 核心优势总结
-- 后续学习方向
-- 开放讨论
-
----
-
-## 📚 参考资料
-
-**文档路径**：
-- 官方文档：https://docs.openclaw.ai
-- GitHub: https://github.com/openclaw/openclaw
-- 本地文档：~/openclaw/workspace/docs/
-
-**本地学习文档**：
-1. `/home/claw/.openclaw/workspace/docs/OpenClaw-Learning-Summary.md`
-2. `/home/claw/.openclaw/workspace/docs/OpenClaw-Learning-Notes.md`
-3. `/home/claw/.openclaw/workspace/docs/OpenClaw-Report-Final-2026-03-09.md`
-4. `/home/claw/.openclaw/workspace/docs/GIT-WORKSPACE-GUIDE.md`
-5. `/home/claw/.openclaw/workspace/memory/2026-03-09.md`（今日学习记录）
-
----
-
-## ✅ 学习总结
-
-### OpenClaw 核心优势
+## 📊 七、OpenClaw 核心优势总结
 
 | 优势 | 说明 |
 |------|------|
@@ -328,8 +386,12 @@ sessions_spawn({
 | **多智能体协作** | 子代理系统，专业分工 |
 | **安全隔离** | 沙箱策略、权限模型、审计日志 |
 | **可扩展** | 自定义 Skills、Channels |
+| **隐私优先** | 私有数据保持私有 |
+| **跨平台支持** | 支持多种消息通道 |
 
-### 学习重点回顾
+---
+
+## 🎯 八、学习重点回顾
 
 1. ✅ **核心架构**：Gateway、Agent、Session、Channel 四大组件
 2. ✅ **Agent Loop**：AI 持续运行的核心循环
@@ -340,12 +402,55 @@ sessions_spawn({
 
 ---
 
-**汇报准备完成时间**: 2026 年 3 月 9 日 15:15 UTC  
+## 📚 九、参考资料
+
+**文档路径**：
+- 官方文档：https://docs.openclaw.ai
+- GitHub: https://github.com/openclaw/openclaw
+- 本地文档：~/openclaw/workspace/docs/
+
+**本地学习文档**：
+1. `/home/claw/.openclaw/workspace/docs/OpenClaw-Learning-Summary.md`
+2. `/home/claw/.openclaw/workspace/docs/OpenClaw-Learning-Notes.md`
+3. `/home/claw/.openclaw/workspace/docs/OpenClaw-Report-2026-03-10.md`
+4. `/home/claw/.openclaw/workspace/docs/GIT-WORKSPACE-GUIDE.md`
+5. `/home/claw/.openclaw/workspace/memory/2026-03-09.md`（今日学习记录）
+6. `/home/claw/.openclaw/workspace/memory/2026-03-09-learning-completed.md`（完成确认）
+
+---
+
+## ✅ 汇报准备完成确认
+
+- [x] 完成 OpenClaw 核心知识学习
+- [x] 整理架构、工具、技能系统知识
+- [x] 准备汇报大纲和演示脚本
+- [x] 创建学习文档并保存到 Git
+- [x] 准备常见问题回答
+- [x] 确认演示环境（Gateway 状态、技能安装）
+
+**准备状态**: ✅ **完全就绪**
+
+---
+
+## 📊 关键数据
+
+| 项目 | 数量 |
+|------|------|
+| 学习时长 | ~11 小时 |
+| 文档数量 | 7 个 |
+| 已安装 Skills | 16 个 |
+| 子代理数量 | 7 个 |
+| 记忆文件数 | 30+ 个 |
+| Git 提交 | 4 个新文件 |
+
+---
+
+**汇报准备完成时间**: 2026 年 3 月 9 日 16:15 UTC  
 **汇报时间**: 2026 年 3 月 10 日 7:00 AM (UTC+8)  
 **汇报状态**: ✅ 准备就绪  
 **预计时长**: 30-40 分钟
 
 ---
 
-*整理：御坂美琴一号 ⚡*
+*整理：御坂美琴一号 ⚡*  
 *御坂网络第一代系统运行中*
