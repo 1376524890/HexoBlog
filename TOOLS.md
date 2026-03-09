@@ -2,39 +2,47 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
-## What Goes Here
+## 🔧 OpenClaw 配置
 
-Things like:
+### 运行环境
+- **模型**: `local-vllm/Qwen/Qwen3.5-35B-A3B-FP8`
+- **远程模型**: `Qwen/Qwen3.5-35B-A3B-FP8`
+- **网关地址**: `codeserver@39.102.210.43:6122 -> localhost:8000`
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+### 定时任务 (Cron)
+| ID | 名称 | 频率 | 状态 |
+|---|---|---|---|
+| `memory-checkpoint` | 记忆检查点 | 每 6 小时 | ✅ 启用 |
+| `auto-backup` | 自动备份 | 每 6 小时 | ✅ 启用 |
+| `auto-cleanup` | 自动清理过期备份 | 每天 12:30 | ✅ 启用 |
 
-## Examples
+## 📁 工作目录
 
-```markdown
-### Cameras
+- **主工作区**: `/home/claw/.openclaw/workspace`
+- **技能目录**: `~/.openclaw/skills/`
+- **配置文件**: `~/.openclaw/config/`
+- **记忆目录**: `~/.openclaw/workspace/memory/`
+- **备份目录**: `~/.openclaw/backup/`
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## 🤖 御坂妹妹权限等级
 
-### SSH
+| 编号 | Agent ID | 权限级别 | 说明 |
+|------|----------|----------|------|
+| 10 号 | `general-agent` | Level 2 | 指定目录读写 |
+| 11 号 | `code-executor` | Level 3 | 工作目录读写 |
+| 12 号 | `content-writer` | Level 3 | 读写文档文件 |
+| 13 号 | `research-analyst` | Level 3 | 网络搜索、分析 |
+| 14 号 | `file-manager` | Level 2 | 指定目录操作 |
+| 15 号 | `system-admin` | Level 4 | 系统配置需批准 |
+| 16 号 | `web-crawler` | Level 2 | 网页抓取 |
 
-- home-server → 192.168.1.100, user: admin
+## 💾 备份策略
 
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
+- **本地备份**: `/home/claw/.openclaw/backup/`
+- **Git 同步**: 每 6 小时自动提交到 Git
+- **清理策略**: 每天 12:30 清理 7 天前的备份
+- **恢复点**: 6 小时间隔的 checkpoint
 
 ---
 
-Add whatever helps you do your job. This is your cheat sheet.
+_随着系统升级，这里会不断更新。_
