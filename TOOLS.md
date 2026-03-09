@@ -35,6 +35,7 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 | 14 号 | `file-manager` | Level 2 | 指定目录操作 |
 | 15 号 | `system-admin` | Level 4 | 系统配置需批准 |
 | 16 号 | `web-crawler` | Level 2 | 网页抓取 |
+| 17 号 | `memory-organizer` | Level 3 | 记忆系统维护、整理和备份 🧠 |
 
 ## 💾 备份策略
 

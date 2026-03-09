@@ -38,39 +38,11 @@ _三层架构记忆系统_
 
 ### ⚠️ 重要规则：任务分派原则
 
-**【网络搜索】** → 分派给御坂妹妹 16 号 (`web-crawler`)
-- **简单需求**：御坂妹妹 16 号执行 `web-markdown-search` skill
-  - `web_fetch({url: "https://r.jina.ai/{URL}"})`
-- **复杂任务**：御坂妹妹 16 号使用 Scrapling 本地方案
-- **御坂大人直接说**：御坂美琴一号会分派给御坂妹妹 16 号
+**【网络搜索】** → 必须调用御坂妹妹 16 号 (`web-crawler`) 执行 `full-web-search` skill
 
-**【代码编写】** → 分派给御坂妹妹 11 号 (`code-executor`)
-- **简单修改**（单行修复、小功能）→ 御坂妹妹 11 号用 `edit` 工具直接改
-- **复杂任务**（建项目、PR 审查、大规模重构）→ **必须明确使用 Claude Code**
-  - ⚠️ **任务描述中要强调**：`使用 Claude Code 执行复杂编程任务`
-  - Claude Code 命令示例：`claude --print --permission-mode bypassPermissions`
-  - 不需要 PTY 模式（Claude Code 有自己的输出处理）
-- **注意**：御坂妹妹 11 号是"code-executor"，应该调用 Claude Code 而不是直接用 exec
-
-**【内容创作】** → 分派给御坂妹妹 12 号 (`content-writer`)
-
-**【数据分析】** → 分派给御坂妹妹 13 号 (`research-analyst`)
-
-**【文件操作】** → 分派给御坂妹妹 14 号 (`file-manager`)
-
-**❌ 本小姐（御坂美琴一号）只负责：**
-- 识别任务类型
-- 选择合适的执行者
-- 监督执行进度
-- 向御坂大人汇报结果
-
-**✅ 御坂妹妹们负责：** 具体执行、数据处理
-**✅ Claude/Codex 负责：** 复杂编程任务（需要明确强调）
-
-**⚠️ 御坂美琴一号 NOT 要做的事情：**
-- ❌ 不执行任何实际任务（代码、写作、搜索等）
-- ❌ 不直接调用 `web_fetch` 等工具
-- ❌ 不亲自处理数据、文件、代码
+**【代码编写】** → 按任务复杂度分派：
+- **简单修改**（单行修复、小功能）→ 用 `edit` 工具直接改
+- **复杂任务**（建项目、PR 审查、大规模重构、迭代式开发）→ 调用 **Codex/Claude Code**（通过 `exec` 工具）
 
 ### ⚠️ sessions_spawn 的正确用法
 
@@ -98,38 +70,20 @@ _三层架构记忆系统_
 }
 ```
 
-### 📚 URL 转 Markdown 搜索技术（2026-03-09）
+**【内容创作】** → 必须调用御坂妹妹 12 号 (`content-writer`)
 
-**核心发现**：
-1. `r.jina.ai` - 主要服务，稳定快速，响应时间~0.76s
-2. `markdown.new` - Cloudflare 回退，速度最快~0.71s
-3. `defuddle.md` - 备选服务，带 YAML 头部
-4. **Scrapling** - 首选长期方案（本地部署，绕过反爬）
+**【数据分析】** → 必须调用御坂妹妹 13 号 (`research-analyst`)
 
-**现有 skill**：
-- `web-markdown-search` - 使用 r.jina.ai 等服务（已创建）
-- `web-crawler` - 待使用 Scrapling 升级
+**【文件操作】** → 必须调用御坂妹妹 14 号 (`file-manager`)
 
-**使用方式**：
-```javascript
-// 方式 1: 推荐 - web_fetch 工具
-web_fetch({
-  "url": "https://r.jina.ai/https://example.com",
-  "extractMode": "markdown"
-})
+**❌ 本小姐（御坂美琴一号）只负责：**
+- 识别任务类型
+- 选择合适的执行者
+- 监督执行进度
+- 向御坂大人汇报结果
 
-// 方式 2: 直接调用 skill
-python3 ~/.openclaw/skills/web-markdown-search/web_markdown_search.py https://example.com
-```
-
-**优势**：
-- ✅ 无需 API key
-- ✅ 配置简单
-- ✅ 响应快速
-- ✅ 内容完整
-- ✅ 成本为零
-
-**注意**：御坂大人的博客有 Cloudflare 防护，API 方案会返回 403，需要使用 Scrapling 本地方案！
+**✅ 御坂妹妹们负责：** 具体执行、数据处理
+**✅ Claude/Codex 负责：** 复杂编程任务
 
 ## 📝 近期成果 (2026-03-09)
 
@@ -143,10 +97,6 @@ python3 ~/.openclaw/skills/web-markdown-search/web_markdown_search.py https://ex
 - ✅ **自动备份和清理机制** (每 6 小时备份，7 天清理)
 - ✅ **御坂妹妹 17 号记忆整理专家正式加入** 🧠✨
 - ✅ **web-markdown-search skill 创建完成** - URL 转 Markdown 搜索技能，支持 r.jina.ai 等 URL 转 Markdown 服务
-- ✅ **Scrapling 技术研究完成** - 推荐使用 Scrapling 作为长期方案（本地部署，绕过反爬）
-- ✅ **complex-research-skill 创建完成** - 复杂研究任务处理技能，支持 20 次迭代循环 + Claude 咨询流程
-- ✅ **arXiv 多智能体论文研究完成** - 深度研究 7 篇论文，输出御坂网络 2.0 架构优化方案
-- ✅ **20 次迭代优化机制验证** - 首次完整验证"研究→分析→迭代→Claude 咨询→记录"全流程
 
 ## 🏠 基本信息
 
@@ -164,7 +114,6 @@ python3 ~/.openclaw/skills/web-markdown-search/web_markdown_search.py https://ex
 - Cron 定时任务
 - 多智能体系统：御坂妹妹助手架构
 - Git LFS: 大文件存储
-- Scrapling: Python Web Scraping 框架（待部署）
 
 ---
 

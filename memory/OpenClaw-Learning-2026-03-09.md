@@ -461,7 +461,41 @@ openclaw security audit --json
 - 长时间运行任务
 - 任务隔离
 
-### 4. 御坂网络
+### ⚠️ 重要说明：runtime 用法
+
+**正确的 runtime 参数**：
+
+✅ **必须使用**: `runtime: "subagent"`
+- 使用 OpenClaw agents 列表中的 agentId
+- 如：`general-agent`, `code-executor`, `web-crawler` 等
+
+❌ **不要使用**: `runtime: "acp"`
+- 需要 ACX runtime 插件（未配置）
+- 会报错：`ACP runtime backend is not configured`
+
+**错误示例**：
+```json
+{
+  "action": "spawn",
+  "task": "处理复杂任务",
+  "runtime": "acp",  // ❌ 错误！未配置
+  "agentId": "code-executor",
+  "mode": "run"
+}
+```
+
+**正确示例**：
+```json
+{
+  "action": "spawn",
+  "task": "处理复杂任务",
+  "runtime": "subagent",  // ✅ 正确！
+  "agentId": "code-executor",
+  "mode": "run"
+}
+```
+
+### 5. 御坂网络
 
 **核心概念**:
 - 本尊（御坂美琴）= 用户

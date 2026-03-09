@@ -1,0 +1,24 @@
+[Unit]
+Description=御坂妹妹 17 号安全审计守护进程
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=claw
+WorkingDirectory=/home/claw/.openclaw/workspace
+ExecStart=/bin/bash /home/claw/.openclaw/workspace/skills/security-audit/scripts/audit-guardian.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/claw/.openclaw/workspace/memory/audit-guardian-system.log
+StandardError=append:/home/claw/.openclaw/workspace/memory/audit-guardian-system.log
+
+# 资源限制
+LimitNOFILE=65536
+
+# 安全选项
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
