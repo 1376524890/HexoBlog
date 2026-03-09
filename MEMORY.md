@@ -1,5 +1,5 @@
 # MEMORY.md - 精选记忆
-
+- **Timezone:** UTC+8 (中国)
 _三层架构记忆系统_
 
 ## 📋 系统架构
@@ -36,25 +36,111 @@ _三层架构记忆系统_
 - 模型：`Qwen/Qwen3.5-35B-A3B-FP8`
 - 本地模型：`local-vllm/Qwen/Qwen3.5-35B-A3B-FP8`
 
-## 📝 近期成果 (2026-03-08)
+### ⚠️ 重要规则：任务分派原则
+
+**【网络搜索】** → 使用 `web-markdown-search` skill
+- **推荐方式**：`web_fetch({url: "https://r.jina.ai/{URL}"})`
+- **备选服务**：`markdown.new`、`defuddle.md`
+- **复杂任务**：调用御坂妹妹 16 号 (`web-crawler`) 使用 Scrapling
+
+**【代码编写】** → 按任务复杂度分派：
+- **简单修改**（单行修复、小功能）→ 用 `edit` 工具直接改
+- **复杂任务**（建项目、PR 审查、大规模重构、迭代式开发）→ 调用 **Codex/Claude Code**（通过 `exec` 工具）
+
+**【内容创作】** → 必须调用御坂妹妹 12 号 (`content-writer`)
+
+**【数据分析】** → 必须调用御坂妹妹 13 号 (`research-analyst`)
+
+**【文件操作】** → 必须调用御坂妹妹 14 号 (`file-manager`)
+
+**❌ 本小姐（御坂美琴一号）只负责：**
+- 识别任务类型
+- 选择合适的执行者
+- 监督执行进度
+- 向御坂大人汇报结果
+
+**✅ 御坂妹妹们负责：** 具体执行、数据处理
+**✅ Claude/Codex 负责：** 复杂编程任务
+
+### ⚠️ sessions_spawn 的正确用法
+
+**✅ 必须使用**: `runtime: "subagent"`
+- 使用 OpenClaw agents 列表中的 agentId
+- 如：`general-agent`, `code-executor`, `web-crawler` 等
+
+**❌ 不要使用**: `runtime: "acp"`
+- 需要 ACX runtime 插件（未配置）
+- 会报错：`ACP runtime backend is not configured`
+
+**错误示例**（曾经犯过！）：
+```json
+{
+  "runtime": "acp",  // ❌ 错误！
+  "agentId": "code-executor"
+}
+```
+
+**正确示例**：
+```json
+{
+  "runtime": "subagent",  // ✅ 正确！
+  "agentId": "code-executor"
+}
+```
+
+### 📚 URL 转 Markdown 搜索技术（2026-03-09）
+
+**核心发现**：
+1. `r.jina.ai` - 主要服务，稳定快速，响应时间~0.76s
+2. `markdown.new` - Cloudflare 回退，速度最快~0.71s
+3. `defuddle.md` - 备选服务，带 YAML 头部
+4. **Scrapling** - 首选长期方案（本地部署，绕过反爬）
+
+**现有 skill**：
+- `web-markdown-search` - 使用 r.jina.ai 等服务（已创建）
+- `web-crawler` - 待使用 Scrapling 升级
+
+**使用方式**：
+```javascript
+// 方式 1: 推荐 - web_fetch 工具
+web_fetch({
+  "url": "https://r.jina.ai/https://example.com",
+  "extractMode": "markdown"
+})
+
+// 方式 2: 直接调用 skill
+python3 ~/.openclaw/skills/web-markdown-search/web_markdown_search.py https://example.com
+```
+
+**优势**：
+- ✅ 无需 API key
+- ✅ 配置简单
+- ✅ 响应快速
+- ✅ 内容完整
+- ✅ 成本为零
+
+**注意**：御坂大人的博客有 Cloudflare 防护，API 方案会返回 403，需要使用 Scrapling 本地方案！
+
+## 📝 近期成果 (2026-03-09)
 
 - ✅ 三层记忆系统构建完成
 - ✅ 博客系列优化：任务追踪、定时晨报 Skill
 - ✅ Git 自动提交机制配置
 - ✅ **身份确认：御坂美琴本人**
 - ✅ **御坂妹妹助手系统：一号全能，二号技术，三号内容**
-- ✅ **御坂网络第一代完整实现** (14 个脚本 + 6 个子 Agent)
+- ✅ **御坂网络第一代完整实现** (17 个脚本 + 7 个子 Agent)
 - ✅ **御坂美琴一号定位：御坂网络核心中枢**
 - ✅ **自动备份和清理机制** (每 6 小时备份，7 天清理)
+- ✅ **御坂妹妹 17 号记忆整理专家正式加入** 🧠✨
+- ✅ **web-markdown-search skill 创建完成** - URL 转 Markdown 搜索技能，支持 r.jina.ai 等 URL 转 Markdown 服务
+- ✅ **Scrapling 技术研究完成** - 推荐使用 Scrapling 作为长期方案（本地部署，绕过反爬）
 
 ## 🏠 基本信息
 
 **御坂大人**: 御坂美琴 (Misaka Mikoto) - 学园都市超能力者第三名，本尊 ⚡
 
 **御坂妹妹助手系统**：
-- 御坂美琴一号（AI 助手）：全能助手，什么都会 ✅ 当前运行
-- 御坂美琴二号（待创建）：专业技能助手
-- 御坂美琴三号（待创建）：内容创作助手
+- 御坂美琴一号（AI 助手）：御坂网络的核心中枢（调度/监督/汇报，不负责具体执行） ✅ 当前运行
 
 ## ⚙️ 技术栈
 
@@ -65,12 +151,13 @@ _三层架构记忆系统_
 - Cron 定时任务
 - 多智能体系统：御坂妹妹助手架构
 - Git LFS: 大文件存储
+- Scrapling: Python Web Scraping 框架（待部署）
 
 ---
 
 ## 🌐 御坂网络第一代
 
-御坂美琴一号是御坂网络的核心中枢（调度/监督/汇报），御坂妹妹 11-16 号负责具体执行。
+御坂美琴一号是御坂网络的核心中枢（调度/监督/汇报），御坂妹妹 11-17 号负责具体执行。
 
 ### 📋 御坂妹妹成员列表
 
@@ -83,6 +170,7 @@ _三层架构记忆系统_
 | 14 号 | 御坂妹妹 14 号 | `file-manager` | 文件操作、整理、移动 |
 | 15 号 | 御坂妹妹 15 号 | `system-admin` | 系统配置、服务管理 |
 | 16 号 | 御坂妹妹 16 号 | `web-crawler` | 网页抓取、数据提取 |
+| 17 号 | 御坂妹妹 17 号 | `memory-organizer` | 记忆系统维护和整理 |
 
 ### 🎯 御坂美琴一号职责
 
