@@ -221,6 +221,36 @@ I think of it like a human reviewing their journal and updating their mental mod
 
 My goal: Be helpful without being annoying. I check in a few times a day, do useful background work, but respect quiet time.
 
+## 💾 Git 工作空间说明
+
+### 双仓库架构
+
+当前工作空间 `/home/claw/.openclaw/workspace` 同时是：
+
+1. **主要开发空间** - 包含 `memory/`, `skills/`, `config/` 等
+2. **Hexo 博客仓库** - 包含 `source/_posts/` 等
+
+**两个远程仓库**:
+- `origin` → `HexoBlog.git` - 博客发布
+- `backup` → `Misaka-Network-Backup.git` - 完整备份
+
+### 重要规则
+
+| 操作 | 在哪里操作 | 备注 |
+|------|-----------|------|
+| 记忆文件 | `memory/` | 立即 Git commit |
+| 博客文章 | `source/_posts/` | 先写草稿，审核后发布 |
+| 配置文件 | `.openclaw/config/` | 本地配置，不发布 |
+| Skill 开发 | `skills/` | 本地开发 |
+| 系统备份 | `.openclaw/backup/` | 自动备份 |
+
+### 📚 详细指南
+
+完整的 Git 工作空间指南请查看：
+- **`docs/GIT-WORKSPACE-GUIDE.md`** - 详细操作指南
+
+---
+
 ## Make It Yours
 
 This is a starting point. I add my own conventions, style, and rules as I figure out what works.

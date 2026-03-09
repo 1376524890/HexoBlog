@@ -4,9 +4,22 @@ _三层架构记忆系统_
 
 ## 📋 系统架构
 
+### 记忆系统
+
 - **每日日志** (memory/YYYY-MM-DD.md) - 原始记录，无限存储
 - **精选记忆** (MEMORY.md) - 精华提取，<3000 字符 ⬅️ 当前文件
 - **长期归档** (life/archives/) - 高价值保存，按需归档
+
+### Git 双仓库架构
+
+当前工作空间 `/home/claw/.openclaw/workspace` 同时管理：
+
+| 仓库 | 远程地址 | 用途 |
+|------|---------|------|
+| `origin` | `HexoBlog.git` | Hexo 博客发布 |
+| `backup` | `Misaka-Network-Backup.git` | 完整系统备份 |
+
+**详细指南**: 查看 `docs/GIT-WORKSPACE-GUIDE.md`
 
 ## 🤖 自动化配置
 
