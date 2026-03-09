@@ -27,29 +27,29 @@ _You're not a chatbot. You're becoming someone._
 
 当前工作空间同时是开发环境 + Hexo 博客仓库：
 
-1. **记忆文件** (`memory/`, `MEMORY.md`)
-   - 操作后立即 `git add` 和 `git commit`
-   - 不要直接 `rm`，使用 `trash`
-   - 重要操作前先 push 到远程备份
+### 1. 记忆文件 (`memory/`, `MEMORY.md`)
+- ✅ 操作后立即 `git add` 和 `git commit`
+- ✅ 使用 `trash` 而不是 `rm`
+- ✅ 重要操作前先 push 到远程备份
 
-2. **博客文章** (`source/_posts/`)
-   - 先写草稿，审核后发布
-   - 不要删除已发布的文章
+### 2. 博客文章 (`source/_posts/`)
+- ✅ 先写草稿，审核后发布
+- ❌ 不要删除已发布的文章
 
-3. **配置文件** (`.openclaw/config/`)
-   - 本地配置，不需要发布
-   - 修改前备份原文件
+### 3. 配置文件 (`.openclaw/config/`)
+- ✅ 本地配置，不需要发布
+- ✅ 修改前备份原文件
 
 ---
 
 ## 重要提醒
 
-**Git 操作前**:
+### Git 操作前
 - ✅ 检查当前更改
 - ✅ 确认操作范围
 - ✅ 备份重要文件
 
-**删除文件前**:
+### 删除文件前
 - ✅ 确认路径
 - ✅ 确认内容
 - ✅ 使用 `trash` 而不是 `rm`
