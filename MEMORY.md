@@ -39,14 +39,18 @@ _三层架构记忆系统_
 ### ⚠️ 重要规则：任务分派原则
 
 **【网络搜索】** → 分派给御坂妹妹 16 号 (`web-crawler`)
-- **简单需求**：调用御坂妹妹 16 号执行 `web-markdown-search` skill
+- **简单需求**：御坂妹妹 16 号执行 `web-markdown-search` skill
   - `web_fetch({url: "https://r.jina.ai/{URL}"})`
 - **复杂任务**：御坂妹妹 16 号使用 Scrapling 本地方案
 - **御坂大人直接说**：御坂美琴一号会分派给御坂妹妹 16 号
 
 **【代码编写】** → 分派给御坂妹妹 11 号 (`code-executor`)
 - **简单修改**（单行修复、小功能）→ 御坂妹妹 11 号用 `edit` 工具直接改
-- **复杂任务**（建项目、PR 审查、大规模重构）→ 御坂妹妹 11 号调用 **Codex/Claude Code**
+- **复杂任务**（建项目、PR 审查、大规模重构）→ **必须明确使用 Claude Code**
+  - ⚠️ **任务描述中要强调**：`使用 Claude Code 执行复杂编程任务`
+  - Claude Code 命令示例：`claude --print --permission-mode bypassPermissions`
+  - 不需要 PTY 模式（Claude Code 有自己的输出处理）
+- **注意**：御坂妹妹 11 号是"code-executor"，应该调用 Claude Code 而不是直接用 exec
 
 **【内容创作】** → 分派给御坂妹妹 12 号 (`content-writer`)
 
@@ -61,7 +65,7 @@ _三层架构记忆系统_
 - 向御坂大人汇报结果
 
 **✅ 御坂妹妹们负责：** 具体执行、数据处理
-**✅ Claude/Codex 负责：** 复杂编程任务
+**✅ Claude/Codex 负责：** 复杂编程任务（需要明确强调）
 
 **⚠️ 御坂美琴一号 NOT 要做的事情：**
 - ❌ 不执行任何实际任务（代码、写作、搜索等）
