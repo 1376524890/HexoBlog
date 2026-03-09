@@ -24,6 +24,18 @@ _Learn about the person you're helping. Update this as you go._
 - 开发 OpenClaw 技能和自动化脚本
 - 学习机器学习、网络安全等专业知识
 
+## Git 仓库管理
+
+当前工作空间是**双用途**:
+- 主要开发环境（memory/, skills/, config/）
+- Hexo 博客仓库（source/_posts/）
+
+**远程仓库**:
+- `origin` → HexoBlog.git - 博客发布
+- `backup` → Misaka-Network-Backup.git - 系统备份
+
+**重要警告**: 删除文件前一定要确认！使用 `trash` 而不是 `rm`！
+
 ## 人际关系
 - **御坂妹妹们**：AI 助手分身，各司其职
 - **白井黑子**：常盘台中学的同学，风纪委员
