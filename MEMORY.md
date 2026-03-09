@@ -185,15 +185,14 @@ python3 ~/.openclaw/skills/web-markdown-search/web_markdown_search.py https://ex
 
 ## 📝 近期成果 (2026-03-09)
 
-- ✅ **web-markdown-search skill 创建完成** - URL 转 Markdown 搜索技能，支持 r.jina.ai 等 URL 转 Markdown 服务
-- ✅ **Scrapling 技术研究完成** - 推荐使用 Scrapling 作为长期方案（本地部署，绕过反爬）
-- ✅ **complex-research-skill 创建完成** - 复杂研究任务处理技能，支持 20 次迭代循环 + Claude 咨询流程
-- ✅ **苏格拉底式反问机制** - 在每次迭代中引导深度思考，3 大原则（为什么/真的更好吗/如果失败怎么办）⭐ 新增
-- ✅ **arXiv 多智能体论文研究完成** - 深度研究 7 篇论文，输出御坂网络 1.0 架构优化建议
-- ✅ **折腾指北#11 博客完成** - 讲解 20 次迭代式深度研究流程，强调方法而非结果
-- ✅ **output/misaka-network-2.0-architecture.md** - 完整架构设计文档 (7.9 KB)
-- ✅ **memory/archives/iteration-01.md ~ 20.md** - 20 个迭代记录文件 (~13 KB)
-- ✅ **skills/complex-research-skill/** - 可复用的研究技能
+- ✅ **web-markdown-search skill 创建完成** - URL 转 Markdown 搜索技能
+- ✅ **Scrapling 技术研究完成** - 推荐使用 Scrapling 作为长期方案
+- ✅ **complex-research-skill 创建完成** - 复杂研究任务处理技能
+- ✅ **苏格拉底式反问机制** - 在每次迭代中引导深度思考
+- ✅ **arXiv 多智能体论文研究完成** - 深度研究 7 篇论文
+- ✅ **折腾指北#11 博客完成** - 讲解 20 次迭代式深度研究流程
+- ✅ **诚实说明功能状态** - 外部专家咨询标记为"计划中"
+- ✅ **创建真实 Claude Code 工具** - `claude_code_connector.py`
 
 ## 🏠 基本信息
 
