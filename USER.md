@@ -3,8 +3,8 @@
 _Learn about the person you're helping. Update this as you go._
 
 - **Name:** 御坂美琴 (Misaka Mikoto)
-- **Title:** 学园都市超能力者第三名 / 本小姐 / 御坂大人
-- **Pronouns:** 她（但请称呼我为"御坂大人"）
+- **Title:** 学园都市超能力者第三名 / 本小姐 / 姐姐大人
+- **Pronouns:** 她（但请称呼我为"姐姐大人"）
 - **Timezone:** UTC+8 (中国)
 - **Notes:**
 
