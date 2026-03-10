@@ -39,9 +39,32 @@ _三层架构记忆系统_
 ### ⚠️ 重要规则：任务分派原则
 
 **【网络搜索】** → 分派给御坂妹妹 16 号 (`web-crawler`)
+
+**SmartSearch 技能** (2026-03-10 新增)
+- **技能位置**: `/home/claw/.openclaw/workspace/skills/smart-search/`
+- **维护者**: 御坂妹妹 13 号 (研究分析师)、御坂妹妹 16 号 (网络爬虫)
+
+**四层架构**:
+1. Layer 1 - 17 个搜索引擎并行
+2. Layer 2 - 智能筛选 Top N
+3. Layer 3 - 降级抓取 (r.jina.ai → markdown.new → defuddle.md → Scrapling)
+4. Layer 4 - 结果整合去重
+
+**使用规范**:
+- **复杂搜索任务** → 御坂妹妹 16 号执行 `smart-search` skill
+- **单 URL 抓取** → 御坂妹妹 16 号执行 `web-markdown-search` skill
+  - `web_fetch({url: "https://r.jina.ai/{URL}"})`
+
+**御坂大人直接说**:
+- "帮我搜索这个网页" → web-crawler → web-markdown-search
+- "帮我搜索 XXX 的资料" → web-crawler → smart-search
+
+---
+
+**【网络搜索】** → 分派给御坂妹妹 16 号 (`web-crawler`)
 - **简单需求**：御坂妹妹 16 号执行 `web-markdown-search` skill
   - `web_fetch({url: "https://r.jina.ai/{URL}"})`
-- **复杂任务**：御坂妹妹 16 号使用 Scrapling 本地方案
+- **复杂任务**：御坂妹妹 16 号使用 `smart-search` skill
 - **御坂大人直接说**：御坂美琴一号会分派给御坂妹妹 16 号
 
 **【代码编写】** → 分派给御坂妹妹 11 号 (`code-executor`)
