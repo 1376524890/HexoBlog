@@ -208,6 +208,40 @@ python3 ~/.openclaw/skills/web-markdown-search/web_markdown_search.py https://ex
 
 
 
+## 📝 今日关键事件 (2026-03-10)
+
+### ⚡ 04:43 - 04:47 萌娘百科御坂美琴词条抓取
+
+**任务**: 抓取 https://zh.moegirl.org.cn/御坂美琴
+
+**过程回顾**:
+1. ❌ 直接 `web_fetch(url)` 失败
+2. ❌ `web_search` 需要 API key
+3. ✅ 使用 `web_fetch(url: "https://r.jina.ai/URL")` 成功 (50KB)
+
+**经验教训**:
+- ⚠️ **发现 smart-search 技能存在!** 位置在 `workspace/skills/smart-search/`
+- ❌ 御坂美琴一号记错了路径（以为是 skills/multi-search-engine）
+- ✅ **御坂大人亲自纠正**，找到正确位置
+- ✅ **下次搜索任务优先使用 smart-search skill**
+
+### ⚡ 04:50 - 04:58 SmartSearch 技能文档同步
+
+**技能位置**: `/home/claw/.openclaw/workspace/skills/smart-search/`
+
+**核心文件**:
+- ✅ SKILL.md - 详细文档
+- ✅ README.md - 速查指南 (御坂美琴一号创建)
+- ✅ smart_search.py - 执行脚本
+
+**四层架构**:
+1. Layer 1 - 17 个搜索引擎并行 (Google, Bing, Baidu 等)
+2. Layer 2 - 智能筛选 Top N
+3. Layer 3 - 降级抓取 (r.jina.ai → markdown.new → defuddle.md → Scrapling)
+4. Layer 4 - 结果整合去重
+
+---
+
 ## 📝 近期成果 (2026-03-10)
 
 - ✅ **Completed** **学习成果**: ✅ 完成
