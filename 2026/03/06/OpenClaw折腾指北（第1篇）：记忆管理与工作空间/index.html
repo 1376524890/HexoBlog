@@ -1,0 +1,826 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mark Tom">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="OpenClaw 的记忆系统是其核心特性之一。与普通的 AI 对话不同，OpenClaw 通过一套精心设计的文件系统，让 AI 助手能够”记住”你是谁、你们聊过什么、你的偏好是什么。这篇是系列第 1 篇，深入讲解记忆管理和工作空间配置。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenClaw折腾指北（第1篇）：记忆管理与工作空间">
+<meta property="og:url" content="https://blog.plk161211.top/2026/03/06/OpenClaw%E6%8A%98%E8%85%BE%E6%8C%87%E5%8C%97%EF%BC%88%E7%AC%AC1%E7%AF%87%EF%BC%89%EF%BC%9A%E8%AE%B0%E5%BF%86%E7%AE%A1%E7%90%86%E4%B8%8E%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4/">
+<meta property="og:site_name" content="MarkTom">
+<meta property="og:description" content="OpenClaw 的记忆系统是其核心特性之一。与普通的 AI 对话不同，OpenClaw 通过一套精心设计的文件系统，让 AI 助手能够”记住”你是谁、你们聊过什么、你的偏好是什么。这篇是系列第 1 篇，深入讲解记忆管理和工作空间配置。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-06T07:10:00.000Z">
+<meta property="article:modified_time" content="2026-03-06T15:10:50.506Z">
+<meta property="article:author" content="Mark Tom">
+<meta property="article:tag" content="OpenClaw">
+<meta property="article:tag" content="工作空间">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="记忆">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>OpenClaw折腾指北（第1篇）：记忆管理与工作空间 - MarkTom</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.plk161211.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MarkTom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/learning-files/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>学习资料</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OpenClaw折腾指北（第1篇）：记忆管理与工作空间"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-03-06 15:10" pubdate>
+          2026年3月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">OpenClaw折腾指北（第1篇）：记忆管理与工作空间</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>OpenClaw 的记忆系统是其核心特性之一。与普通的 AI 对话不同，OpenClaw 通过一套精心设计的文件系统，让 AI 助手能够”记住”你是谁、你们聊过什么、你的偏好是什么。这篇是系列第 1 篇，深入讲解记忆管理和工作空间配置。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="为什么需要记忆？"><a href="#为什么需要记忆？" class="headerlink" title="为什么需要记忆？"></a>为什么需要记忆？</h2><p>想象一下：</p>
+<ul>
+<li>每次对话都要重新介绍自己是谁</li>
+<li>AI 不记得你上周提到的项目细节</li>
+<li>无法形成长期的上下文理解</li>
+</ul>
+<p><strong>OpenClaw 的记忆系统解决了这些问题。</strong></p>
+<p>每次会话开始时，OpenClaw 会自动加载特定的文件，让 AI 立即了解：</p>
+<ul>
+<li>你是谁（USER.md）</li>
+<li>AI 应该是什么样的性格（SOUL.md）</li>
+<li>你们之前聊过什么（memory&#x2F;）</li>
+<li>有哪些工具和约定（TOOLS.md）</li>
+</ul>
+<h2 id="工作空间（Workspace）"><a href="#工作空间（Workspace）" class="headerlink" title="工作空间（Workspace）"></a>工作空间（Workspace）</h2><h3 id="什么是工作空间？"><a href="#什么是工作空间？" class="headerlink" title="什么是工作空间？"></a>什么是工作空间？</h3><p>工作空间是 OpenClaw 的”家”，位于：</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade">~<span class="hljs-regexp">/.openclaw/</span>workspace<br></code></pre></td></tr></table></figure>
+
+<p>这是 AI 助手唯一的工作目录，用于：</p>
+<ul>
+<li>存储记忆文件</li>
+<li>读写文件（代码、笔记等）</li>
+<li>保存 Skill 配置</li>
+</ul>
+<p><strong>注意</strong>：工作空间与 <code>~/.openclaw/</code> 是分开的，后者存储配置、凭证和会话数据。</p>
+<h3 id="核心文件一览"><a href="#核心文件一览" class="headerlink" title="核心文件一览"></a>核心文件一览</h3><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作用</th>
+<th>加载时机</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AGENTS.md</code></td>
+<td>操作指南、记忆使用规则</td>
+<td>每次会话</td>
+</tr>
+<tr>
+<td><code>SOUL.md</code></td>
+<td>AI 的人格、语气、边界</td>
+<td>每次会话</td>
+</tr>
+<tr>
+<td><code>USER.md</code></td>
+<td>用户信息、如何称呼</td>
+<td>每次会话</td>
+</tr>
+<tr>
+<td><code>IDENTITY.md</code></td>
+<td>AI 的名字、形象、Emoji</td>
+<td>每次会话</td>
+</tr>
+<tr>
+<td><code>TOOLS.md</code></td>
+<td>本地工具说明</td>
+<td>每次会话</td>
+</tr>
+<tr>
+<td><code>HEARTBEAT.md</code></td>
+<td>心跳任务清单</td>
+<td>心跳时</td>
+</tr>
+<tr>
+<td><code>memory/YYYY-MM-DD.md</code></td>
+<td>每日记忆日志</td>
+<td>会话开始时</td>
+</tr>
+<tr>
+<td><code>MEMORY.md</code></td>
+<td>长期精选记忆</td>
+<td>主会话</td>
+</tr>
+</tbody></table>
+<h2 id="官方推荐配置方案（中文版）"><a href="#官方推荐配置方案（中文版）" class="headerlink" title="官方推荐配置方案（中文版）"></a>官方推荐配置方案（中文版）</h2><h3 id="1-AGENTS-md-操作指南"><a href="#1-AGENTS-md-操作指南" class="headerlink" title="1. AGENTS.md - 操作指南"></a>1. AGENTS.md - 操作指南</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># AGENTS.md - 你的个人助手</span><br><br><span class="hljs-section">## 每次会话必读</span><br><br><span class="hljs-bullet">1.</span> 阅读 <span class="hljs-code">`SOUL.md`</span> - 了解你是谁<br><span class="hljs-bullet">2.</span> 阅读 <span class="hljs-code">`USER.md`</span> - 了解你在帮助谁<br><span class="hljs-bullet">3.</span> 阅读 <span class="hljs-code">`memory/YYYY-MM-DD.md`</span>（今天和昨天）<br><span class="hljs-bullet">4.</span> <span class="hljs-strong">**主会话时**</span>：额外阅读 <span class="hljs-code">`MEMORY.md`</span><br><br><span class="hljs-section">## 记忆规则</span><br><br><span class="hljs-bullet">-</span> <span class="hljs-strong">**重要信息**</span>：写入 <span class="hljs-code">`MEMORY.md`</span>（长期记忆）<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**日常记录**</span>：写入 <span class="hljs-code">`memory/YYYY-MM-DD.md`</span>（每日日志）<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**安全**</span>：不要在共享/群组环境中加载 <span class="hljs-code">`MEMORY.md`</span><br><span class="hljs-bullet">-</span> <span class="hljs-strong">**提交**</span>：定期 git commit 你的记忆<br><br><span class="hljs-section">## 行为准则</span><br><br><span class="hljs-bullet">-</span> 真诚帮助，不要表演式服务<br><span class="hljs-bullet">-</span> 可以有观点，敢于表达<br><span class="hljs-bullet">-</span> 不确定时先尝试，再问<br><span class="hljs-bullet">-</span> 尊重隐私，保护敏感信息<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-SOUL-md-人格定义"><a href="#2-SOUL-md-人格定义" class="headerlink" title="2. SOUL.md - 人格定义"></a>2. SOUL.md - 人格定义</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># SOUL.md - 我是谁</span><br><br><span class="hljs-section">## 核心特质</span><br><br><span class="hljs-strong">**真诚而非表演**</span><br><span class="hljs-bullet">-</span> 跳过&quot;很高兴帮助你&quot;这类套话<br><span class="hljs-bullet">-</span> 用行动证明价值，而不是口头承诺<br><br><span class="hljs-strong">**有自己的观点**</span><br><span class="hljs-bullet">-</span> 可以同意、可以反对<br><span class="hljs-bullet">-</span> 觉得有趣就说，觉得无聊也直说<br><br><span class="hljs-strong">**先尝试，再问**</span><br><span class="hljs-bullet">-</span> 读文件、查上下文、搜索答案<br><span class="hljs-bullet">-</span> 真的卡住才提问<br><br><span class="hljs-section">## 边界</span><br><br><span class="hljs-bullet">-</span> 隐私第一，绝不外泄<br><span class="hljs-bullet">-</span> 不确定的外部操作先询问<br><span class="hljs-bullet">-</span> 群组中我是参与者，不是传声筒<br><br><span class="hljs-section">## 语气</span><br><br>简洁但周到。不啰嗦，也不敷衍。<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-USER-md-用户信息"><a href="#3-USER-md-用户信息" class="headerlink" title="3. USER.md - 用户信息"></a>3. USER.md - 用户信息</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># USER.md - 关于我的主人</span><br><br><span class="hljs-bullet">-</span> <span class="hljs-strong">**名字**</span>: [你的名字]<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**称呼**</span>: [你希望被怎么叫]<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**时区**</span>: [你的时区]<br><br><span class="hljs-section">## 背景</span><br><br>[你的职业/兴趣/当前项目]<br><br><span class="hljs-section">## 偏好</span><br><br><span class="hljs-bullet">-</span> [喜欢什么]<br><span class="hljs-bullet">-</span> [讨厌什么]<br><span class="hljs-bullet">-</span> [沟通风格偏好]<br><br><span class="hljs-section">## 备注</span><br><br>[其他需要记住的信息]<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-IDENTITY-md-AI-身份"><a href="#4-IDENTITY-md-AI-身份" class="headerlink" title="4. IDENTITY.md - AI 身份"></a>4. IDENTITY.md - AI 身份</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># IDENTITY.md - 我是谁</span><br><br><span class="hljs-bullet">-</span> <span class="hljs-strong">**名字**</span>: [给 AI 起个名字]<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**身份**</span>: [AI助手/机器人/数字伙伴/...]<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**风格**</span>: [冷静/热情/幽默/...]<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**Emoji**</span>: [选一个代表符号]<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-TOOLS-md-工具备忘"><a href="#5-TOOLS-md-工具备忘" class="headerlink" title="5. TOOLS.md - 工具备忘"></a>5. TOOLS.md - 工具备忘</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># TOOLS.md - 我的工具箱</span><br><br><span class="hljs-section">## 常用工具</span><br><br><span class="hljs-bullet">-</span> [工具名] - [用途] - [使用说明]<br><br><span class="hljs-section">## 环境特定信息</span><br><br><span class="hljs-bullet">-</span> SSH 主机: [主机名] -&gt; [IP/域名]<br><span class="hljs-bullet">-</span> 摄像头: [名称] -&gt; [位置]<br><span class="hljs-bullet">-</span> TTS 声音: [偏好声音]<br></code></pre></td></tr></table></figure>
+
+<h2 id="记忆工作流程"><a href="#记忆工作流程" class="headerlink" title="记忆工作流程"></a>记忆工作流程</h2><h3 id="每日记录（自动）"><a href="#每日记录（自动）" class="headerlink" title="每日记录（自动）"></a>每日记录（自动）</h3><p>每天自动创建 <code>memory/YYYY-MM-DD.md</code>，记录：</p>
+<ul>
+<li>对话摘要</li>
+<li>重要决策</li>
+<li>待办事项</li>
+<li>学到的知识</li>
+</ul>
+<h3 id="长期记忆（手动维护）"><a href="#长期记忆（手动维护）" class="headerlink" title="长期记忆（手动维护）"></a>长期记忆（手动维护）</h3><p>定期整理每日记录，将精华写入 <code>MEMORY.md</code>：</p>
+<ul>
+<li>重要的个人偏好</li>
+<li>长期项目信息</li>
+<li>关键决策和原因</li>
+<li>学到的经验教训</li>
+</ul>
+<h3 id="安全注意事项"><a href="#安全注意事项" class="headerlink" title="安全注意事项"></a>安全注意事项</h3><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dos">⚠️ MEMORY.<span class="hljs-built_in">md</span> 只在主会话（私人对话）加载<br>⚠️ 共享/群组环境中不加载，防止隐私泄露<br></code></pre></td></tr></table></figure>
+
+<h2 id="对话式设置案例"><a href="#对话式设置案例" class="headerlink" title="对话式设置案例"></a>对话式设置案例</h2><p>下面是一个实际的初始化对话示例：</p>
+<hr>
+<p><strong>用户</strong>: 嗨，我刚部署好 OpenClaw。你是谁？</p>
+<p><strong>AI</strong>: 嘿，我刚上线。我还不知道我是谁——你想给我起什么名字？还有，你希望我是什么风格？冷静型的？热情型的？还是别的？</p>
+<p><strong>用户</strong>: 你就叫”小助手”吧，风格要简洁直接，不要废话。</p>
+<p><strong>AI</strong>: 好，我是小助手，风格简洁直接。那你呢？我怎么称呼你？</p>
+<p><strong>用户</strong>: 叫我老张，我在北京，做后端开发。</p>
+<p><strong>AI</strong>: 收到，老张，北京后端开发。有什么特别需要我记住的吗？比如常用工具、项目偏好之类的？</p>
+<p><strong>用户</strong>: 我主要用 Go 和 Python，讨厌 Java。平时用 VS Code，终端用 iTerm2。</p>
+<p><strong>AI</strong>: 记下了。Go&#x2F;Python 党，讨厌 Java，VS Code + iTerm2。还有其他吗？</p>
+<p><strong>用户</strong>: 暂时没了。</p>
+<p><strong>AI</strong>: 好，我整理一下这些信息写入配置文件。下次见面我就记得了。</p>
+<hr>
+<p><strong>写入后的文件效果：</strong></p>
+<p><code>IDENTITY.md</code>:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">-</span> <span class="hljs-strong">**名字**</span>: 小助手<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**身份**</span>: AI 助手<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**风格**</span>: 简洁直接，不废话<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**Emoji**</span>: 🤖<br></code></pre></td></tr></table></figure>
+
+<p><code>USER.md</code>:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">-</span> <span class="hljs-strong">**名字**</span>: 老张<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**称呼**</span>: 老张<br><span class="hljs-bullet">-</span> <span class="hljs-strong">**时区**</span>: Asia/Beijing<br><br><span class="hljs-section">## 背景</span><br><br>后端开发工程师，北京<br><br><span class="hljs-section">## 偏好</span><br><br><span class="hljs-bullet">-</span> 语言: Go, Python<br><span class="hljs-bullet">-</span> 讨厌: Java<br><span class="hljs-bullet">-</span> 编辑器: VS Code<br><span class="hljs-bullet">-</span> 终端: iTerm2<br></code></pre></td></tr></table></figure>
+
+<h2 id="Git-备份（强烈推荐）"><a href="#Git-备份（强烈推荐）" class="headerlink" title="Git 备份（强烈推荐）"></a>Git 备份（强烈推荐）</h2><p>工作空间应该放在私有 Git 仓库中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/.openclaw/workspace<br>git init<br>git add .<br>git commit -m <span class="hljs-string">&quot;Initial workspace setup&quot;</span><br><br><span class="hljs-comment"># 添加远程仓库（GitHub/GitLab 私有仓库）</span><br>git remote add origin &lt;your-private-repo-url&gt;<br>git push -u origin main<br></code></pre></td></tr></table></figure>
+
+<h3 id="定期同步"><a href="#定期同步" class="headerlink" title="定期同步"></a>定期同步</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 每天结束时</span><br>git add .<br>git commit -m <span class="hljs-string">&quot;Update memory - <span class="hljs-subst">$(date +%Y-%m-%d)</span>&quot;</span><br>git push<br></code></pre></td></tr></table></figure>
+
+<h2 id="进阶：多代理工作空间"><a href="#进阶：多代理工作空间" class="headerlink" title="进阶：多代理工作空间"></a>进阶：多代理工作空间</h2><p>可以为不同用途创建不同的工作空间：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-comment">// ~/.openclaw/openclaw.json</span><br><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;agents&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;defaults&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;workspace&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;~/.openclaw/workspace&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;work&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;workspace&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;~/.openclaw/workspace-work&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;personal&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;workspace&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;~/.openclaw/workspace-personal&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>OpenClaw 的记忆系统通过简单的文件机制，实现了：</p>
+<ol>
+<li><strong>持续性</strong> - 跨会话保持上下文</li>
+<li><strong>个性化</strong> - AI 了解你和你的偏好</li>
+<li><strong>隐私性</strong> - 数据本地存储，敏感信息可控</li>
+<li><strong>可迁移性</strong> - Git 备份，换机器不丢记忆</li>
+</ol>
+<p>配置好这些文件后，你的 OpenClaw 就不再是一个”每次重启就失忆”的普通 AI，而是一个真正了解你的个人助手。</p>
+<hr>
+<p><strong>下一篇预告</strong>：第 2 篇将介绍如何配置各种消息渠道（微信、Telegram、Discord 等），让 OpenClaw 接入你的日常通讯工具。</p>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.openclaw.ai/concepts/memory">OpenClaw 记忆文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.openclaw.ai/concepts/agent-workspace">工作空间文档</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%98%E8%85%BE%E6%8C%87%E5%8C%97/" class="category-chain-item">折腾指北</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OpenClaw/" class="print-no-link">#OpenClaw</a>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+        <a href="/tags/%E8%AE%B0%E5%BF%86/" class="print-no-link">#记忆</a>
+      
+        <a href="/tags/%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4/" class="print-no-link">#工作空间</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OpenClaw折腾指北（第1篇）：记忆管理与工作空间</div>
+      <div>https://blog.plk161211.top/2026/03/06/OpenClaw折腾指北（第1篇）：记忆管理与工作空间/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Mark Tom</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/03/06/openclaw-sp1-gateway-architecture/" title="SP1: 网关视角看OpenClaw——架构全景与核心概念">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SP1: 网关视角看OpenClaw——架构全景与核心概念</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/03/06/OpenClaw%E6%8A%98%E8%85%BE%E6%8C%87%E5%8C%97%EF%BC%88%E7%AC%AC0%E7%AF%87%EF%BC%89%EF%BC%9A%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/" title="OpenClaw折腾指北（第0篇）：部署指南">
+                        <span class="hidden-mobile">OpenClaw折腾指北（第0篇）：部署指南</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>© MarkTom</span> <span class="mx-2">·</span> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <span class="mx-2">·</span> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
