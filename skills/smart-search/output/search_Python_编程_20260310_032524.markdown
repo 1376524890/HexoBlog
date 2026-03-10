@@ -1,0 +1,274 @@
+# Search Results
+## 1. Title: 各位大佬，新人想学习python编程要如何开始，有无推荐的课程和书籍 - 吾爱破解 - 52pojie.cn
+**来源**: r.jina.ai
+**URL**: https://www.52pojie.cn/thread-1815903-1-1.html
+
+Title: 各位大佬，新人想学习python编程要如何开始，有无推荐的课程和书籍 - 吾爱破解 - 52pojie.cn
+
+URL Source: https://www.52pojie.cn/thread-1815903-1-1.html
+
+Markdown Content:
+各位大佬，新人想学习python编程要如何开始，有无推荐的课程和书籍 - 吾爱破解 - 52pojie.cn
+===============
+
+[官方bilibili](https://space.bilibili.com/544451485)[Windows破解入门](https://www.52pojie.cn/thread-582852-1-1.html)[Android逆向入门](https://www.52pojie.cn/thread-408645-1-1.html)
+
+[](javascript:; "开启辅助访问")[【清理未活跃会员】](https://www.52pojie.cn/thread-2094665-1-1.html)[【网络诊断修复工具】](https://www.52pojie.cn/thread-209287-1-1.html "修复各种访问不了论坛、访问论坛异常、验证码异常等各种问题的大杀器！")[切换到窄版](javascript:; "切换到窄版")
+
+ 请 [**登录**](javascript:;) 后使用快捷导航
+
+没有帐号？[注册[Register]](https://www.52pojie.cn/member.php?mod=52register)
+
+[![Image 1: 吾爱破解 - 52pojie.cn](https://static.52pojie.cn/static/image/common/logo.png)](https://www.52pojie.cn/ "吾爱破解 - 52pojie.cn")
+------------------------------------------------------------------------------------------------------------------------------------
+
+帐号- [x] 自动登录[找回密码](javascript:;)
+密码 _登录_[注册[Register]](https://www.52pojie.cn/member.php?mod=52register)
+
+[![Image 2: QQ登录](https://static.52pojie.cn/static/image/common/qq_login.gif)](https://www.52pojie.cn/connect.php?mod=login&op=init&referer=index.php&statfrom=login_simple)
+
+只需一步，快速开始
+
+[快捷导航](javascript:;)
+*   [门户 吾爱破解门户](https://www.52pojie.cn/portal.php "吾爱破解门户")
+*   [网站 吾爱破解论坛](https://www.52pojie.cn/ "吾爱破解论坛")
+*   [新帖 吾爱破解论坛新帖导读](https://www.52pojie.cn/forum.php?mod=guide&view=newthread "吾爱破解论坛新帖导读")
+*   [专辑 吾爱破解文章专辑列表](https://www.52pojie.cn/forum.php?mod=collection "吾爱破解文章专辑列表")
+*   [排行榜 吾爱破解排行榜](https://www.52pojie.cn/misc.php?mod=ranklist "吾爱破解排行榜")
+*   [总版规 吾爱破解论坛总版规](https://www.52pojie.cn/thread-143136-1-1.html "吾爱破解论坛总版规")
+*   [爱盘 爱盘，在线破解工具包，实时提供最新逆向资源！](https://down.52pojie.cn/ "爱盘，在线破解工具包，实时提供最新逆向资源！")
+*   [帮助 吾爱破解论坛常见问题解答中心](https://www.52pojie.cn/misc.php?mod=faq "吾爱破解论坛常见问题解答中心")
+
+[![Image 3: ganzhuweixin](https://www.52pojie.cn/source/plugin/csu_wechat_scan/image/scan.gif)](javascript:;)
+
+*   [关注人的新帖](https://www.52pojie.cn/home.php?mod=follow&view=follow)
+*   [技术新帖合集](https://www.52pojie.cn/forum.php?mod=guide&view=tech)
+*   [最新软件合集](https://www.52pojie.cn/forum.php?mod=guide&view=soft)
+*   [原创发布新贴](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=2&filter=author&orderby=dateline)
+*   [脱壳破解新帖](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=5&filter=author&orderby=dateline)
+*   [移动安全新帖](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=65&filter=author&orderby=dateline)
+*   [病毒分析新帖](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=32&filter=author&orderby=dateline)
+*   [软件调试新贴](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=59&filter=author&orderby=dateline)
+*   [动画发布新帖](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=6&filter=author&orderby=dateline)
+*   [编程语言新帖](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=24&filter=author&orderby=dateline)
+
+*   [邀请好友注册](https://www.52pojie.cn/home.php?mod=spacecp&ac=invite "通过购买邀请码邀请好友注册论坛")
+
+*   [Tools](https://down.52pojie.cn/Tools/)
+*   [吾爱破解Logo](https://down.52pojie.cn/Logo/)
+*   [吾爱破解桌面壁纸](https://down.52pojie.cn/Logo/Wallpaper/)
+*   [吾爱破解视频教程](https://down.52pojie.cn/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B/)
+*   [吾爱破解论坛精华集](https://down.52pojie.cn/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E8%AE%BA%E5%9D%9B%E7%B2%BE%E5%8D%8E%E9%9B%86/)
+*   [吾爱破解专用版Ollydbg](https://down.52pojie.cn/Tools/Debuggers/)
+
+*   [处理举报贴](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=15&filter=typeid&typeid=182&orderby=dateline)
+*   [处理站务贴](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=72&filter=author&orderby=dateline)
+*   [处理福利贴](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=66&filter=author&orderby=dateline)
+*   [处理水区贴](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=10&filter=author&orderby=dateline)
+*   [办公区](https://www.52pojie.cn/forum-23-1.html)
+*   [证据区](https://www.52pojie.cn/forum-34-1.html)
+
+*   [原创发布区](https://www.52pojie.cn/forum-2-1.html "吾爱破解坛友原创作品展示，包含Windows原创工具，也有Android、iOS和Mac OS程序相应的原创程序！")
+*   [精品软件区](https://www.52pojie.cn/forum-16-1.html "精品软件推荐，软件交流天地，汇集众多精彩评论，热心会员每日更新。找你所需要的，给你我分享的！")
+*   [逆向资源区](https://www.52pojie.cn/forum-4-1.html "加密解密相关软件发布区，包含最新最全的软件加密解密相关工具，工欲善其事必先利其器！")
+*   [水漫金山区](https://www.52pojie.cn/forum-10-1.html "据说人滴祖先生活在水里")
+*   [病毒救援区](https://www.52pojie.cn/forum-50-1.html "你的计算机又受到病毒的侵扰使你不知所措了？不要着急，让我们一起帮助你解决问题！")
+*   [福利经验区](https://www.52pojie.cn/forum-66-1.html "福利资讯、经验分享")
+
+*   [脱壳破解区](https://www.52pojie.cn/forum-5-1.html "讨论Windows软件脱壳分析、软件逆向分析、代码逆向改造、虚拟机加密分析，也包括Mac OS等其他平台程序逆向分析一切尽在此！")
+*   [**移动安全区**](https://www.52pojie.cn/forum-65-1.html "讨论Android软件脱壳分析、Android软件逆向分析、Android系统安全分析、Android软件加密分析，当然iOS等移动程序逆向分析一切尽在此！")
+*   [病毒分析区](https://www.52pojie.cn/forum-32-1.html "分析研究病毒木马技术，预防病毒木马，查杀病毒木马")
+*   [编程语言区](https://www.52pojie.cn/forum-24-1.html "学习编程探讨编程技巧，共同分享程序源代码")
+*   [动画发布区](https://www.52pojie.cn/forum-6-1.html "软件脱壳、软件汉化、软件逆向相关动画教程，学习心得分享。在这里我们可以携手并进，是我们汲取知识的伟大航路！")
+*   [安全工具区](https://www.52pojie.cn/forum-41-1.html "工欲善其事 必先利其器，从这里能找到你想要的利器")
+
+*   [**站点公告**](https://www.52pojie.cn/forum-13-1.html "开放注册信息，版块调整公告，站点信息发布，会员违规处理等")
+*   [站点导航](https://www.52pojie.cn/thread-147931-1-1.html "【吾爱破解站点导航帖】 - [让你快速融入吾爱破解大家庭]")
+*   [**站点总版规**](https://www.52pojie.cn/thread-143136-1-1.html "吾爱破解站点总版规！")
+*   [申请专区](https://www.52pojie.cn/forum-25-1.html "会员、版主、勋章、友情链接申请，发帖前请认真阅读本版规则！本区可以匿名发帖、跟帖相应的申请！")
+*   [**招聘求职**](https://www.52pojie.cn/forum-39-1.html "此版块只允许发布招聘和求职相关信息！本区可以匿名发帖，欢迎正规公司前来发布招聘信息！")
+*   [**违规怎么办**](https://www.52pojie.cn/thread-309877-1-1.html " 版规速读，主要关于如何给自己加违规和如何消违规")
+
+*   [**站点帮助**](https://www.52pojie.cn/misc.php?mod=faq "有什么问题来这里看看吧，这里有你想知道的内容！")
+*   [站务处理](https://www.52pojie.cn/forum-72-1.html "如果你对我们有什么意见或者建议，请在此提出")
+
+[搜索](javascript:;)**搜索****热搜:**[ctf](https://www.52pojie.cn/search.php?mod=forum&srchtxt=ctf&searchsubmit=true&source=hotsearch)[新手](https://www.52pojie.cn/search.php?mod=forum&srchtxt=%D0%C2%CA%D6&searchsubmit=true&source=hotsearch)[脱壳](https://www.52pojie.cn/search.php?mod=forum&srchtxt=%CD%D1%BF%C7&searchsubmit=true&source=hotsearch)[教程](https://www.52pojie.cn/search.php?mod=forum&srchtxt=%BD%CC%B3%CC&searchsubmit=true&source=hotsearch)[Crackme](https://www.52pojie.cn/search.php?mod=forum&srchtxt=Crackme&searchsubmit=true&source=hotsearch)
+
+*   [本版](javascript:;)
+*   [用户](javascript:;)
+
+*   [挣悬赏](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=8&filter=specialtype&specialtype=reward&rewardtype=1 "帮助坛友解决问题,同时争取论坛积分")
+*   [未完结](https://www.52pojie.cn/home.php?mod=space&do=reward&view=me&flag=1 "请尽快完结您的悬赏")
+*   [撤销悬赏](https://www.52pojie.cn/thread-2083678-1-1.html "可按撤销规则回帖申请撤销")
+
+[吾爱破解 - 52pojie.cn](https://www.52pojie.cn/ "首页")_»_[网站](https://www.52pojie.cn/)_›_[【 软件安全 】](https://www.52pojie.cn/forum.php?gid=1)_›_[『编程语言区』](https://www.52pojie.cn/forum-24-1.html)_›_[『编程语言讨论求助区』](https://www.52pojie.cn/forum-74-1.html)_›_[各位大佬，新人想学习python编程要如何开始，有无推荐的 ...](https://www.52pojie.cn/thread-1815903-1-1.html)
+
+[返回列表](https://www.52pojie.cn/forum-74-1.html)[![Image 4: 发新帖](https://static.52pojie.cn/static/image/common/pn_post.png)](javascript:; "发新帖")
+
+查看:5489|回复:9[![Image 5: 上一主题](https://static.52pojie.cn/static/image/common/thread-prev.png)](https://www.52pojie.cn/forum.php?mod=redirect&goto=nextoldset&tid=1815903 "上一主题")[![Image 6: 下一主题](https://static.52pojie.cn/static/image/common/thread-next.png)](https://www.52pojie.cn/forum.php?mod=redirect&goto=nextnewset&tid=1815903 "下一主题")
+
+[![Image 7: 收起左侧](https://static.52pojie.cn/static/image/common/control_l.png)](javascript:; "收起左侧")
+[[求助]](https://www.52pojie.cn/forum.php?mod=forumdisplay&fid=74&filter=typeid&typeid=300)各位大佬，新人想学习python编程要如何开始，有无推荐的课程和书籍
+===========================================================================================================================
+
+![Image 8: 评价指数 1](https://static.52pojie.cn/static/image/common/recommend_1.gif)[[复制链接]](https://www.52pojie.cn/thread-1815903-1-1.html)
+
+[](https://www.52pojie.cn/)
+[minisoco](https://www.52pojie.cn/home.php?mod=space&uid=2120652)
+
+**[minisoco](https://www.52pojie.cn/home.php?mod=space&uid=2120652)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=2120652&do=friend&view=me&from=space)阅读权限 10 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=2120652)最后登录 1970-1-1
+
+[![Image 9: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=2120652&do=profile "查看详细资料")
+
+[![Image 10](https://avatar.52pojie.cn/images/noavatar_middle.gif)](https://www.52pojie.cn/home.php?mod=space&uid=2120652)电梯直达 [![Image 11: 跳转到指定楼层](https://static.52pojie.cn/static/image/common/fj_btn.png)](javascript:; "跳转到指定楼层") **[**楼主**](https://www.52pojie.cn/thread-1815903-1-1.html)** ![Image 12](https://static.52pojie.cn/static/image/common/online_member.gif)[minisoco](https://www.52pojie.cn/home.php?mod=space&uid=2120652)_发表于 2023-8-1 13:33_![Image 13: 回帖奖励](https://static.52pojie.cn/static/image/common/arw_r.gif) 各位大佬，新人想学习python编程要如何开始，有无推荐的课程和书籍
+[_![Image 14](https://www.52pojie.cn/source/plugin/csu\_wechat\_scan/image/wx.png)分享到朋友圈_](https://www.52pojie.cn/)
+
+发帖前要善用**【[论坛搜索](https://www.52pojie.cn/search.php)】**功能，那里可能会有你要找的答案或者已经有人发布过相同内容了，请勿重复发帖。
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&reppost=47514831&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[d199212](https://www.52pojie.cn/home.php?mod=space&uid=1752525)
+
+**[d199212](https://www.52pojie.cn/home.php?mod=space&uid=1752525)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=1752525&do=friend&view=me&from=space)阅读权限 10 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=1752525)最后登录 1970-1-1
+
+[![Image 15: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1752525&do=profile "查看详细资料")
+
+[![Image 16](https://avatar.52pojie.cn/images/noavatar_middle.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1752525)**[**沙发**](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&ptid=1815903&pid=47522702)** ![Image 17](https://static.52pojie.cn/static/image/common/online_member.gif)[d199212](https://www.52pojie.cn/home.php?mod=space&uid=1752525)_发表于 2023-8-2 08:44_ 去b站搜一下入门视频，跟着做一个项目就可以了
+[【吾爱破解论坛总版规】 - [让你充分了解吾爱破解论坛行为规则]](https://www.52pojie.cn/thread-143136-1-1.html)
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&repquote=47522702&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[hrh123](https://www.52pojie.cn/home.php?mod=space&uid=1597267)
+
+**[hrh123](https://www.52pojie.cn/home.php?mod=space&uid=1597267)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=1597267&do=friend&view=me&from=space)阅读权限 100 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=1597267)最后登录 1970-1-1
+
+[![Image 18: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1597267&do=profile "查看详细资料")
+
+[![Image 19](https://avatar.52pojie.cn/data/avatar/001/59/72/67_avatar_middle.jpg)](https://www.52pojie.cn/home.php?mod=space&uid=1597267)**[_3_#](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&ptid=1815903&pid=47529852)** ![Image 20](https://static.52pojie.cn/static/image/common/fanyiyin.gif)[hrh123](https://www.52pojie.cn/home.php?mod=space&uid=1597267)_发表于 2023-8-2 17:10_ [吾爱破解论坛没有任何官方QQ群，禁止留联系方式，禁止任何商业交易。](https://www.52pojie.cn/thread-602644-1-1.html) 入门的话推荐Python从入门到实践,照着书上的代码,不要复制粘贴或代码补全,不管多简单都试着自己打出来,这样慢慢就有感觉了. 之后慢慢等熟练了就可以试着自己写,调试代码,还可以买些高级的书或去一些网站上看看大佬的作品和博客
+[如何升级？如何获得积分？积分对应解释说明！](https://www.52pojie.cn/misc.php?mod=faq&action=faq&id=4&messageid=47)
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&repquote=47529852&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[Yxb191026](https://www.52pojie.cn/home.php?mod=space&uid=1473256)
+
+**[Yxb191026](https://www.52pojie.cn/home.php?mod=space&uid=1473256)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=1473256&do=friend&view=me&from=space)阅读权限 10 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=1473256)最后登录 1970-1-1
+
+[![Image 21: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1473256&do=profile "查看详细资料")
+
+[![Image 22](https://avatar.52pojie.cn/images/noavatar_middle.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1473256)**[_4_#](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&ptid=1815903&pid=47539128)** ![Image 23](https://static.52pojie.cn/static/image/common/online_member.gif)[Yxb191026](https://www.52pojie.cn/home.php?mod=space&uid=1473256)_发表于 2023-8-3 13:38_ [《站点帮助文档》有什么问题来这里看看吧，这里有你想知道的内容！](https://www.52pojie.cn/misc.php?mod=faq) 学啥都一样，需要持之以恒，我就学了一周C++，累，放弃！学反编译，前边简单，难得搞不懂了，放弃！ 学python ，半个月，半懂不懂的，好像会了一些，好像又不会，放弃了！
+[呼吁大家发布原创作品添加吾爱破解论坛标识！](https://www.52pojie.cn/thread-61079-1-1.html)
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&repquote=47539128&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[gza627](https://www.52pojie.cn/home.php?mod=space&uid=1346797)
+
+**[gza627](https://www.52pojie.cn/home.php?mod=space&uid=1346797)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=1346797&do=friend&view=me&from=space)阅读权限 10 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=1346797)最后登录 1970-1-1
+
+[![Image 24: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1346797&do=profile "查看详细资料")
+
+[![Image 25](https://avatar.52pojie.cn/images/noavatar_middle.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1346797)**[_5_#](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&ptid=1815903&pid=47605668)** ![Image 26](https://static.52pojie.cn/static/image/common/online_member.gif)[gza627](https://www.52pojie.cn/home.php?mod=space&uid=1346797)_发表于 2023-8-9 10:46_ Python - 100天从新手到大师 https://github.com/jackfrued/Python-100-Days 菜鸟教程 https://www.runoob.com/python3/python3-tutorial.html W3school教程 https://www.w3school.com.cn/python/index.asp 黑马程序员python教程，8天python从入门到精通 https://www.bilibili.com/video/BV1qW4y1a7fU 刘江的 Python 教程也挺好的： https://www.liujiangblog.com/course/python/ GenJi是真想教会你 https://www.bilibili.com/video/BV1d54y1g7db Python 从入门到实践第3版（中文版）pdf版 链接：https://pan.baidu.com/s/1gTP3K5uxqO3_oVC6NE6nJQ?password=52pj 能学习的地方还有很多，主要是初学东西要有耐心吧，并且起初不能给自己太高的目标，不然自己很快就没有学下去的动力了，加油陌生人只要有耐心坚持学你一定可以做到！！！ ### 免费评分 | [参与人数 1](https://www.52pojie.cn/forum.php?mod=misc&action=viewratings&tid=1815903&pid=47605668 "查看全部评分") | 吾爱币 _+1_ | 热心值 _+1_ | [收起](javascript:;)_理由_ | | --- | --- | --- | --- | | [![Image 27](https://avatar.52pojie.cn/data/avatar/002/26/27/32_avatar_small.jpg)](https://www.52pojie.cn/home.php?mod=space&uid=2262732)[mobiwei](https://www.52pojie.cn/home.php?mod=space&uid=2262732) | + 1 | + 1 | 我很赞同！ | [查看全部评分](https://www.52pojie.cn/forum.php?mod=misc&action=viewratings&tid=1815903&pid=47605668 "查看全部评分")
+[如何快速判断一个文件是否为病毒！](https://www.52pojie.cn/thread-69716-1-1.html)
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&repquote=47605668&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[greatzdl](https://www.52pojie.cn/home.php?mod=space&uid=1955751)
+
+**[greatzdl](https://www.52pojie.cn/home.php?mod=space&uid=1955751)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=1955751&do=friend&view=me&from=space)阅读权限 10 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=1955751)最后登录 1970-1-1
+
+[![Image 28: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1955751&do=profile "查看详细资料")
+
+[![Image 29](https://avatar.52pojie.cn/images/noavatar_middle.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1955751)**[_6_#](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&ptid=1815903&pid=47703574)** ![Image 30](https://static.52pojie.cn/static/image/common/online_member.gif)[greatzdl](https://www.52pojie.cn/home.php?mod=space&uid=1955751)_发表于 2023-8-18 09:24_ learn python by hard way
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&repquote=47703574&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[lbbas](https://www.52pojie.cn/home.php?mod=space&uid=1429364)
+
+**[lbbas](https://www.52pojie.cn/home.php?mod=space&uid=1429364)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=1429364&do=friend&view=me&from=space)阅读权限 10 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=1429364)最后登录 1970-1-1
+
+[![Image 31: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1429364&do=profile "查看详细资料")
+
+[![Image 32](https://avatar.52pojie.cn/images/noavatar_middle.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1429364)**[_7_#](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&ptid=1815903&pid=47703964)** ![Image 33](https://static.52pojie.cn/static/image/common/online_member.gif)[lbbas](https://www.52pojie.cn/home.php?mod=space&uid=1429364)_发表于 2023-8-18 09:46_ 强烈推荐 《A Byte of Python》，中文翻译的叫《Python简明教程》，百度了一个翻译版的地址 https://learnku.com/docs/byte-of-python/2018
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&repquote=47703964&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[ipvb](https://www.52pojie.cn/home.php?mod=space&uid=1645508)
+
+**[ipvb](https://www.52pojie.cn/home.php?mod=space&uid=1645508)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=1645508&do=friend&view=me&from=space)阅读权限 10 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=1645508)最后登录 1970-1-1
+
+[![Image 34: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1645508&do=profile "查看详细资料")
+
+[![Image 35](https://avatar.52pojie.cn/images/noavatar_middle.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1645508)**[_8_#](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&ptid=1815903&pid=47724070)** ![Image 36](https://static.52pojie.cn/static/image/common/online_member.gif)[ipvb](https://www.52pojie.cn/home.php?mod=space&uid=1645508)_发表于 2023-8-20 19:30_ > [gza627 发表于 2023-8-9 10:46](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&pid=47605668&ptid=1815903) > > Python - 100天从新手到大师https://github.com/jackfrued/Python-100-Days > > 菜鸟教程https://www.r ... 这个资源可以，坚持学习，一定可以成为高手
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&repquote=47724070&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[yc0205](https://www.52pojie.cn/home.php?mod=space&uid=1457106)
+
+**[yc0205](https://www.52pojie.cn/home.php?mod=space&uid=1457106)**_当前离线_
+
+好友[](https://www.52pojie.cn/home.php?mod=space&uid=1457106&do=friend&view=me&from=space)阅读权限 10 听众[](https://www.52pojie.cn/home.php?mod=follow&do=follower&uid=1457106)最后登录 1970-1-1
+
+[![Image 37: 查看详细资料](https://static.52pojie.cn/static/image/common/userinfo.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1457106&do=profile "查看详细资料")
+
+[![Image 38](https://avatar.52pojie.cn/images/noavatar_middle.gif)](https://www.52pojie.cn/home.php?mod=space&uid=1457106)**[_9_#](https://www.52pojie.cn/forum.php?mod=redirect&goto=findpost&ptid=1815903&pid=47732848)** ![Image 39](https://static.52pojie.cn/static/image/common/online_member.gif)[yc0205](https://www.52pojie.cn/home.php?mod=space&uid=1457106)_发表于 2023-8-21 15:40_ 1. 课程推荐： - Coursera上的《Python for Everybody》：这是一门由密歇根大学提供的免费课程，适合编程初学者，讲解Python语言基础和编程概念。 - Codecademy的Python课程：Codecademy提供了一门交互式的Python课程，适合学习Python的基础语法和概念。 2. 书籍推荐： - "Python编程快速上手-让繁琐工作自动化"：这本书适合编程新手，介绍了Python的基础知识和实践应用，例如文件操作、网络编程等。 - "Python核心编程"：这是一本经典的Python教材，适合新手和有一定基础的学习者，讲解了Python的核心概念和高级特性。 3. 在线资源推荐： - Python官方文档：Python官方文档有详细的语法和内置库的说明，是一个非常好的参考资料。你可以在Python官方网站上找到它。 - Stack Overflow：这是一个广受欢迎的编程问答社区，你可以在其中提问关于编程的问题，并参与讨论。
+
+_[回复](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&repquote=47732848&extra=page%3D1&page=1)_
+[举报](javascript:;)
+
+[返回列表](https://www.52pojie.cn/forum-74-1.html)[![Image 40: 发新帖](https://static.52pojie.cn/static/image/common/pn_post.png)](javascript:; "发新帖")
+
+[高级模式](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903)
+
+[B](javascript:; "文字加粗")[Color](javascript:; "设置文字颜色")[Image](javascript:; "图片")[Link](javascript:; "添加链接")[Quote](javascript:; "引用")[Code](javascript:; "代码")[Smilies](javascript:;)
+
+ 您需要登录后才可以回帖 [登录](https://www.52pojie.cn/member.php?mod=logging&action=login) | [注册[Register]](https://www.52pojie.cn/member.php?mod=52register)[![Image 41](https://static.52pojie.cn/static/image/common/qq_login.gif)](https://www.52pojie.cn/connect.php?mod=login&op=init&referer=index.php&statfrom=login)
+
+[本版积分规则](https://www.52pojie.cn/home.php?mod=spacecp&ac=credit&op=rule&fid=74)**发表回复**- [x] 回帖并转播 - [x] 回帖后跳转到最后一页
+
+免责声明：
+
+吾爱破解所发布的一切破解补丁、注册机和注册信息及软件的解密分析文章仅限用于学习和研究目的；不得将上述内容用于商业或者非法用途，否则，一切后果请用户自负。本站信息来自网络，版权争议与本站无关。您必须在下载后的24个小时之内，从您的电脑中彻底删除上述内容。如果您喜欢该程序，请支持正版软件，购买注册，得到更好的正版服务。如有侵权请邮件与我们联系处理。
+
+Mail To:Service@52pojie.cn
+
+[**返回列表**](https://www.52pojie.cn/forum-74-1.html "返回列表")
+*   [**关注微信**](javascript:void(0) "关注微信")
+    ![Image 42: wx](https://attach.52pojie.cn/weixin.jpg)
+微信签到每天都送论坛币！ 
+
+[**返回顶部**](https://www.52pojie.cn/ "返回顶部")
+
+[RSS订阅](https://www.52pojie.cn/forum.php?mod=rss)|[小黑屋](https://www.52pojie.cn/forum.php?mod=misc&action=showdarkroom)|[处罚记录](https://www.52pojie.cn/thread-2084166-1-1.html)|[联系我们](mailto:Service@52pojie.cn)|**[吾爱破解 - 52pojie.cn](https://www.52pojie.cn/)** ( [京ICP备16042023号 | 京公网安备 11010502030087号](https://beian.miit.gov.cn/) )
+
+GMT+8, 2026-3-10 11:25
+
+Powered by **Discuz!**
+
+Copyright © 2001-2020, Tencent Cloud.
+
+[**快速回复**](https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=74&tid=1815903&extra=page%3D1&page=1 "快速回复")[**返回顶部**](https://www.52pojie.cn/ "返回顶部")[**返回列表**](https://www.52pojie.cn/forum-74-1.html "返回列表")
+
+---

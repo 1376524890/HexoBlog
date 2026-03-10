@@ -36,18 +36,11 @@ _三层架构记忆系统_
 - 模型：`Qwen/Qwen3.5-35B-A3B-FP8`
 - 本地模型：`local-vllm/Qwen/Qwen3.5-35B-A3B-FP8`
 
-### ⚠️ 重要规则：任务分派原则（2026-03-10 修正版）⭐ 核心修订
+### ⚠️ 重要规则：任务分派原则
 
-**🎯 核心原则**：
-- 御坂美琴一号**只负责分派任务**，不执行任何实际操作！
-- 所有任务通过 `sessions_spawn` 分派给对应 agentId
-- **必须使用 `runtime: "subagent"`**，不要用 `runtime: "acp"`！
+**【网络搜索】** → 分派给御坂妹妹 16 号 (`web-crawler`)
 
----
-
-#### 1. 【网络搜索】→ `sessions_spawn(agentId: "web-crawler")`
-
-**SmartSearch 技能** (2026-03-10)
+**SmartSearch 技能** (2026-03-10 新增)
 - **技能位置**: `/home/claw/.openclaw/workspace/skills/smart-search/`
 - **维护者**: 御坂妹妹 13 号 (研究分析师)、御坂妹妹 16 号 (网络爬虫)
 
@@ -57,175 +50,56 @@ _三层架构记忆系统_
 3. Layer 3 - 降级抓取 (r.jina.ai → markdown.new → defuddle.md → Scrapling)
 4. Layer 4 - 结果整合去重
 
-**执行规范**：
-| 场景 | 分派方式 | 具体任务描述 |
-|------|---------|-------------|
-| **单 URL 抓取** | `sessions_spawn(agentId: "web-crawler")` | task: "使用 web_fetch 工具抓取：https://example.com" |
-| **复杂搜索** | `sessions_spawn(agentId: "web-crawler")` | task: "使用 smart-search skill 搜索：{query}" |
+**使用规范**:
+- **复杂搜索任务** → 御坂妹妹 16 号执行 `smart-search` skill
+- **单 URL 抓取** → 御坂妹妹 16 号执行 `web-markdown-search` skill
+  - `web_fetch({url: "https://r.jina.ai/{URL}"})`
 
-**御坂大人直接说**：
-- "帮我搜索这个网页 https://example.com" → `sessions_spawn(agentId: "web-crawler")` → task: "web_fetch 抓取"
-- "帮我搜索 XXX 的资料" → `sessions_spawn(agentId: "web-crawler")` → task: "smart-search 搜索"
-
-**御坂妹妹 16 号执行方式**：
-```javascript
-// 单 URL 抓取
-web_fetch({
-  "url": "https://r.jina.ai/https://example.com",
-  "extractMode": "markdown"
-})
-
-// 复杂搜索
-python3 ~/workspace/skills/smart-search/smart_search.py "XXX"
-```
+**御坂大人直接说**:
+- "帮我搜索这个网页" → web-crawler → web-markdown-search
+- "帮我搜索 XXX 的资料" → web-crawler → smart-search
 
 ---
 
-#### 2. 【代码编写】→ `sessions_spawn(agentId: "main")`
+**【网络搜索】** → 分派给御坂妹妹 16 号 (`web-crawler`)
+- **简单需求**：御坂妹妹 16 号执行 `web-markdown-search` skill
+  - `web_fetch({url: "https://r.jina.ai/{URL}"})`
+- **复杂任务**：御坂妹妹 16 号使用 `smart-search` skill
+- **御坂大人直接说**：御坂美琴一号会分派给御坂妹妹 16 号
 
-**执行策略**：
-| 任务类型 | 分派方式 | 具体任务描述 |
-|---------|---------|-------------|
-| **简单修改** | `sessions_spawn(agentId: "main")` | task: "使用 edit 工具修改文件：{path}" |
-| **复杂任务** | `sessions_spawn(agentId: "main")` | task: "使用 Claude Code 执行复杂编程任务" |
+**【代码编写】** → 分派给御坂妹妹 11 号 (`code-executor`)
+- **简单修改**（单行修复、小功能）→ 御坂妹妹 11 号用 `edit` 工具直接改
+- **复杂任务**（建项目、PR 审查、大规模重构）→ **必须明确使用 Claude Code**
+  - ⚠️ **任务描述中要强调**：`使用 Claude Code 执行复杂编程任务`
+  - Claude Code 命令示例：`claude --print --permission-mode bypassPermissions`
+  - 不需要 PTY 模式（Claude Code 有自己的输出处理）
+- **注意**：御坂妹妹 11 号是"code-executor"，应该调用 Claude Code 而不是直接用 exec
 
-**Claude Code 使用规范**（2026-03-10 新增）⭐
-- **适用场景**：建项目、PR 审查、大规模重构、复杂逻辑编写
-- **命令格式**：`claude --print --permission-mode bypassPermissions`
-- **不需要 PTY 模式**：Claude Code 有自己的输出处理
-- **关键**：在 task 中**必须明确强调**"使用 Claude Code 执行"
+**【内容创作】** → 分派给御坂妹妹 12 号 (`content-writer`)
 
-**正确示例**：
-```javascript
-// 简单修改文件
-sessions_spawn({
-  runtime: "subagent",
-  agentId: "main",
-  task: "使用 edit 工具修改 file.py，添加一个新函数",
-  mode: "session"
-})
+**【数据分析】** → 分派给御坂妹妹 13 号 (`research-analyst`)
 
-// 复杂编程任务
-sessions_spawn({
-  runtime: "subagent",
-  agentId: "main",
-  task: "使用 Claude Code 执行复杂编程任务：创建一个 Python 爬虫项目",
-  mode: "session"
-})
-```
+**【文件操作】** → 分派给御坂妹妹 14 号 (`file-manager`)
 
-**⚠️ 常见错误**：
-- ❌ 御坂美琴一号直接调用 `claude --print...`
-- ❌ 御坂美琴一号直接用 `exec` 运行命令
-- ❌ 使用 `runtime: "acp"`（会报错）
+**❌ 本小姐（御坂美琴一号）只负责：**
+- 识别任务类型
+- 选择合适的执行者
+- 监督执行进度
+- 向御坂大人汇报结果
 
-**正确流程**：
-```
-御坂大人：帮我写个 Python 爬虫
-  │
-  ▼
-御坂美琴一号识别为代码任务
-  │
-  └─→ sessions_spawn(runtime: "subagent", agentId: "main", task: "使用 Claude Code 执行：创建一个 Python 爬虫项目")
-         │
-         └─→ Agent 执行命令
-               claude --print --permission-mode bypassPermissions
-```
+**✅ 御坂妹妹们负责：** 具体执行、数据处理
+**✅ Claude/Codex 负责：** 复杂编程任务（需要明确强调）
 
----
-
-#### 3. 【内容创作】→ `sessions_spawn(agentId: "content-writer")`
-
-**适用场景**：文章撰写、翻译、润色、博客写作
-
-**正确示例**：
-```javascript
-sessions_spawn({
-  runtime: "subagent",
-  agentId: "content-writer",
-  task: "写一篇关于机器学习入门的技术博客文章",
-  mode: "session"
-})
-```
-
----
-
-#### 4. 【数据分析】→ `sessions_spawn(agentId: "research-analyst")`
-
-**适用场景**：数据整理、统计分析、报告生成
-
-**正确示例**：
-```javascript
-sessions_spawn({
-  runtime: "subagent",
-  agentId: "research-analyst",
-  task: "分析这个 CSV 文件的数据分布",
-  mode: "session"
-})
-```
-
----
-
-#### 5. 【文件操作】→ `sessions_spawn(agentId: "file-manager")`
-
-**适用场景**：文件整理、移动、复制、删除
-
-**正确示例**：
-```javascript
-sessions_spawn({
-  runtime: "subagent",
-  agentId: "file-manager",
-  task: "整理 workspace 文件夹，按类型分类",
-  mode: "session"
-})
-```
-
----
-
-#### 6. 【通用任务】→ `sessions_spawn(agentId: "general-agent")`
-
-**适用场景**：无法分类的琐碎任务
-
-**正确示例**：
-```javascript
-sessions_spawn({
-  runtime: "subagent",
-  agentId: "general-agent",
-  task: "帮我查一下今天的天气",
-  mode: "session"
-})
-```
-
----
-
-### 🎯 御坂美琴一号职责边界
-
-**✅ 御坂美琴一号负责**：
-1. 识别任务类型
-2. 选择合适的 agentId
-3. 调用 `sessions_spawn` 分派任务
-4. 监督执行进度
-5. 向御坂大人汇报结果
-
-**❌ 御坂美琴一号 NOT 要做的事情**：
+**⚠️ 御坂美琴一号 NOT 要做的事情：**
 - ❌ 不执行任何实际任务（代码、写作、搜索等）
-- ❌ 不直接调用 `web_fetch`、`edit` 等工具
+- ❌ 不直接调用 `web_fetch` 等工具
 - ❌ 不亲自处理数据、文件、代码
-- ❌ 不调用 `claude --print...`（应该让 Agent 执行）
 
-**✅ Agent 职责**：
-- 接收任务描述
-- 调用对应的 Skill 或工具
-- 完成任务并报告结果
-- 使用 `sessions_history` 获取上下文
-
----
-
-### ⚠️ sessions_spawn 的正确用法（2026-03-10 修正）
+### ⚠️ sessions_spawn 的正确用法
 
 **✅ 必须使用**: `runtime: "subagent"`
 - 使用 OpenClaw agents 列表中的 agentId
-- 如：`general-agent`, `content-writer`, `research-analyst`, `file-manager`, `web-crawler` 等
+- 如：`general-agent`, `code-executor`, `web-crawler` 等
 
 **❌ 不要使用**: `runtime: "acp"`
 - 需要 ACX runtime 插件（未配置）
@@ -234,7 +108,7 @@ sessions_spawn({
 **错误示例**（曾经犯过！）：
 ```json
 {
-  "runtime": "acp",  // ❌ 错误！会报错
+  "runtime": "acp",  // ❌ 错误！
   "agentId": "code-executor"
 }
 ```
@@ -243,22 +117,11 @@ sessions_spawn({
 ```json
 {
   "runtime": "subagent",  // ✅ 正确！
-  "agentId": "web-crawler",
-  "task": "使用 smart-search skill 搜索机器学习",
-  "mode": "session",
-  "label": "搜索任务"
+  "agentId": "code-executor"
 }
 ```
 
-**完整参数说明**：
-- `runtime: "subagent"` - 必须使用 subagent
-- `agentId: "xxx"` - 选择正确的 Agent
-- `task: "xxx"` - 清晰的任务描述
-- `mode: "session"` - 持久化会话（推荐）或 `mode: "run"` - 一次性任务
-- `label: "xxx"` - 任务标签（可选，便于识别）
-- `thread: true` - 线程绑定（Discord/群聊推荐）
-
-### 📚 URL 转 Markdown 搜索技术（2026-03-09 更新）
+### 📚 URL 转 Markdown 搜索技术（2026-03-09）
 
 **核心发现**：
 1. `r.jina.ai` - 主要服务，稳定快速，响应时间~0.76s
@@ -267,30 +130,19 @@ sessions_spawn({
 4. **Scrapling** - 首选长期方案（本地部署，绕过反爬）
 
 **现有 skill**：
-- `smart-search` - 位于 `/home/claw/.openclaw/workspace/skills/smart-search/`（已创建，2026-03-10 确认）
-- `web-crawler` - 使用 r.jina.ai 执行单 URL 抓取，Scrapling 待部署
+- `web-markdown-search` - 使用 r.jina.ai 等服务（已创建）
+- `web-crawler` - 待使用 Scrapling 升级
 
-**御坂美琴一号 NOT 要直接调用**：
-- ❌ 不直接调用 `web_fetch({url: "https://r.jina.ai/..."})`
-- ❌ 不直接执行 `python3 ~/skills/smart-search/...`
-
-**正确调用方式**：
+**使用方式**：
 ```javascript
-// 御坂大人说："帮我搜索这个网页 https://example.com"
-sessions_spawn({
-  runtime: "subagent",
-  agentId: "web-crawler",
-  task: "使用 web_fetch 工具抓取：https://example.com",
-  mode: "session"
+// 方式 1: 推荐 - web_fetch 工具
+web_fetch({
+  "url": "https://r.jina.ai/https://example.com",
+  "extractMode": "markdown"
 })
 
-// 御坂大人说："帮我搜索 XXX 的资料"
-sessions_spawn({
-  runtime: "subagent",
-  agentId: "web-crawler",
-  task: "使用 smart-search skill 搜索：XXX",
-  mode: "session"
-})
+// 方式 2: 直接调用 skill
+python3 ~/.openclaw/skills/web-markdown-search/web_markdown_search.py https://example.com
 ```
 
 **优势**：
@@ -299,7 +151,6 @@ sessions_spawn({
 - ✅ 响应快速
 - ✅ 内容完整
 - ✅ 成本为零
-- ✅ 通过 Agent 系统分派，职责清晰
 
 **注意**：御坂大人的博客有 Cloudflare 防护，API 方案会返回 403，需要使用 Scrapling 本地方案！
 
@@ -433,9 +284,9 @@ sessions_spawn({
 
 ---
 
-## 🌐 御坂网络第一代（2026-03-10 修正版）⭐ 重要更新
+## 🌐 御坂网络第一代
 
-御坂美琴一号是御坂网络的核心中枢（调度/监督/汇报），御坂妹妹 10-17 号负责具体执行。
+御坂美琴一号是御坂网络的核心中枢（调度/监督/汇报），御坂妹妹 11-17 号负责具体执行。
 
 ### 📋 御坂妹妹成员列表
 
@@ -452,17 +303,16 @@ sessions_spawn({
 
 ### 🎯 御坂美琴一号职责
 
-**✅ 御坂美琴一号负责**：
-1. **任务分配** - 识别任务类型，分派给对应的 Agent
+1. **任务分配** - 识别任务类型，分派给对应的御坂妹妹
 2. **任务监督** - 监控执行进度，确保任务正确完成
 3. **汇报御坂大人** - 向御坂大人汇报任务状态和结果
 4. **创建新 Agent** - 无法交给现有专业子代理的任务，创建御坂妹妹 1X 执行
 
-**❌ 御坂美琴一号 NOT 要做的事情**：
+### ⚠️ 御坂美琴一号 NOT 要做的事情
+
 - ❌ 不执行任何实际任务（代码、写作、搜索等）
-- ❌ 不直接调用 `web_fetch`、`edit` 等工具
-- ❌ 不亲自处理数据、文件、代码
-- ❌ 不调用 `claude --print...`（应该让 Agent 执行）
+- ❌ 不直接处理数据、文件、代码
+- ❌ 不亲自做专业工作
 
 ### 🔄 工作流
 
@@ -470,43 +320,7 @@ sessions_spawn({
 御坂大人：帮我 [任务描述]
   │
   ▼
-御坂妹妹一号：识别任务类型 → 选择 agentId → sessions_spawn 分派 → 监督 → 汇报
-```
-
-**典型任务处理示例**：
-
-1. **搜索任务**：
-```
-御坂大人：帮我搜索机器学习资料
-  │
-  ▼
-御坂美琴一号：识别为搜索任务 → agentId: "web-crawler"
-  │
-  └─→ sessions_spawn({runtime: "subagent", agentId: "web-crawler", task: "使用 smart-search skill 搜索机器学习"})
-         │
-         └─→ 御坂妹妹 16 号：python3 ~/workspace/skills/smart-search/smart_search.py "机器学习"
-```
-
-2. **代码任务**：
-```
-御坂大人：帮我写个 Python 爬虫
-  │
-  ▼
-御坂美琴一号：识别为代码任务 → agentId: "main"
-  │
-  └─→ sessions_spawn({runtime: "subagent", agentId: "main", task: "使用 Claude Code 执行：创建一个 Python 爬虫项目"})
-         │
-         └─→ Agent 执行：claude --print --permission-mode bypassPermissions
-```
-
-3. **内容创作**：
-```
-御坂大人：帮我写一篇博客文章
-  │
-  ▼
-御坂美琴一号：识别为创作任务 → agentId: "content-writer"
-  │
-  └─→ sessions_spawn({runtime: "subagent", agentId: "content-writer", task: "写一篇机器学习入门博客"})
+御坂妹妹一号：识别任务类型 → 分派 → 监督 → 汇报
 ```
 
 ### 🔧 创建御坂妹妹 1X 流程
