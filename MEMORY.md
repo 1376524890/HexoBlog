@@ -81,26 +81,26 @@ python3 ~/workspace/skills/smart-search/smart_search.py "XXX"
 
 ---
 
-#### 2. 【代码编写】→ `sessions_spawn(agentId: "main")`
+#### 2. 【代码编写】→ `sessions_spawn(agentId: "code-executor")` ⭐ 2026-03-10 修正
 
 **执行策略**：
 | 任务类型 | 分派方式 | 具体任务描述 |
 |---------|---------|-------------|
-| **简单修改** | `sessions_spawn(agentId: "main")` | task: "使用 edit 工具修改文件：{path}" |
-| **复杂任务** | `sessions_spawn(agentId: "main")` | task: "使用 Claude Code 执行复杂编程任务" |
+| **简单修改** | `sessions_spawn(agentId: "code-executor")` | task: "使用 edit 工具修改文件：{path}" |
+| **复杂任务** | `sessions_spawn(agentId: "code-executor")` | task: "使用 Claude Code 执行复杂编程任务" |
 
-**Claude Code 使用规范**（2026-03-10 新增）⭐
+**Claude Code 使用规范**（2026-03-10 修正版）⭐
 - **适用场景**：建项目、PR 审查、大规模重构、复杂逻辑编写
 - **命令格式**：`claude --print --permission-mode bypassPermissions`
 - **不需要 PTY 模式**：Claude Code 有自己的输出处理
-- **关键**：在 task 中**必须明确强调**"使用 Claude Code 执行"
+- **关键**：御坂美琴一号**不直接调用 Claude Code**，只负责分派给 `code-executor`！
 
 **正确示例**：
 ```javascript
 // 简单修改文件
 sessions_spawn({
   runtime: "subagent",
-  agentId: "main",
+  agentId: "code-executor",  // ✅ 使用 code-executor Agent
   task: "使用 edit 工具修改 file.py，添加一个新函数",
   mode: "session"
 })
@@ -108,15 +108,16 @@ sessions_spawn({
 // 复杂编程任务
 sessions_spawn({
   runtime: "subagent",
-  agentId: "main",
+  agentId: "code-executor",  // ✅ 使用 code-executor Agent
   task: "使用 Claude Code 执行复杂编程任务：创建一个 Python 爬虫项目",
   mode: "session"
 })
 ```
 
 **⚠️ 常见错误**：
-- ❌ 御坂美琴一号直接调用 `claude --print...`
+- ❌ 御坂美琴一号直接调用 `claude --print...`（应该让 code-executor 执行）
 - ❌ 御坂美琴一号直接用 `exec` 运行命令
+- ❌ 使用 `agentId: "main"` 执行代码任务（应该用 `code-executor`）
 - ❌ 使用 `runtime: "acp"`（会报错）
 
 **正确流程**：
@@ -126,11 +127,20 @@ sessions_spawn({
   ▼
 御坂美琴一号识别为代码任务
   │
-  └─→ sessions_spawn(runtime: "subagent", agentId: "main", task: "使用 Claude Code 执行：创建一个 Python 爬虫项目")
+  └─→ sessions_spawn(runtime: "subagent", agentId: "code-executor", task: "使用 Claude Code 执行：创建一个 Python 爬虫项目")
          │
-         └─→ Agent 执行命令
-               claude --print --permission-mode bypassPermissions
+         └─→ code-executor Agent 接收任务
+               │
+               └─→ code-executor 自己决定：使用 Claude Code 执行
+                     │
+                     └─→ code-executor 执行命令
+                           claude --print --permission-mode bypassPermissions
 ```
+
+**重要理解**：
+- ✅ **御坂美琴一号职责**：识别 → 分派给 `code-executor` → 监督 → 汇报
+- ✅ **code-executor 职责**：接收任务 → 使用 Claude Code/edit → 完成任务
+- ✅ **code-executor Agent 不存在 Skill 文件**，但它本身就是配置好的角色，会自己决定如何执行
 
 ---
 
