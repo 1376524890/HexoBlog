@@ -136,29 +136,54 @@ _三层架构记忆系统_
 ---
 
 
-
 ## 📝 近期成果 (2026-03-10)
 
-- ⚡ **Important** **整理者**: 御坂美琴一号 ⚡
-- 🧠 **Memory** ## 🧠 五、会话和子代理机制
-- 🚀 **Progress** ## 🚀 九、部署与运维
-- 💡 **Insight** ## 💡 十、最佳实践
-- ✅ **Completed** 1. ✅ **不是聊天机器人，是做事的 Agent** - 能真正执行任务，不只是聊天
-- ✅ **Completed** 2. ✅ **记忆即文件** - 所有记忆持久化到磁盘，不丢失
-- ✅ **Completed** 3. ✅ **访问控制先于智能** - 安全是第一原则
-- ✅ **Completed** 4. ✅ **模块化设计** - Skills 和 Channels 独立可替换
-- ✅ **Completed** 5. ✅ **多智能体协作** - 专业分工，效率更高
-- 📝 **Record** ## 📝 十二、学习成果
-- ✅ **Completed** | OpenClaw 定义 | ✅ 精通 | 能准确解释 |
-- ✅ **Completed** | 三层架构 | ✅ 精通 | 能画出架构图 |
-- ✅ **Completed** | 四大组件 | ✅ 精通 | Gateway/Agent/Session/Channel |
-- ✅ **Completed** | 工具系统 | ✅ 熟练 | 了解常用工具 |
-- ✅ **Completed** | Skills 系统 | ✅ 熟练 | 16 个技能功能 |
-- ✅ **Completed** | 多智能体 | ✅ 精通 | 御坂网络第一代架构 |
-- ✅ **Completed** | 记忆系统 | ✅ 精通 | 三层架构 |
-- ✅ **Completed** | 安全模型 | ✅ 熟练 | 权限层级和审计 |
-- ✅ **Completed** **汇报准备状态**: ✅ **就绪**
-- ⚡ **Important** **整理者**: 御坂美琴一号 ⚡
+- ✅ **Completed** - ✅ `smart-search` skill **存在**于 `/home/claw/.openclaw/workspace/skills/smart-search/`
+- ✅ **Completed** ├── smart-search/          ✅ 已确认
+- ✅ **Completed** // ✅ 正确：通过 sessions_spawn 分派
+- ✅ **Completed** agentId: "code-executor",  // ✅ 使用 code-executor Agent
+- ✅ **Completed** // ✅ 正确：使用 subagent runtime
+- ✅ **Completed** **✅ 御坂妹妹们负责：** 具体执行、数据处理
+- ✅ **Completed** - ✅ **御坂美琴一号职责**：识别 → 分派（sessions_spawn）→ 监督 → 汇报
+- ✅ **Completed** - ✅ **Agent 职责**：接收任务 → 调用工具/Skill → 完成任务
+- ✅ **Completed** ## ✅ 已完成的修复（2026-03-10 05:55 修正版）
+- ✅ **Completed** ### 1. 备份 MEMORY.md ✅
+- ✅ **Completed** ### 2. 修正任务分派原则 ✅
+- ✅ **Completed** 1. ✅ 明确所有任务通过 `sessions_spawn` 分派
+- ✅ **Completed** 2. ✅ 代码编写使用 `agentId: "code-executor"`，不是 `agentId: "main"`
+- ✅ **Completed** 3. ✅ 搜索任务使用 `agentId: "web-crawler"`
+- ✅ **Completed** 4. ✅ 必须使用 `runtime: "subagent"`，不要用 `runtime: "acp"`
+- ✅ **Completed** 5. ✅ 复杂编程任务必须在 task 中强调"使用 Claude Code 执行"
+- ✅ **Completed** 6. ✅ **code-executor Agent 不需要 Skill 文件**，它本身就是配置好的角色
+- ✅ **Completed** - ✅ **御坂美琴一号职责**：识别 → 分派给 `code-executor` → 监督 → 汇报
+- ✅ **Completed** - ✅ **code-executor 职责**：接收任务 → 使用 Claude Code/edit → 完成任务
+- ✅ **Completed** - ✅ **code-executor Agent 不存在 Skill 文件**，但它本身就是配置好的角色，会自己决定如何执行
+- ✅ **Completed** ### 4. 更新 URL 转 Markdown 搜索技术 ✅
+- ✅ **Completed** - ✅ 移除 `web-markdown-search` skill 的错误引用
+- ✅ **Completed** - ✅ 明确 `smart-search` skill 的正确位置
+- ✅ **Completed** - ✅ 强调御坂美琴一号不直接调用工具，而是通过 `sessions_spawn` 分派
+- ✅ **Completed** ### 5. 修正御坂网络成员列表 ✅
+- ✅ **Completed** - ✅ "御坂妹妹 11-17 号" → "御坂妹妹 10-17 号"
+- ✅ **Completed** - ✅ 更新职责描述，明确 Agent 的职责边界
+- ✅ **Completed** ### 6. 创建补充文档 ✅
+- 📝 **Record** ## 📝 新的任务分派规则（完整版）⭐
+- ✅ **Completed** ### ✅ 必须使用：`runtime: "subagent"`
+- ✅ **Completed** runtime: "subagent",      // ✅ 必须使用 subagent
+- ✅ **Completed** - [x] ✅ 备份了原始 MEMORY.md
+- ✅ **Completed** - [x] ✅ 修正了任务分派原则
+- ✅ **Completed** - [x] ✅ 修正了代码任务分派（05:55 紧急修正）
+- ✅ **Completed** - [x] ✅ 修正了 URL 转 Markdown 搜索技术部分
+- ✅ **Completed** - [x] ✅ 修正了御坂网络成员列表
+- ✅ **Completed** - [x] ✅ 修正了职责描述
+- ✅ **Completed** - [x] ✅ 创建了 Claude Code 使用规范文档
+- ✅ **Completed** - [x] ✅ Git commit 和 push
+- 🎯 **Goal** ## 🎯 下一步行动
+- ✅ **Completed** 1. ✅ **Git 提交修复**（已完成）
+- ✅ **Completed** - 测试搜索任务分派给 web-crawler ✅
+- ✅ **Completed** - 测试代码任务分派给 code-executor ✅（05:55 修正）
+- ✅ **Completed** - 验证 sessions_spawn 使用 subagent runtime ✅
+- ✅ **Completed** | Git 提交 | ✅ 0c60b1c |
+- 💡 **Insight** ## 💡 关键教训
 ## 🏠 基本信息
 
 **御坂大人**: 御坂美琴 (Misaka Mikoto) - 学园都市超能力者第三名，本尊 ⚡
