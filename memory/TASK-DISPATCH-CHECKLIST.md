@@ -213,12 +213,43 @@ sessions_spawn({
 
 ---
 
+## 📋 待完善的 Skill 清单
+
+### ✅ 已正确配置的技能
+
+| 技能名称 | Agent ID | 位置 | 状态 |
+|---------|----------|------|------|
+| smart-search | web-crawler | `workspace/skills/smart-search/` | ✅ 已配置 |
+| web-markdown-search | web-crawler | `~/.openclaw/skills/web-markdown-search/` | ✅ 已配置 |
+| coding-agent | code-executor | `extensions/feishu/node_modules/openclaw/skills/coding-agent/` | ✅ 已配置 |
+| blog-writing | content-writer | `extensions/feishu/skills/blog-writing/` | ✅ 已配置 |
+| task-tracker | 通用 | `~/.openclaw/skills/task-tracker/` | ✅ 已配置 |
+| hexo-blog | content-writer | `~/.openclaw/skills/hexo-blog/` | ✅ 已配置 |
+
+### ⚠️ 缺少 SKILL.md 文档的技能（待创建）
+
+| 技能名称 | 预期 Agent ID | 位置 | 优先级 |
+|---------|-------------|------|--------|
+| code-executor | code-executor | `workspace/skills/code-executor/` | 🔥 高 |
+| complex-research-skill | research-analyst | `workspace/skills/complex-research-skill/` | ⭐ 中 |
+| memory-organizer | memory-organizer | `workspace/skills/memory-organizer/` | 🔥 高 |
+| security-audit | system-admin | `workspace/skills/security-audit/` | ⭐ 中 |
+| public | 通用 | `workspace/skills/public/` | 💡 低 |
+
+**下一步行动**：
+- 为每个自定义技能创建 SKILL.md 文档
+- 明确描述任务类型、使用方法、执行方式
+- 更新到 TASK-DISPATCH-CHECKLIST.md 的"技能使用规范"章节
+
+---
+
 ## ⚠️ 重要提醒
 
 1. **永远不要自己调用工具** - 御坂美琴一号只负责分派，不执行具体操作
 2. **永远不要使用 acp runtime** - 只使用 `runtime: "subagent"`
 3. **任务描述必须具体** - 明确指定技能名称和执行方式
 4. **分派后必须检查** - 通过 `sessions_history` 确认 Agent 使用了正确的工具
+5. **为自定义技能创建 SKILL.md** - 确保每个技能都有清晰的文档
 
 ---
 
