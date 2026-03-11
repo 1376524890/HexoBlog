@@ -535,6 +535,111 @@ sessions_spawn({
 - **清理策略**: 每天 12:30 清理 7 天前的备份
 - **自动恢复点**: 6 小时间隔的 checkpoint
 
+## 📚 OpenClaw 知识学习 (2026-03-11)
+
+**学习目的**: 为明早 7 点汇报做准备  
+**学习方式**: 只学习，不实践  
+**学习时间**: 2026-03-11 07:30  
+**整理者**: 御坂美琴一号 ⚡  
+
+### 核心知识点
+
+1. ✅ **不是聊天机器人，是做事的 Agent** - 能真正执行任务，不只是聊天
+2. ✅ **记忆即文件** - 所有记忆持久化到磁盘，不丢失
+3. ✅ **访问控制先于智能** - 安全是第一原则
+4. ✅ **模块化设计** - Skills 和 Channels 独立可替换
+5. ✅ **多智能体协作** - 专业分工，效率更高
+
+### 三层架构
+
+```
+Agent Layer（智能层）← 大脑
+    ↓
+Gateway Layer（网关层）← 路由器，不运行 AI 模型
+    ↓
+Node Layer（节点层）← 手脚，设备能力
+```
+
+### 四大核心组件
+
+| 组件 | 作用 | 关键点 |
+|------|------|--------|
+| **Gateway** | 大脑、路由器 | 不运行 AI 模型，只是调度员 |
+| **Agent** | 执行 AI 任务 | 身份 + 配置 + 状态 + 运行时 |
+| **Session** | 有状态容器 | 消息历史、上下文、工具状态 |
+| **Channel** | 协议适配器 | Telegram、Discord、飞书等 |
+
+### 记忆系统（重点！）
+
+- **三层架构**: 会话记忆 → 任务记忆 → 长期记忆
+- **记忆工具**: `memory_search` (语义检索) + `memory_get` (读取文件)
+- **Hybrid Search**: 向量相似度 + BM25 关键词检索
+- **Temporal Decay**: 基于时间衰减的排序（30 天半衰期）
+- **MMR Re-ranking**: 去重和多样化排序
+
+### 工具系统（16+ 类别）
+
+- 运行时工具：exec, process, gateway
+- 文件系统：read, write, edit, apply_patch
+- 会话管理：sessions_list, sessions_history, sessions_spawn
+- 记忆管理：memory_search, memory_get
+- 网络搜索：web_search, web_fetch, tavily, multi-search-engine
+- UI 工具：browser, canvas
+- 节点控制：nodes
+- 消息工具：message
+- Feishu 集成：feishu_doc, feishu_drive, feishu_wiki, feishu_chat, feishu_bitable
+
+### Skills 系统（16 个已安装）
+
+hexo-blog, task-tracker, weather, multi-search-engine, proactive-agent, subagent-network-call, xiaohongshu-ops, morning-briefing, blog-writing, email-sender, stock-analysis, skill-vetter, skill-creator, self-improving-agent, tavily-search, coding-agent
+
+### 御坂网络第一代（多智能体）
+
+| 编号 | Agent ID | 职责 |
+|------|----------|------|
+| 10 号 | general-agent | 通用代理 |
+| 11 号 | code-executor | 代码执行 |
+| 12 号 | content-writer | 内容创作 |
+| 13 号 | research-analyst | 研究分析 |
+| 14 号 | file-manager | 文件管理 |
+| 15 号 | system-admin | 系统管理 |
+| 16 号 | web-crawler | 网络爬虫 |
+| 17 号 | memory-organizer | 记忆整理 |
+
+### 安全原则
+
+1. **Private things stay private** - 私密信息不泄露
+2. **Ask before acting externally** - 外部行动前确认
+3. **Never send half-baked replies** - 不要发送半成品回复
+4. **Be careful in group chats** - 在群组中不要代表用户说话
+
+**安全加固配置**:
+- Gateway 绑定：`loopback`
+- 认证模式：`token`
+- DM 策略：`pairing`
+- 会话隔离：`per-channel-peer`
+- 工具配置：`profile: "messaging"`
+
+### 常用命令
+
+```bash
+# Gateway 管理
+openclaw gateway status/start/stop/restart
+
+# 状态检查
+openclaw status
+openclaw security audit
+
+# 会话管理
+openclaw sessions
+openclaw sessions cleanup
+
+# 节点配对
+openclaw node pair
+```
+
+---
+
 ## 🚨 安全提醒
 
 - 不要删除 `memory/YYYY-MM-DD.md` 文件
