@@ -1,0 +1,29 @@
+{
+  "description": "示例答案文件 - 根据实际情况修改",
+  "answer_sets": [
+    {
+      "name": "用户画像 A",
+      "answers": [
+        {"question_index": 0, "type": "radio", "value": "选项 1"},
+        {"question_index": 1, "type": "checkbox", "value": ["选项 A", "选项 B"]},
+        {"question_index": 2, "type": "text", "value": "示例文本"},
+        {"question_index": 3, "type": "single_select", "value": "选项 3"}
+      ]
+    },
+    {
+      "name": "用户画像 B",
+      "answers": [
+        {"question_index": 0, "type": "radio", "value": "选项 2"},
+        {"question_index": 1, "type": "checkbox", "value": ["选项 C"]},
+        {"question_index": 2, "type": "text", "value": "不同的文本"},
+        {"question_index": 3, "type": "single_select", "value": "选项 1"}
+      ]
+    }
+  ],
+  "usage_notes": [
+    "question_index: 从 0 开始的题号索引",
+    "type: 题型 (radio/checkbox/text/single_select)",
+    "value: 答案内容 (单选/文本为字符串，多选为数组)",
+    "可自定义多个 answer_sets，按策略轮换使用"
+  ]
+}

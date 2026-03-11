@@ -1,0 +1,363 @@
+{
+  "file_info": {
+    "original_filename": "问卷 20260311---8a297b2d-5f1d-47a0-9061-21aa20eba025",
+    "total_lines": 211,
+    "file_size_bytes": 12540,
+    "format": "CSV (逗号分隔值)",
+    "encoding": "UTF-8"
+  },
+  "structure": {
+    "column_count": 10,
+    "columns": [
+      "序号/选项",
+      "数值/标签",
+      "人数",
+      "占比 (%)",
+      "均值",
+      "标准差",
+      "分布说明",
+      "列 7",
+      "列 8",
+      "列 9"
+    ]
+  },
+  "data_summary": {
+    "total_rows": 211,
+    "data_rows": 203,
+    "blank_rows": 8,
+    "note": "数据行数已减去标题行"
+  },
+  "questions": [
+    {
+      "question_number": "1",
+      "title": "您是否在近 1 年内，体验过以下历史文化主题实景戏剧项目？",
+      "type": "单选题",
+      "columns": ["选项", "人数", "占比 (%)"],
+      "options": [
+        {"option": "体验过", "count": 603, "percentage": 80.4},
+        {"option": "未体验过，但有文旅景区游览/实景演出观演的消费习惯", "count": 112, "percentage": 14.9},
+        {"option": "未体验过，也无相关文旅消费习惯", "count": 35, "percentage": 4.7},
+        {"option": "合计", "count": 750, "percentage": 100}
+      ],
+      "sample_size": 750
+    },
+    {
+      "question_number": "2",
+      "title": "您在游览时是否接触过以下 AI/智能技术相关的体验项目？（多选）",
+      "type": "多选题",
+      "columns": ["选项", "人数", "占比 (%)"],
+      "options": [
+        {"option": "VR/AR 沉浸式体验（如球幕飞越、实景 AR 互动）", "count": 378, "percentage": 62.7},
+        {"option": "智能 NPC 互动/AI 数字人对话", "count": 294, "percentage": 48.8},
+        {"option": "智能导览/AI 语音讲解", "count": 423, "percentage": 70.1},
+        {"option": "个性化行程推荐/智能规划系统", "count": 246, "percentage": 40.8},
+        {"option": "光影互动装置/全息投影演出", "count": 351, "percentage": 58.2},
+        {"option": "智能排队/人流预警系统", "count": 189, "percentage": 31.3},
+        {"option": "体验过项目，但未接触过任何上述 AI/智能技术", "count": 87, "percentage": 14.4}
+      ],
+      "note": "本题为多选题，占比之和超过 100%，有效样本量为 603 人",
+      "sample_size": 603
+    },
+    {
+      "question_number": "3",
+      "title": "您此次前往该景区出游的主要目的是？（多选）",
+      "type": "多选题",
+      "options": [
+        {"option": "了解历史文化、开展文化学习", "count": 324, "percentage": 53.7},
+        {"option": "休闲娱乐、放松身心", "count": 462, "percentage": 76.6},
+        {"option": "网红打卡、社交平台分享", "count": 285, "percentage": 47.3},
+        {"option": "亲子研学、家庭出游", "count": 189, "percentage": 31.3},
+        {"option": "戏剧/艺术爱好者，专门前往观演", "count": 126, "percentage": 20.9},
+        {"option": "其他", "count": 45, "percentage": 7.5}
+      ],
+      "note": "本题为多选题，有效样本量为 603 人",
+      "sample_size": 603
+    },
+    {
+      "question_number": "4",
+      "title": "您是通过什么渠道了解到该项目的？（多选）",
+      "type": "多选题",
+      "options": [
+        {"option": "抖音/小红书/快手等短视频平台", "count": 438, "percentage": 72.6},
+        {"option": "微信/微博等社交平台", "count": 306, "percentage": 50.7},
+        {"option": "亲友/同事推荐", "count": 228, "percentage": 37.8},
+        {"option": "旅行社/携程/美团等 OTA 平台", "count": 189, "percentage": 31.3},
+        {"option": "新闻报道/纪录片", "count": 126, "percentage": 20.9},
+        {"option": "景区线下宣传", "count": 87, "percentage": 14.4},
+        {"option": "其他", "count": 36, "percentage": 6}
+      ],
+      "note": "本题为多选题，有效样本量为 603 人",
+      "sample_size": 603
+    },
+    {
+      "question_number": "5",
+      "title": "您是首次到访该景区吗？",
+      "type": "单选题",
+      "options": [
+        {"option": "是，首次到访", "count": 381, "percentage": 63.2},
+        {"option": "否，此前已到访 2 次", "count": 132, "percentage": 21.9},
+        {"option": "否，此前已到访 3 次及以上", "count": 90, "percentage": 14.9},
+        {"option": "合计", "count": 603, "percentage": 100}
+      ],
+      "sample_size": 603
+    },
+    {
+      "question_number": "6",
+      "title": "您此次在该景区的总停留时长约为？",
+      "type": "单选题",
+      "options": [
+        {"option": "半天以内", "count": 87, "percentage": 14.4},
+        {"option": "1 天", "count": 243, "percentage": 40.3},
+        {"option": "2 天", "count": 189, "percentage": 31.3},
+        {"option": "3 天及以上", "count": 84, "percentage": 13.9},
+        {"option": "合计", "count": 603, "percentage": 100}
+      ],
+      "sample_size": 603
+    },
+    {
+      "question_number": "7",
+      "title": "AI 技术感知（量表题，1-5 分）",
+      "type": "量表题",
+      "scale": "1-5 分 (1=非常不符合，5=非常符合)",
+      "columns": ["题项", "非常不符合 (%)", "比较不符合 (%)", "一般 (%)", "比较符合 (%)", "非常符合 (%)", "均值", "标准差"],
+      "items": [
+        {"item": "景区里的 AI 智能导览/推荐系统，帮我更高效地规划了游览路线", "mean": 3.89, "sd": 0.98},
+        {"item": "AI 互动装置/数字人，让我对景区的历史文化有了更深入的理解", "mean": 3.8, "sd": 1.02},
+        {"item": "这些 AI/智能设备操作起来简单易懂，很容易上手", "mean": 3.86, "sd": 0.95},
+        {"item": "我认为在这类历史文化景区里，引入 AI 技术是很有必要的", "mean": 4.02, "sd": 0.92},
+        {"item": "我觉得 AI 技术和景区的历史文化内容融合得很自然，没有违和感", "mean": 3.71, "sd": 1.05},
+        {"item": "相比传统的人工讲解/静态展示，我更喜欢 AI 技术带来的互动体验", "mean": 3.64, "sd": 1.08}
+      ]
+    },
+    {
+      "question_number": "8",
+      "title": "沉浸体验测量（量表题，1-5 分）",
+      "type": "量表题",
+      "scale": "1-5 分",
+      "items": [
+        {"item": "体验过程中，我感觉自己身临其境，仿佛真的置身于历史场景之中", "mean": 4.01, "sd": 0.91},
+        {"item": "演出的声光电、实景建筑，充分调动了我的视觉、听觉等感官", "mean": 4.11, "sd": 0.86},
+        {"item": "观演过程中，我和剧中人物、剧情产生了强烈的情感共鸣", "mean": 3.93, "sd": 0.98},
+        {"item": "演出内容让我对这段历史文化，产生了强烈的情感认同", "mean": 4.0, "sd": 0.93},
+        {"item": "体验过程中，我很容易忘记现实时间和周围的环境", "mean": 3.84, "sd": 1.01},
+        {"item": "我有个'穿越'到历史年代的感觉，暂时忘记了自己的现代身份", "mean": 3.79, "sd": 1.03},
+        {"item": "我会主动参与剧情互动、探索场景里的历史细节，而非被动观看", "mean": 3.94, "sd": 0.95},
+        {"item": "我的互动和选择，能真实影响剧情的走向和体验内容", "mean": 3.7, "sd": 1.06},
+        {"item": "注意力检测 本题请您选择'非常符合'", "mean": 4.96, "sd": 0.23}
+      ]
+    },
+    {
+      "question_number": "9",
+      "title": "文化价值感知（量表题，1-5 分）",
+      "type": "量表题",
+      "items": [
+        {"item": "我认为该景区对对应的历史文化（如宋文化、黄河文化）还原度很高", "mean": 3.94, "sd": 0.96},
+        {"item": "这次体验，让我学到了新的历史文化知识", "mean": 4.0, "sd": 0.92},
+        {"item": "这次体验后，我对该地域的历史文化有了更深的认同感", "mean": 4.0, "sd": 0.93},
+        {"item": "我愿意把这个景区，作为了解这段历史文化的窗口推荐给他人", "mean": 4.06, "sd": 0.89}
+      ]
+    },
+    {
+      "question_number": "10",
+      "title": "满意度与行为意向（量表题，1-5 分）",
+      "type": "量表题",
+      "items": [
+        {"item": "我对该景区的整体游览体验感到满意", "mean": 4.11, "sd": 0.86},
+        {"item": "我对景区里 AI 技术的实际应用效果感到满意", "mean": 3.93, "sd": 0.95},
+        {"item": "未来我愿意再次到访该景区体验", "mean": 4.0, "sd": 0.91},
+        {"item": "我愿意向亲友、同事推荐这个景区", "mean": 4.06, "sd": 0.88},
+        {"item": "我愿意在抖音、小红书等社交平台，分享我的游览体验", "mean": 3.85, "sd": 0.99}
+      ]
+    },
+    {
+      "question_number": "11",
+      "title": "您在游览时未接触景区内 AI/智能技术相关项目的主要原因是？（多选）",
+      "type": "多选题",
+      "sample_size": 87,
+      "note": "体验过但未接触 AI 者",
+      "options": [
+        {"option": "不知道景区有相关 AI 体验项目", "count": 54, "percentage": 62.1},
+        {"option": "担心设备操作复杂，不会使用", "count": 38, "percentage": 43.7},
+        {"option": "对 AI 技术不感兴趣，更偏好传统观演模式", "count": 32, "percentage": 36.8},
+        {"option": "相关项目需要额外付费，性价比不高", "count": 28, "percentage": 32.2},
+        {"option": "听说相关项目体验感差、故障多", "count": 18, "percentage": 20.7},
+        {"option": "排队时间过长，放弃体验", "count": 24, "percentage": 27.6},
+        {"option": "其他", "count": 8, "percentage": 9.2}
+      ]
+    },
+    {
+      "question_number": "12",
+      "title": "以下关于 AI 技术在历史文化实景戏剧中的应用，您的感受符合程度是？（量表题，1-5 分）",
+      "type": "量表题",
+      "items": [
+        {"item": "我认为 AI 技术能为历史文化实景戏剧的体验带来提升", "mean": 3.76, "sd": 1.02},
+        {"item": "未来再次到访时，我愿意尝试景区内的 AI 相关体验项目", "mean": 3.94, "sd": 0.95},
+        {"item": "我认为该景区对对应的历史文化还原度很高", "mean": 3.98, "sd": 0.91},
+        {"item": "这次体验，让我学到了新的历史文化知识", "mean": 4.01, "sd": 0.9},
+        {"item": "我对该景区的整体游览体验感到满意", "mean": 4.11, "sd": 0.85},
+        {"item": "我愿意向亲友、同事推荐这个景区", "mean": 4.12, "sd": 0.84}
+      ]
+    },
+    {
+      "question_number": "13",
+      "title": "您日常游览文旅景区/观看实景演出的主要目的是？（多选）",
+      "type": "多选题",
+      "sample_size": 112,
+      "note": "未体验过但有消费习惯者",
+      "options": [
+        {"option": "了解历史文化、开展文化学习", "count": 56, "percentage": 50},
+        {"option": "休闲娱乐、放松身心", "count": 89, "percentage": 79.5},
+        {"option": "网红打卡、社交平台分享", "count": 48, "percentage": 42.9},
+        {"option": "亲子研学、家庭出游", "count": 34, "percentage": 30.4},
+        {"option": "戏剧/艺术爱好者，专门观演", "count": 23, "percentage": 20.5},
+        {"option": "其他", "count": 8, "percentage": 7.1}
+      ]
+    },
+    {
+      "question_number": "14",
+      "title": "您近 1 年内，游览文旅景区/观看实景演出的频次约为？",
+      "type": "单选题",
+      "sample_size": 112,
+      "options": [
+        {"option": "平均每月 1 次及以上", "count": 18, "percentage": 16.1},
+        {"option": "平均每 2-3 个月 1 次", "count": 34, "percentage": 30.4},
+        {"option": "平均每半年 1 次", "count": 38, "percentage": 33.9},
+        {"option": "平均每年 1 次", "count": 16, "percentage": 14.3},
+        {"option": "1 年以上 1 次", "count": 6, "percentage": 5.4},
+        {"option": "合计", "count": 112, "percentage": 100}
+      ]
+    },
+    {
+      "question_number": "15",
+      "title": "AI 技术认知与接受度（量表题，1-5 分）",
+      "type": "量表题",
+      "sample_size": 112,
+      "items": [
+        {"item": "我了解 AI 技术在文旅景区、实景演出中的各类应用形式", "mean": 3.27, "sd": 1.12},
+        {"item": "我认为 AI 技术能帮助游客更直观地理解历史文化内容", "mean": 3.64, "sd": 1.02},
+        {"item": "我认为 AI 互动设备操作起来简单易懂，不会有使用门槛", "mean": 3.41, "sd": 1.08},
+        {"item": "我认为在历史文化实景戏剧中引入 AI 技术是有必要的", "mean": 3.78, "sd": 0.98},
+        {"item": "相比传统的人工讲解/静态观演，我对 AI 技术带来的互动体验更感兴趣", "mean": 3.52, "sd": 1.06},
+        {"item": "我认为 AI 技术能与历史文化内容自然融合，不会有违和感", "mean": 3.46, "sd": 1.06}
+      ]
+    },
+    {
+      "question_number": "16",
+      "title": "体验与文化价值预期（量表题，1-5 分）",
+      "type": "量表题",
+      "sample_size": 112,
+      "items": [
+        {"item": "我预期 AI 技术能让我在体验时产生身临其境的历史场景沉浸感", "mean": 3.68, "sd": 1.03},
+        {"item": "我预期 AI 互动能让我与历史剧情、人物产生更强的情感共鸣", "mean": 3.59, "sd": 1.05},
+        {"item": "我预期这类 AI 赋能的实景戏剧，能让我学到新的历史文化知识", "mean": 3.78, "sd": 0.97},
+        {"item": "我预期体验后，会对相关历史文化产生更深的认同感", "mean": 3.74, "sd": 0.98},
+        {"item": "注意力检测 本题请您选择'非常不符合'", "mean": 1.05, "sd": 0.3},
+        {"item": "我认为这类 AI 赋能的实景戏剧，能成为了解历史文化的优质窗口", "mean": 3.78, "sd": 0.96},
+        {"item": "我预期这类 AI 赋能的项目，整体体验会优于传统实景戏剧", "mean": 3.51, "sd": 1.05}
+      ]
+    },
+    {
+      "question_number": "17",
+      "title": "体验阻碍因素（量表题，1-5 分）",
+      "type": "量表题",
+      "items": [
+        {"item": "门票/体验项目价格过高，会影响我参与体验的意愿", "mean": 2.9, "sd": 1.15},
+        {"item": "AI 设备操作复杂、体验故障多，会影响我参与体验的意愿", "mean": 2.78, "sd": 1.11},
+        {"item": "AI 技术与历史文化融合生硬、违和，会影响我参与体验的意愿", "mean": 2.71, "sd": 1.12}
+      ]
+    },
+    {
+      "question_number": "18",
+      "title": "体验与消费意愿（量表题，1-5 分）",
+      "type": "量表题",
+      "items": [
+        {"item": "未来我愿意专门前往体验 AI 赋能的历史文化实景戏剧项目", "mean": 3.87, "sd": 0.96},
+        {"item": "我愿意为 AI 赋能的特色体验项目，支付合理的额外费用", "mean": 3.6, "sd": 1.05},
+        {"item": "我愿意向亲友、同事推荐这类 AI 赋能的实景戏剧项目", "mean": 3.79, "sd": 0.98}
+      ],
+      "note": "未体验者中，90.2%（101 人）表示希望体验 AI 赋能项目"
+    },
+    {
+      "question_number": "24",
+      "title": "您平时对历史文化的兴趣程度如何？（1-5 分）",
+      "type": "单选题",
+      "sample_size": 750,
+      "options": [
+        {"option": "1（完全不感兴趣）", "count": 15, "percentage": 2},
+        {"option": "2", "count": 45, "percentage": 6},
+        {"option": "3", "count": 198, "percentage": 26.4},
+        {"option": "4", "count": 312, "percentage": 41.6},
+        {"option": "5（非常感兴趣）", "count": 180, "percentage": 24},
+        {"option": "合计", "count": 750, "percentage": 100}
+      ]
+    }
+  ],
+  "demographics": {
+    "table_name": "表 2 受访者人口统计学特征分布",
+    "gender": {
+      "categories": [
+        {"category": "男", "count": 368, "percentage": 49.1},
+        {"category": "女", "count": 378, "percentage": 50.4},
+        {"category": "不愿透露", "count": 4, "percentage": 0.5}
+      ],
+      "total": 750
+    },
+    "age": {
+      "categories": [
+        {"category": "18 岁以下", "count": 45, "percentage": 6, "description": "青少年群体"},
+        {"category": "18-25 岁", "count": 228, "percentage": 30.4, "description": "大学生及初入职场群体，占比最高"},
+        {"category": "26-35 岁", "count": 195, "percentage": 26, "description": "职场青年群体"},
+        {"category": "36-45 岁", "count": 135, "percentage": 18, "description": "中年群体"},
+        {"category": "46-55 岁", "count": 93, "percentage": 12.4, "description": "中老年群体"},
+        {"category": "56 岁以上", "count": 54, "percentage": 7.2, "description": "老年群体，占比最低"}
+      ],
+      "total": 750,
+      "distribution_note": "呈近似正态分布，年轻人居多"
+    },
+    "education": {
+      "categories": [
+        {"category": "高中及以下", "count": 78, "percentage": 10.4},
+        {"category": "大专", "count": 126, "percentage": 16.8},
+        {"category": "本科", "count": 378, "percentage": 50.4},
+        {"category": "硕士及以上", "count": 168, "percentage": 22.4}
+      ],
+      "total": 750
+    },
+    "occupation": {
+      "categories": [
+        {"category": "学生", "count": 165, "percentage": 22, "description": "大学生群体占比较大"},
+        {"category": "企业职员", "count": 198, "percentage": 26.4, "description": "企业白领群体"},
+        {"category": "事业单位/公务员", "count": 120, "percentage": 16, "description": "体制内人员"},
+        {"category": "自由职业者", "count": 87, "percentage": 11.6, "description": "灵活就业群体"},
+        {"category": "个体经营者", "count": 72, "percentage": 9.6, "description": "个体工商户"},
+        {"category": "退休人员", "count": 60, "percentage": 8, "description": "退休群体"},
+        {"category": "其他", "count": 48, "percentage": 6.4, "description": "其他职业"}
+      ],
+      "total": 750,
+      "distribution_note": "分布较为均衡多样"
+    }
+  },
+  "analysis_notes": {
+    "column_meanings": [
+      {"column": 1, "meaning": "序号/选项名称"},
+      {"column": 2, "meaning": "数值/标签/题项"},
+      {"column": 3, "meaning": "人数（计数型数据）"},
+      {"column": 4, "meaning": "占比百分比"},
+      {"column": 5, "meaning": "均值（量表题）"},
+      {"column": 6, "meaning": "标准差（量表题）"},
+      {"column": 7, "meaning": "备注/分布说明"},
+      {"column": 8, "meaning": "额外数据列"},
+      {"column": 9, "meaning": "额外数据列"},
+      {"column": 10, "meaning": "额外数据列"}
+    ],
+    "survey_topic": "AI 技术在历史文化实景戏剧中的应用效果研究",
+    "target_audience": "历史文化主题实景戏剧体验者",
+    "key_themes": [
+      "AI 技术应用",
+      "沉浸体验测量",
+      "文化价值感知",
+      "满意度与行为意向",
+      "人口统计学特征"
+    ]
+  }
+}

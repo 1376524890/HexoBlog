@@ -1,0 +1,38 @@
+{
+  "_comment": "问卷星通用 XPath 配置 - 根据实际问卷结构调整",
+  "forms": {
+    "question_container": "//div[contains(@class, 'question-item') or contains(@class, 'q-item') or contains(@class, 'question') or contains(@class, 'qi_item')]",
+    "question_text": ".//div[contains(@class, 'question-text') or contains(@class, 'qstn') or .//span[contains(@class, 'title')]]",
+    "options_container": ".//div[contains(@class, 'option') or contains(@class, 'choice') or .//label[contains(@class, 'item')]]",
+    "option_label": ".//label | .//div[contains(@class, 'option-text')]"
+  },
+  "inputs": {
+    "radio_button": ".//input[@type='radio']",
+    "checkbox": ".//input[@type='checkbox']",
+    "text_input": "//input[@type='text'] | //textarea",
+    "number_input": "//input[@type='number']"
+  },
+  "buttons": {
+    "submit": "//button[contains(text(), '提交') or contains(text(), '提交答卷') or contains(@class, 'btn-submit') or contains(@class, 'btn_primary')]",
+    "next": "//button[contains(text(), '下一题') or contains(text(), 'Next') or contains(@class, 'btn-next')]",
+    "save": "//button[contains(text(), '保存') or contains(text(), 'Save') or contains(@class, 'btn-save')]"
+  },
+  "elements": {
+    "loading": "//div[contains(@class, 'loading') or contains(@class, 'spinner') or contains(@class, 'loader')]",
+    "error": "//div[contains(@class, 'error') or contains(@class, 'tip') or contains(@class, 'error-text')]",
+    "captcha": "//div[contains(@class, 'captcha') or contains(@class, 'verify') or contains(@class, 'slide')]",
+    "pagination": "//div[contains(@class, 'pagination') or contains(@class, 'page') or contains(@class, 'pager')]"
+  },
+  "wait_conditions": {
+    "page_loaded": "document.readyState === 'complete'",
+    "form_ready": "document.querySelector('form') !== null",
+    "question_visible": "//div[contains(@class, 'question')] is visible"
+  },
+  "alternative_selectors": {
+    "note": "如果上述 XPath 不工作，请检查问卷页面元素并使用浏览器开发者工具获取正确的 XPath",
+    "methods": [
+      "右键点击元素 → Copy → Copy XPath",
+      "右键点击元素 → Inspect 使用开发者工具"
+    ]
+  }
+}

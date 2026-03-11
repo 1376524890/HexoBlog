@@ -1,0 +1,13 @@
+# requirements.txt
+# 问卷星自动化工具依赖
+
+selenium>=4.16.0
+requests>=2.31.0
+python-dateutil>=2.8.2
+loguru>=0.7.2
+webdriver-manager>=4.0.1
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.1.0
+pre-commit>=3.5.0

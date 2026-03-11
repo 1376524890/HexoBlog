@@ -1,0 +1,33 @@
+{
+  "selectors": {
+    "question_container": "//div[@class='question-item']",
+    "question_text": ".//div[@class='question-text']",
+    "radio_option": ".//div[@class='radio-option']",
+    "checkbox_option": ".//div[@class='checkbox-option']",
+    "text_input": ".//input[@type='text']",
+    "textarea": ".//textarea",
+    "submit_button": ".//button[@type='submit']",
+    "next_button": ".//button[@class='btn-next']",
+    "warning_message": ".//div[contains(@class, 'warning')]",
+    "success_message": ".//div[contains(@class, 'success')]"
+  },
+  "field_mappings": {
+    "radio": {
+      "container": "//div[@class='radio-group']",
+      "option": ".//div[contains(@class, 'option')]",
+      "input": ".//input[@type='radio']"
+    },
+    "checkbox": {
+      "container": "//div[@class='checkbox-group']",
+      "option": ".//div[contains(@class, 'option')]",
+      "input": ".//input[@type='checkbox']"
+    },
+    "text": {
+      "input": ".//input[contains(@class, 'text-input')]",
+      "textarea": ".//textarea[contains(@class, 'textarea')]"
+    },
+    "single_select": {
+      "select": ".//select"
+    }
+  }
+}

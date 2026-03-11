@@ -1,0 +1,49 @@
+{
+  "questionnaire": {
+    "url": "https://wjx.q.weixin.qq.com/t/xxxxxxxxx",
+    "wait_timeout": 30,
+    "element_timeout": 10
+  },
+  "fill_strategy": {
+    "max_attempts": 3,
+    "retry_delay": 2,
+    "random_delay": true,
+    "delay_range": [1, 3],
+    "auto_submit": true
+  },
+  "answers": {
+    "source_file": "answers/answers.json",
+    "strategy": "rotate",
+    "strategies": ["random", "rotate", "sequential"]
+  },
+  "proxy": {
+    "enabled": false,
+    "server": "http://localhost:7890",
+    "username": null,
+    "password": null
+  },
+  "geolocation": {
+    "enabled": false,
+    "province": "广东省",
+    "city": "深圳市"
+  },
+  "concurrency": {
+    "enabled": true,
+    "max_workers": 5,
+    "batch_size": 10
+  },
+  "browser": {
+    "headless": true,
+    "window_size": [1920, 1080],
+    "user_agent": null,
+    "disable_images": false
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/wjx-filler.log",
+    "console": true,
+    "max_size_mb": 10,
+    "backup_count": 5
+  },
+  "xpath_config": "config/xpath_config.json"
+}

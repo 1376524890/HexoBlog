@@ -1,0 +1,249 @@
+{
+  "_meta": {
+    "description": "问卷星 28 题数据统计示例文件",
+    "total_records": 210,
+    "questionnaire_url": "https://v.wjx.cn/vm/PhfZxRV.aspx",
+    "theme": "AI 技术在历史文化实景戏剧中的应用"
+  },
+  "questions": {
+    "1": {
+      "type": "single_choice",
+      "total_responses": 210,
+      "distribution": {
+        "非常了解": 0.15,
+        "比较了解": 0.30,
+        "一般了解": 0.35,
+        "不太了解": 0.20
+      },
+      "description": "您对 AI 技术在历史文化实景戏剧中的应用了解程度如何？"
+    },
+    "2": {
+      "type": "multiple_choice",
+      "total_responses": 210,
+      "distribution": {
+        "技术认知": 0.40,
+        "应用场景": 0.35,
+        "发展前景": 0.25,
+        "存在问题": 0.15
+      },
+      "description": "您关注哪些方面？（多选）"
+    },
+    "3": {
+      "type": "multiple_choice",
+      "total_responses": 210,
+      "distribution": {
+        "虚拟现实技术": 0.45,
+        "动作捕捉技术": 0.35,
+        "人工智能": 0.30,
+        "大数据": 0.20
+      },
+      "description": "您认为哪些 AI 技术最具应用价值？（多选）"
+    },
+    "4": {
+      "type": "multiple_choice",
+      "total_responses": 210,
+      "distribution": {
+        "观众体验": 0.50,
+        "文化传播": 0.40,
+        "艺术创新": 0.30,
+        "经济效益": 0.15
+      },
+      "description": "您认为 AI 技术可以带来哪些价值？（多选）"
+    },
+    "5": {
+      "type": "single_choice",
+      "total_responses": 210,
+      "distribution": {
+        "选项 A": 0.15,
+        "选项 B": 0.30,
+        "选项 C": 0.35,
+        "选项 D": 0.20
+      }
+    },
+    "6": {
+      "type": "single_choice",
+      "total_responses": 210,
+      "distribution": {
+        "非常支持": 0.40,
+        "比较支持": 0.35,
+        "一般": 0.15,
+        "不太支持": 0.10
+      }
+    },
+    "7": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.10,
+        "2": 0.15,
+        "3": 0.30,
+        "4": 0.30,
+        "5": 0.15
+      },
+      "scale_range": "1-5 分"
+    },
+    "8": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.05,
+        "2": 0.10,
+        "3": 0.25,
+        "4": 0.35,
+        "5": 0.25
+      }
+    },
+    "9": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.15,
+        "2": 0.20,
+        "3": 0.25,
+        "4": 0.25,
+        "5": 0.15
+      }
+    },
+    "10": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.10,
+        "2": 0.15,
+        "3": 0.30,
+        "4": 0.25,
+        "5": 0.20
+      }
+    },
+    "11": {
+      "type": "multiple_choice",
+      "total_responses": 210,
+      "distribution": {
+        "技术成本": 0.35,
+        "技术成熟度": 0.30,
+        "人才缺乏": 0.25,
+        "政策支持": 0.20
+      }
+    },
+    "12": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.20,
+        "2": 0.25,
+        "3": 0.20,
+        "4": 0.20,
+        "5": 0.15
+      }
+    },
+    "13": {
+      "type": "multiple_choice",
+      "total_responses": 210,
+      "distribution": {
+        "内容创新": 0.45,
+        "形式创新": 0.35,
+        "技术创新": 0.25,
+        "传播创新": 0.15
+      }
+    },
+    "14": {
+      "type": "single_choice",
+      "total_responses": 210,
+      "distribution": {
+        "非常必要": 0.45,
+        "比较必要": 0.35,
+        "一般": 0.15,
+        "不太必要": 0.05
+      }
+    },
+    "15": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.10,
+        "2": 0.15,
+        "3": 0.25,
+        "4": 0.30,
+        "5": 0.20
+      }
+    },
+    "16": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.15,
+        "2": 0.20,
+        "3": 0.30,
+        "4": 0.25,
+        "5": 0.10
+      }
+    },
+    "17": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.05,
+        "2": 0.10,
+        "3": 0.20,
+        "4": 0.40,
+        "5": 0.25
+      }
+    },
+    "18": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.10,
+        "2": 0.15,
+        "3": 0.25,
+        "4": 0.30,
+        "5": 0.20
+      }
+    },
+    "24": {
+      "type": "scale",
+      "total_responses": 210,
+      "distribution": {
+        "1": 0.08,
+        "2": 0.12,
+        "3": 0.25,
+        "4": 0.35,
+        "5": 0.20
+      }
+    },
+    "25": {
+      "type": "short_answer",
+      "total_responses": 210,
+      "expected_length": "50-200 字",
+      "theme": "AI 技术在历史文化实景戏剧中的应用"
+    },
+    "26": {
+      "type": "short_answer",
+      "total_responses": 210,
+      "expected_length": "50-200 字",
+      "theme": "AI 技术在历史文化实景戏剧中的应用"
+    },
+    "27": {
+      "type": "short_answer",
+      "total_responses": 210,
+      "expected_length": "50-200 字",
+      "theme": "AI 技术在历史文化实景戏剧中的应用"
+    },
+    "28": {
+      "type": "short_answer",
+      "total_responses": 210,
+      "expected_length": "50-200 字",
+      "theme": "AI 技术在历史文化实景戏剧中的应用"
+    }
+  },
+  "summary": {
+    "total_questions": 28,
+    "question_types": {
+      "single_choice": 8,
+      "multiple_choice": 6,
+      "scale": 8,
+      "short_answer": 4
+    },
+    "total_records": 210
+  }
+}

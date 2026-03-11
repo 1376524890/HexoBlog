@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Logs
+logs/
+*.log
+
+# Data (可选，如果数据敏感)
+# data/*.csv
+# data/*.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Chrome
+*.crash
+*.log
+
+# Config (可选，如果包含敏感信息)
+# .env
+*.local

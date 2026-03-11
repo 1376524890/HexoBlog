@@ -1,0 +1,45 @@
+{
+  "_comment": "问卷星自动填写系统配置文件 - 750 份样本",
+  "questionnaire": {
+    "url": "https://v.wjx.cn/vm/PhfZxRV.aspx",
+    "total_questions": 28,
+    "question_types": {
+      "single_choice": [1, 5, 6, 14],
+      "multiple_choice": [2, 3, 4, 11, 13],
+      "scale": [7, 8, 9, 10, 12, 15, 16, 17, 18, 24],
+      "short_answer": [25, 26, 27, 28]
+    }
+  },
+  "browser": {
+    "driver_path": null,
+    "headless": true,
+    "window_size": [1920, 1080],
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "wait_timeout": 30,
+    "explicit_wait": 10
+  },
+  "execution": {
+    "workers": 5,
+    "max_retries": 3,
+    "retry_delay": 2,
+    "request_timeout": 60,
+    "delay_between_submissions": 5
+  },
+  "logging": {
+    "level": "INFO",
+    "output_dir": "logs",
+    "file_name": "wjx_automator",
+    "max_size_mb": 10,
+    "backup_count": 5
+  },
+  "data": {
+    "stats_file": "data/question_stats.json",
+    "xpath_file": "xpath_config.json"
+  },
+  "advanced": {
+    "save_screenshots": false,
+    "save_html": false,
+    "proxy": null,
+    "cookies_file": null
+  }
+}
