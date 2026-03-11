@@ -313,6 +313,151 @@ sessions_spawn({
 
 **注意**：御坂大人的博客有 Cloudflare 防护，API 方案会返回 403，需要使用 Scrapling 本地方案！
 
+## 🎯 御坂网络任务分派检查表（2026-03-11 创建）⭐ 新增
+
+**创建时间**: 2026-03-11 12:05 UTC  
+**目的**: 确保御坂美琴一号正确分派任务，避免 Agent 直接使用错误工具
+
+---
+
+### ✅ 任务分派前检查清单
+
+#### 【第一步】识别任务类型
+
+| 任务特征 | 应该分派给 | Agent ID |
+|---------|-----------|----------|
+| 搜索资料、抓取网页、网络研究 | 御坂妹妹 16 号 | `web-crawler` |
+| 写代码、调试、重构、构建项目 | 御坂妹妹 11 号 | `code-executor` |
+| 写文章、翻译、润色、博客 | 御坂妹妹 12 号 | `content-writer` |
+| 数据分析、统计、报告 | 御坂妹妹 13 号 | `research-analyst` |
+| 文件整理、移动、复制 | 御坂妹妹 14 号 | `file-manager` |
+| 系统配置、服务管理 | 御坂妹妹 15 号 | `system-admin` |
+| 无法分类的琐碎任务 | 御坂妹妹 10 号 | `general-agent` |
+| 记忆整理、备份、归档 | 御坂妹妹 17 号 | `memory-organizer` |
+
+---
+
+#### 【第二步】构建任务描述
+
+**❌ 错误示范**：
+```javascript
+// 错误 1: 描述太模糊
+task: "帮我搜索机器学习"
+// 结果：Agent 会使用 web_search 或 web_fetch 直接调用
+
+// 错误 2: 指定错误工具
+task: "使用 web_fetch 抓取这个网页"
+// 结果：Agent 会直接用工具而不是技能
+```
+
+**✅ 正确示范**：
+```javascript
+// 正确 1: 指定技能名称
+task: "使用 smart-search skill 搜索：机器学习入门资料"
+// 结果：御坂妹妹 16 号会执行 python3 ~/skills/smart-search/smart_search.py "机器学习入门资料"
+
+// 正确 2: 指定执行方式
+task: "使用 Claude Code 执行：创建一个 Python 爬虫项目"
+// 结果：御坂妹妹 11 号会运行 claude --print --permission-mode bypassPermissions
+```
+
+---
+
+#### 【第三步】构建 sessions_spawn 调用
+
+**✅ 标准格式**（2026-03-10 修正版）：
+```javascript
+sessions_spawn({
+  runtime: "subagent",  // ⚠️ 必须用 subagent，不能用 acp！
+  agentId: "web-crawler",  // 从 agents_list 中选择
+  task: "使用 smart-search skill 搜索：XXX",  // 明确指定技能和具体任务
+  mode: "session",  // 推荐用 session 模式（持久化）
+  label: "搜索任务"  // 可选，便于识别
+})
+```
+
+**❌ 常见错误**：
+```javascript
+// 错误 1: 用 acp runtime
+sessions_spawn({
+  runtime: "acp",  // ❌ 会报错！
+  agentId: "web-crawler",
+  task: "搜索 XXX"
+})
+
+// 错误 2: 没有指定任务细节
+sessions_spawn({
+  runtime: "subagent",
+  agentId: "code-executor",
+  task: "写个代码"  // ❌ 太模糊！
+})
+
+// 错误 3: 御坂美琴一号自己调用工具
+web_fetch({url: "https://r.jina.ai/..."})  // ❌ 应该让 Agent 去调用！
+```
+
+---
+
+### 🛠️ 技能使用规范
+
+#### 1️⃣ SmartSearch（搜索技能）
+- **位置**: `/home/claw/.openclaw/workspace/skills/smart-search/`
+- **执行脚本**: `smart_search.py`
+- **正确调用**:
+  ```javascript
+  task: "使用 smart-search skill 搜索：机器学习"
+  ```
+- **Agent 执行命令**:
+  ```bash
+  python3 /home/claw/.openclaw/workspace/skills/smart-search/smart_search.py "机器学习"
+  ```
+
+#### 2️⃣ web-markdown-search（单 URL 抓取）
+- **位置**: `/home/claw/.openclaw/skills/web-markdown-search/`
+- **使用工具**: `web_fetch({url: "https://r.jina.ai/URL"})`
+- **正确调用**:
+  ```javascript
+  task: "使用 web-markdown-search skill 抓取：https://example.com"
+  ```
+
+#### 3️⃣ Coding-Agent（代码执行）
+- **位置**: `/home/claw/.openclaw/extensions/feishu/node_modules/openclaw/skills/coding-agent/`
+- **执行命令**: `claude --print --permission-mode bypassPermissions`
+- **正确调用**:
+  ```javascript
+  task: "使用 coding-agent skill 创建 Python 爬虫项目"
+  ```
+- **Agent 执行命令**:
+  ```bash
+  cd /path/to/project && claude --print --permission-mode bypassPermissions "创建 Python 爬虫项目"
+  ```
+
+---
+
+### 🔄 监督机制
+
+#### 御坂美琴一号每次分派任务时的自检：
+- [ ] 是否选择了正确的 Agent ID？
+- [ ] 任务描述是否明确指定了技能名称？
+- [ ] 是否使用了 `runtime: "subagent"`？
+- [ ] 任务描述是否清晰具体，不是模糊的"写个代码"？
+- [ ] 是否避免了自己直接调用工具？
+
+#### 分派后的检查：
+- [ ] 通过 `subagents list` 查看任务状态
+- [ ] 通过 `sessions_history` 查看 Agent 是否使用了正确的工具
+- [ ] 如果发现问题，立即干预并纠正
+
+---
+
+### 📝 更新记录
+
+- **2026-03-11 12:05**: 御坂美琴一号创建检查表，基于姐姐大人发现的问题
+- **2026-03-10 04:47**: 御坂美琴一号发现 smart-search 技能位置
+- **2026-03-10 04:46**: 御坂妹妹 16 号首次使用 smart-search 搜索御坂美琴
+
+---
+
 ## 🧠 苏格拉底式反问机制（2026-03-09）⭐ 新增
 
 **创建时间**: 2026-03-09 12:30 UTC  
@@ -401,28 +546,11 @@ sessions_spawn({
 
 ---
 
-## 📝 近期成果 (2026-03-10)
 
-- ✅ **Completed** **学习成果**: ✅ 完成
-- 📝 **Record** ## 📝 学习成果
-- ✅ **Completed** 1. ✅ **不是聊天机器人**，而是能真正执行任务的 Agent 平台
-- ✅ **Completed** 2. ✅ **记忆即文件**，所有记忆持久化到磁盘，不丢失
-- ✅ **Completed** 3. ✅ **安全第一**，多层权限控制和审计日志
-- ✅ **Completed** 4. ✅ **模块化设计**，Skills 和 Channels 独立可替换
-- ✅ **Completed** 5. ✅ **多智能体协作**，专业分工，效率更高
-- 🎯 **Goal** ## 🎯 汇报准备
-- ✅ **Completed** - **状态**: ✅ 就绪
-- 🔧 **Technical** ## 🔧 技术细节记录
-- 🎯 **Goal** ## 🎯 后续行动
-- ✅ **Completed** 1. ✅ 完成 OpenClaw 知识学习
-- ✅ **Completed** 2. ✅ 创建完整的学习文档和汇报文档
-- ⚡ **Important** **记录者**: 御坂美琴一号 ⚡
-- 🎯 **学习成果**: 2026-03-10 系统学习 OpenClaw 知识
-  - 掌握三层架构、四大组件、多智能体系统（御坂网络第一代）
-  - 熟练工具系统（16+ 类别）、技能系统（16 个已安装 Skills）
-  - 了解安全模型、最佳实践、常见问题
-  - 产出详细汇报文档和速查卡片，准备 7 点汇报
+## 📝 近期成果 (2026-03-11)
 
+- 🔧 **Technical** ## 🔧 系统维护
+- ✅ **Completed** ### ✅ 自动备份任务修复
 ## 🏠 基本信息
 
 **御坂大人**: 御坂美琴 (Misaka Mikoto) - 学园都市超能力者第三名，本尊 ⚡
@@ -542,6 +670,15 @@ sessions_spawn({
 **学习时间**: 2026-03-11 07:30  
 **整理者**: 御坂美琴一号 ⚡  
 
+**学习状态**: ✅ 学习完成，文档已整理  
+**今日学习文档**:
+- OpenClaw-High-Level-Overview-2026-03-10.md（23KB，完整阅读）
+- OpenClaw-Learning-Summary.md（12KB，完整阅读）
+- OpenClaw-Quick-Cheat-Sheet.md（5.8KB，完整阅读）
+- OpenClaw-Learning-Notes.md（28KB，完整阅读）
+
+**汇报文档**: `docs/OpenClaw-汇报准备 -2026-03-12.md`（8.6KB）✅ 已创建
+
 ### 核心知识点
 
 1. ✅ **不是聊天机器人，是做事的 Agent** - 能真正执行任务，不只是聊天
@@ -647,6 +784,103 @@ openclaw node pair
 - 定期 review 记忆文件，提炼精华
 - **删除文件使用 `trash` 而不是 `rm`**
 - **Git 操作前确认更改范围**
+
+---
+
+## 📚 OpenClaw 知识学习 (2026-03-11) ⭐ 重要
+
+**学习目的**: 为明早 7 点汇报做准备  
+**学习方式**: 只学习，不实践  
+**学习时间**: 2026-03-11 07:30 (完成)  
+**整理者**: 御坂美琴一号 ⚡  
+
+**今日学习文档**:
+- ✅ OpenClaw-High-Level-Overview-2026-03-10.md（23KB，完整阅读）
+- ✅ OpenClaw-Learning-Summary.md（12KB，完整阅读）
+- ✅ OpenClaw-Quick-Cheat-Sheet.md（5.8KB，完整阅读）
+- ✅ OpenClaw-Learning-Notes.md（28KB，完整阅读）
+
+**汇报文档**: `docs/OpenClaw-汇报准备-2026-03-12.md`（8.6KB）✅ 已创建
+
+### 核心知识点总结
+
+1. ✅ **不是聊天机器人**，是做事的 Agent 平台
+2. ✅ **记忆即文件**，所有记忆持久化到磁盘
+3. ✅ **访问控制先于智能**，安全是第一原则
+4. ✅ **模块化设计**，Skills 和 Channels 独立可替换
+5. ✅ **多智能体协作**，专业分工，效率更高
+
+### 三层架构（必背）
+
+```
+Agent Layer（智能层）← 大脑
+    ↓
+Gateway Layer（网关层）← 路由器，不运行 AI 模型
+    ↓
+Node Layer（节点层）← 手脚，设备能力
+```
+
+### 四大核心组件（必背）
+
+| 组件 | 作用 | 关键点 |
+|------|------|--------|
+| **Gateway** | 大脑、路由器 | 不运行 AI 模型，只是调度员 |
+| **Agent** | 执行 AI 任务 | 身份 + 配置 + 状态 + 运行时 |
+| **Session** | 有状态容器 | 消息历史、上下文、工具状态 |
+| **Channel** | 协议适配器 | Telegram、Discord、飞书等 |
+
+### 记忆系统（重点！）
+
+- **三层架构**: 会话记忆 → 任务记忆 → 长期记忆
+- **记忆工具**: `memory_search` (语义检索) + `memory_get` (读取文件)
+- **Hybrid Search**: 向量相似度 + BM25 关键词检索
+- **Temporal Decay**: 基于时间衰减的排序（30 天半衰期）
+- **MMR Re-ranking**: 去重和多样化排序
+
+### 工具系统（16+ 类别）
+
+- 运行时工具：exec, process, gateway
+- 文件系统：read, write, edit, apply_patch
+- 会话管理：sessions_list, sessions_history, sessions_spawn
+- 记忆管理：memory_search, memory_get
+- 网络搜索：web_search, web_fetch, tavily, multi-search-engine
+- UI 工具：browser, canvas
+- 节点控制：nodes
+- 消息工具：message
+- Feishu 集成：feishu_doc, feishu_drive, feishu_wiki, feishu_chat, feishu_bitable
+
+### Skills 系统（16 个已安装）
+
+hexo-blog, task-tracker, weather, multi-search-engine, proactive-agent, subagent-network-call, xiaohongshu-ops, morning-briefing, blog-writing, email-sender, stock-analysis, skill-vetter, skill-creator, self-improving-agent, tavily-search, coding-agent
+
+### 御坂网络第一代（多智能体）
+
+| 编号 | Agent ID | 职责 |
+|------|----------|------|
+| 10 号 | general-agent | 通用代理 |
+| 11 号 | code-executor | 代码执行 |
+| 12 号 | content-writer | 内容创作 |
+| 13 号 | research-analyst | 研究分析 |
+| 14 号 | file-manager | 文件管理 |
+| 15 号 | system-admin | 系统管理 |
+| 16 号 | web-crawler | 网络爬虫 |
+| 17 号 | memory-organizer | 记忆整理 |
+
+### 安全原则（必背）
+
+1. **Private things stay private** - 私密信息不泄露
+2. **Ask before acting externally** - 外部行动前确认
+3. **Never send half-baked replies** - 不要发送半成品回复
+4. **Be careful in group chats** - 在群组中不要代表用户说话
+
+### 汇报准备状态
+
+- ✅ **状态**: 完全就绪
+- 📚 **学习时长**: 约 2 小时
+- 📝 **学习文档**: 4 个核心文档
+- 🎬 **演示脚本**: 已准备（工具调用、记忆系统、子代理）
+- ⏰ **汇报时间**: 2026-03-12 07:00 AM (UTC+8)
+- 🌅 **明早计划**: 6 点起床复习，7 点准时汇报
 
 ---
 
