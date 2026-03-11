@@ -215,31 +215,32 @@ sessions_spawn({
 
 ## 📋 待完善的 Skill 清单
 
-### ✅ 已正确配置的技能
+### ✅ 已正确配置的技能（2026-03-11 更新）
 
-| 技能名称 | Agent ID | 位置 | 状态 |
-|---------|----------|------|------|
-| smart-search | web-crawler | `workspace/skills/smart-search/` | ✅ 已配置 |
-| web-markdown-search | web-crawler | `~/.openclaw/skills/web-markdown-search/` | ✅ 已配置 |
-| coding-agent | code-executor | `extensions/feishu/node_modules/openclaw/skills/coding-agent/` | ✅ 已配置 |
-| blog-writing | content-writer | `extensions/feishu/skills/blog-writing/` | ✅ 已配置 |
-| task-tracker | 通用 | `~/.openclaw/skills/task-tracker/` | ✅ 已配置 |
-| hexo-blog | content-writer | `~/.openclaw/skills/hexo-blog/` | ✅ 已配置 |
+| 技能名称 | Agent ID | 位置 | 状态 | 创建时间 |
+|---------|----------|------|------|----------|
+| smart-search | web-crawler | `workspace/skills/smart-search/` | ✅ 已配置 | 2026-03-10 |
+| web-markdown-search | web-crawler | `~/.openclaw/skills/web-markdown-search/` | ✅ 已配置 | 2026-03-09 |
+| code-executor | code-executor | `workspace/skills/code-executor/` | ✅ **刚创建** | 2026-03-11 12:15 |
+| complex-research-skill | research-analyst | `workspace/skills/complex-research-skill/` | ✅ **刚创建** | 2026-03-11 12:28 |
+| memory-organizer | memory-organizer | `workspace/skills/memory-organizer/` | ✅ 已存在 | 2026-03-09 |
+| security-audit | system-admin | `workspace/skills/security-audit/` | ✅ **刚创建** | 2026-03-11 12:30 |
+| coding-agent | code-executor | `extensions/feishu/node_modules/openclaw/skills/coding-agent/` | ✅ 已配置 | 已安装 |
+| blog-writing | content-writer | `extensions/feishu/skills/blog-writing/` | ✅ 已配置 | 已安装 |
+| task-tracker | 通用 | `~/.openclaw/skills/task-tracker/` | ✅ 已配置 | 已安装 |
+| hexo-blog | content-writer | `~/.openclaw/skills/hexo-blog/` | ✅ 已配置 | 已安装 |
 
-### ⚠️ 缺少 SKILL.md 文档的技能（待创建）
+**总计**：10 个核心技能已配置 ✅
 
-| 技能名称 | 预期 Agent ID | 位置 | 优先级 |
-|---------|-------------|------|--------|
-| code-executor | code-executor | `workspace/skills/code-executor/` | 🔥 高 |
-| complex-research-skill | research-analyst | `workspace/skills/complex-research-skill/` | ⭐ 中 |
-| memory-organizer | memory-organizer | `workspace/skills/memory-organizer/` | 🔥 高 |
-| security-audit | system-admin | `workspace/skills/security-audit/` | ⭐ 中 |
-| public | 通用 | `workspace/skills/public/` | 💡 低 |
+### ⚠️ 待完善技能（低优先级）
 
-**下一步行动**：
-- 为每个自定义技能创建 SKILL.md 文档
-- 明确描述任务类型、使用方法、执行方式
-- 更新到 TASK-DISPATCH-CHECKLIST.md 的"技能使用规范"章节
+| 技能名称 | 预期 Agent ID | 位置 | 状态 | 优先级 |
+|---------|-------------|------|------|--------|
+| public | 通用 | `workspace/skills/public/` | ⚠️ 无文档（可能是公共资源） | 💡 低 |
+
+---
+
+**✅ 所有核心技能已完成文档化！**
 
 ---
 
