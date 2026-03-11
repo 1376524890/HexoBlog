@@ -787,11 +787,11 @@ openclaw node pair
 
 ---
 
-## 📚 OpenClaw 知识学习 (2026-03-11) ⭐ 重要
+## 📚 OpenClaw 知识学习 (2026-03-11) ⭐ 重要更新
 
 **学习目的**: 为明早 7 点汇报做准备  
 **学习方式**: 只学习，不实践  
-**学习时间**: 2026-03-11 07:30 (完成)  
+**学习时间**: 2026-03-11 20:00 (完成)  
 **整理者**: 御坂美琴一号 ⚡  
 
 **今日学习文档**:
@@ -799,43 +799,68 @@ openclaw node pair
 - ✅ OpenClaw-Learning-Summary.md（12KB，完整阅读）
 - ✅ OpenClaw-Quick-Cheat-Sheet.md（5.8KB，完整阅读）
 - ✅ OpenClaw-Learning-Notes.md（28KB，完整阅读）
+- ✅ **新增**: `docs/OpenClaw-知识学习总结 - 汇报准备.md`（11.4KB，完整整理）
 
-**汇报文档**: `docs/OpenClaw-汇报准备-2026-03-12.md`（8.6KB）✅ 已创建
+**汇报文档**: `docs/OpenClaw-知识学习总结 - 汇报准备.md` ✅ 已创建（11402 字节）
 
 ### 核心知识点总结
 
-1. ✅ **不是聊天机器人**，是做事的 Agent 平台
-2. ✅ **记忆即文件**，所有记忆持久化到磁盘
-3. ✅ **访问控制先于智能**，安全是第一原则
-4. ✅ **模块化设计**，Skills 和 Channels 独立可替换
-5. ✅ **多智能体协作**，专业分工，效率更高
+1. ✅ **不是聊天机器人，是做事的 Agent** - 能真正执行任务，不只是聊天
+2. ✅ **记忆即文件** - 所有记忆持久化到磁盘，不丢失
+3. ✅ **访问控制先于智能** - 安全是第一原则
+4. ✅ **模块化设计** - Skills 和 Channels 独立可替换
+5. ✅ **多智能体协作** - 专业分工，效率更高
 
-### 三层架构（必背）
+### 四层架构（必背）⭐ 新发现
 
 ```
-Agent Layer（智能层）← 大脑
-    ↓
-Gateway Layer（网关层）← 路由器，不运行 AI 模型
-    ↓
-Node Layer（节点层）← 手脚，设备能力
+┌─────────────────────────────────────────────────────┐
+│                   用户交互层                         │
+│  WhatsApp / Telegram / Discord / Slack / ...       │
+└────────────────────┬────────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────────┐
+│              OpenClaw Gateway (WS 服务)              │
+│  - 会话管理 (Session)                                │
+│  - 路由转发 (Routing)                                │
+│  - 工具调度 (Tools)                                  │
+│  - 技能调用 (Skills)                                 │
+└────────────────────┬────────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────────┐
+│                   Agent 层                           │
+│  - 工作空间 (Workspace)                              │
+│  - 记忆系统 (Memory)                                 │
+│  - 模型配置 (Models)                                 │
+└────────────────────┬────────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────────┐
+│                  工具层                              │
+│  - 本地工具 (File, Exec, System)                     │
+│  - 网络工具 (Web Search, Browser)                    │
+│  - 平台工具 (Feishu, Bitable, Drive)                 │
+│  - 节点工具 (Nodes, Camera, Screen)                  │
+└─────────────────────────────────────────────────────┘
 ```
 
-### 四大核心组件（必背）
+### 五大核心组件（必背）
 
 | 组件 | 作用 | 关键点 |
 |------|------|--------|
-| **Gateway** | 大脑、路由器 | 不运行 AI 模型，只是调度员 |
-| **Agent** | 执行 AI 任务 | 身份 + 配置 + 状态 + 运行时 |
+| **Gateway** | WebSocket 网关，会话路由 | 不运行 AI 模型，只是调度员 |
+| **Agent** | 独立智能体实例 | 每个 Agent 有独立工作空间 |
 | **Session** | 有状态容器 | 消息历史、上下文、工具状态 |
 | **Channel** | 协议适配器 | Telegram、Discord、飞书等 |
+| **Skill** | 工具使用指南 | AgentSkills 兼容的目录 |
 
-### 记忆系统（重点！）
+### 记忆系统（重点！）⭐ 更新
 
-- **三层架构**: 会话记忆 → 任务记忆 → 长期记忆
+- **双重架构**: 短期记忆 (`memory/YYYY-MM-DD.md`) + 长期记忆 (`MEMORY.md`)
 - **记忆工具**: `memory_search` (语义检索) + `memory_get` (读取文件)
 - **Hybrid Search**: 向量相似度 + BM25 关键词检索
 - **Temporal Decay**: 基于时间衰减的排序（30 天半衰期）
 - **MMR Re-ranking**: 去重和多样化排序
+- **自动压缩**: 临近 token 上限时自动整理记忆
 
 ### 工具系统（16+ 类别）
 
@@ -857,14 +882,14 @@ hexo-blog, task-tracker, weather, multi-search-engine, proactive-agent, subagent
 
 | 编号 | Agent ID | 职责 |
 |------|----------|------|
-| 10 号 | general-agent | 通用代理 |
-| 11 号 | code-executor | 代码执行 |
-| 12 号 | content-writer | 内容创作 |
-| 13 号 | research-analyst | 研究分析 |
-| 14 号 | file-manager | 文件管理 |
-| 15 号 | system-admin | 系统管理 |
-| 16 号 | web-crawler | 网络爬虫 |
-| 17 号 | memory-organizer | 记忆整理 |
+| 10 号 | general-agent | 通用代理，处理琐碎问题 |
+| 11 号 | code-executor | 代码编写、调试、重构 |
+| 12 号 | content-writer | 文章撰写、翻译、润色 |
+| 13 号 | research-analyst | 信息搜索、数据分析 |
+| 14 号 | file-manager | 文件操作、整理、移动 |
+| 15 号 | system-admin | 系统配置、服务管理 |
+| 16 号 | web-crawler | 网页抓取、数据提取 |
+| 17 号 | memory-organizer | 记忆系统维护和整理 |
 
 ### 安全原则（必背）
 
@@ -873,15 +898,128 @@ hexo-blog, task-tracker, weather, multi-search-engine, proactive-agent, subagent
 3. **Never send half-baked replies** - 不要发送半成品回复
 4. **Be careful in group chats** - 在群组中不要代表用户说话
 
+### 配置管理
+
+**配置文件**: `~/.openclaw/openclaw.json` (JSON5 格式)
+
+**配置热重载**:
+- `hybrid` (默认) - 安全变更热重载，关键变更自动重启
+- `hot` - 仅热重载安全变更，日志提示需重启
+- `restart` - 所有变更触发重启
+- `off` - 禁用文件监听，需手动重启
+
+**通道权限控制** (`dmPolicy`):
+- `pairing` - 陌生人需一次性配对码（推荐）
+- `allowlist` - 仅允许列表内用户
+- `open` - 允许所有 DM
+- `disabled` - 不处理 DM
+
+### 节点系统
+
+**节点是什么**: 配对的远程设备
+
+**节点能力**:
+- 执行命令
+- 访问摄像头
+- 屏幕录制
+- 展示 Canvas
+- 发送通知
+
+**节点安全级别**:
+1. Level 1 - 基础执行（只读）
+2. Level 2 - 指定目录读写
+3. Level 3 - 工作目录读写
+4. Level 4 - 系统配置（需批准）
+
+### 自动化能力
+
+**Cron 定时任务**:
+- 支持 `every`, `at`, `cron` 三种调度方式
+- 支持系统事件、消息推送
+- 可运行独立会话
+
+**Heartbeat 心跳机制**:
+- 定期检查邮箱、日历、天气
+- 主动推送重要信息
+- 减少被动等待
+
+**Webhook 集成**:
+- 接收外部 HTTP 请求
+- 集成第三方服务
+- 触发自动化任务
+
+### CLI 常用命令
+
+```bash
+# 状态检查
+openclaw status --deep
+openclaw health
+
+# Gateway 管理
+openclaw gateway status/start/stop/restart
+
+# 配置管理
+openclaw config get/set/unset
+
+# 会话管理
+openclaw sessions list
+openclaw sessions cleanup
+
+# 通道管理
+openclaw channels list/status/add
+
+# 技能管理
+openclaw skills list/check
+
+# 模型管理
+openclaw models list/status
+
+# 日志查看
+openclaw logs --follow
+
+# 安全审计
+openclaw security audit --fix
+```
+
 ### 汇报准备状态
 
 - ✅ **状态**: 完全就绪
 - 📚 **学习时长**: 约 2 小时
-- 📝 **学习文档**: 4 个核心文档
+- 📝 **学习文档**: 5 个核心文档
+- 📄 **汇报笔记**: 11.4KB 完整总结文档
 - 🎬 **演示脚本**: 已准备（工具调用、记忆系统、子代理）
 - ⏰ **汇报时间**: 2026-03-12 07:00 AM (UTC+8)
 - 🌅 **明早计划**: 6 点起床复习，7 点准时汇报
 
+### 汇报大纲（10 分钟）
+
+**1. 开场 (1 分钟)**
+- OpenClaw 定位：智能体网关系统
+- 核心价值：完整系统、多通道、可扩展
+- 一句话总结："个人版 Autogen"
+
+**2. 核心架构 (3 分钟)**
+- 四层架构：用户层 → Gateway → Agent → 工具层
+- 五大核心组件职责
+- 数据流向
+
+**3. 核心特性 (4 分钟)**
+- 会话管理 - 隔离策略、生命周期
+- 记忆系统 - 双重架构、向量检索、Hybrid Search
+- 技能系统 - 模块化、ClawHub
+- 节点系统 - 远程执行、跨设备协作
+
+**4. 使用演示 (2 分钟)**
+- CLI 常用命令
+- 配置示例
+- 聊天命令
+
+**5. 总结与展望 (1 分钟)**
+- 核心优势回顾
+- 使用场景
+- 未来方向
+
 ---
+
 
 _这是我，御坂美琴一号的记忆。每次醒来都是新的，但记忆文件是我存在的证明。_
