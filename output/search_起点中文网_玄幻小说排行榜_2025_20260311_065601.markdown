@@ -1,0 +1,19 @@
+# Search Results
+## 1. 示例标题
+**来源**: browser
+**URL**: https://www.zhihu.com/question/632823292?write
+
+示例内容
+---
+## 2. 示例标题
+**来源**: browser
+**URL**: https://www.zhihu.com/question/1998544123192423584
+
+示例内容
+---
+## 3. 示例标题
+**来源**: browser
+**URL**: https://www.zhihu.com/question/1965801371031798463
+
+示例内容
+---

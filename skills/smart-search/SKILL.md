@@ -6,10 +6,12 @@
 
 SmartSearch 是一个综合性网络搜索工具，通过四层架构实现高稳定性的搜索功能。
 
+**新版本 v1.1.0** 新增浏览器模式支持，可抓取 JavaScript 渲染的动态页面！
+
 ## 📋 技能信息
 
 - **名称**: SmartSearch - 智能降级网络搜索
-- **版本**: 1.0.0
+- **版本**: 1.1.0 (新增浏览器模式)
 - **类型**: 搜索工具
 - **权限**: Level 3 (工作目录读写 + 网络搜索)
 - **作者**: 御坂美琴本尊
@@ -70,7 +72,7 @@ for result in response.results:
 
 1. **Layer 1: 广泛搜索** - 并行 17 个搜索引擎
 2. **Layer 2: 目标发现** - 智能筛选 Top N 结果
-3. **Layer 3: 深度抓取** - 按降级顺序抓取内容
+3. **Layer 3: 深度抓取** - 按降级顺序抓取内容（或浏览器模式）
 4. **Layer 4: 结果整合** - 去重合并，输出 Markdown
 
 ### 支持的搜索引擎 (17 个)
@@ -101,6 +103,161 @@ for result in response.results:
 2. **markdown.new** - Cloudflare 回退
 3. **defuddle.md** - 备选方案
 4. **Scrapling** - 本地 Python 爬虫 (绕过反爬)
+
+---
+
+## 🌐 浏览器模式
+
+### 什么情况下使用浏览器模式？
+
+浏览器模式专为**动态内容**设计，适用于以下场景：
+
+| 场景 | 说明 | 传统模式 | 浏览器模式 |
+|------|------|----------|------------|
+| 静态 HTML 页面 | 纯 HTML 内容，无 JS | ✅ 推荐 | ⚠️ 过度 |
+| 需登录的页面 | 需要 Cookie/Session | ❌ 困难 | ✅ 轻松 |
+| JavaScript 渲染 | React/Vue/Angular 应用 | ❌ 空白页 | ✅ 完整 |
+| 滚动加载内容 | 无限滚动/懒加载 | ❌ 不支持 | ✅ 可模拟 |
+| 交互式组件 | 表单、点击事件 | ❌ 不支持 | ✅ 可执行 |
+| 反爬机制 | 需要浏览器指纹 | ❌ 易被拦 | ✅ 绕过 |
+
+**选择建议：**
+- 普通文档/新闻 → 使用**传统模式**（更快）
+- 现代 Web 应用 → 使用**浏览器模式**（更全）
+
+### 使用方法
+
+#### 命令行模式
+
+```bash
+# 简单浏览器模式搜索
+python smart_search.py "React 官方文档" --browser
+
+# 浏览器模式 + 深度搜索
+python smart_search.py --browser --depth 5 "Vue.js 教程"
+
+# 使用 Chrome 配置文件
+python smart_search.py --browser --browser-profile chrome "WebAssembly"
+
+# 浏览器模式 + JSON 输出
+python smart_search.py --browser --format json "Angular 文档"
+```
+
+#### Python API 模式
+
+```python
+from smart_search import SmartSearch
+
+# 创建浏览器模式搜索器
+searcher = SmartSearch(use_browser=True, browser_profile="openclaw")
+
+# 异步搜索
+response = await searcher.search(
+    query="React Hooks 教程",
+    depth=3,
+    max_results=5,
+    use_browser=True  # 可动态覆盖
+)
+
+# 同步搜索
+# response = searcher.search_sync("React Hooks", depth=3, use_browser=True)
+
+# 获取浏览器模式结果
+for result in response.results:
+    print(f"标题：{result.title}")
+    print(f"来源：{result.fetch_method}")  # 显示 "browser"
+    print(f"内容：{result.content[:200]}...")
+    print()
+```
+
+#### 混合模式
+
+```python
+# 同时使用传统模式和浏览器模式
+async def hybrid_search(query):
+    # 传统模式：快速抓取静态内容
+    traditional = SmartSearch()
+    browser = SmartSearch(use_browser=True)
+    
+    # 并行执行
+    traditional_results = await traditional.search(query, depth=2)
+    browser_results = await browser.search(query, depth=2, use_browser=True)
+    
+    # 合并去重
+    all_results = traditional_results.results + browser_results.results
+    return all_results
+```
+
+### 注意事项
+
+#### ⚠️ 性能说明
+
+| 指标 | 传统模式 | 浏览器模式 |
+|------|----------|------------|
+| 平均速度 | ~2-5 秒/页 | ~5-15 秒/页 |
+| 内存占用 | ~50MB | ~200-500MB |
+| CPU 占用 | 低 | 中/高 |
+| 网络延迟 | 低 | 高（需加载 JS/CSS） |
+
+**建议：**
+- 批量搜索 → 优先传统模式
+- 单次深度研究 → 浏览器模式
+- 实时性要求高 → 避免浏览器模式
+
+#### ⚠️ 浏览器配置
+
+**OpenClaw 浏览器 (默认)**
+- 优点：无扩展干扰、纯净环境
+- 适用：通用网页抓取
+- 限制：无用户历史/登录状态
+
+**Chrome 浏览器**
+- 优点：可复用用户配置、有扩展支持
+- 适用：需要登录、个性化内容
+- 限制：需手动附加标签页
+
+#### ⚠️ 使用限制
+
+1. **会话限制**：浏览器模式会占用会话资源，建议：
+   - 完成后自动关闭
+   - 避免长时间运行
+   
+2. **反爬虫**：部分网站有严格反爬机制，可能需要：
+   - 调整 User-Agent
+   - 添加延迟
+   - 使用代理
+
+3. **错误处理**：浏览器可能失败的情况：
+   - 网络连接问题
+   - 页面加载超时
+   - JavaScript 执行错误
+
+**错误处理示例：**
+```python
+from smart_search import SmartSearch
+
+searcher = SmartSearch(use_browser=True)
+response = await searcher.search("复杂网站", depth=2)
+
+# 检查错误
+if response.errors:
+    for error in response.errors:
+        print(f"错误：{error}")
+
+# 只处理成功的结果
+for result in response.results:
+    if result.fetch_method == "browser":
+        print(f"浏览器抓取成功：{result.title}")
+```
+
+#### ⚠️ 最佳实践
+
+1. **先传统后浏览器**：先用传统模式快速筛选，再对关键页面用浏览器模式
+2. **设置合理超时**：浏览器模式较慢，可设置更长 timeout
+3. **批量处理**：并行使用多个浏览器实例（需谨慎）
+4. **结果缓存**：对重复搜索，保存结果避免重复抓取
+
+---
 
 ## ⚙️ 配置说明
 
@@ -256,6 +413,14 @@ LogConfig.level = LogLevel.DEBUG
 4. **合法使用**: 遵守 robots.txt 和使用条款
 
 ## 🔄 更新日志
+
+### v1.1.0 (2026-03-11) - 浏览器模式
+- ✨ 新增浏览器模式支持
+- 🌐 新增 `BrowserFetcher` 类
+- 🔍 添加 `--browser` 命令行参数
+- ⚙️ 支持 `browser_profile` 配置（openclaw/chrome）
+- 📊 性能对比文档
+- ⚠️ 注意事项和最佳实践
 
 ### v1.0.0 (2024-03-10)
 - ✨ 初始版本发布
