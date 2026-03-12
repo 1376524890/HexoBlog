@@ -109,3 +109,10 @@
 ---
 
 _此文件由 system-health-check skill 自动管理_
+
+### 飞书通知任务 (新增)
+- ✅ 心跳结果通知 - 每 30 分钟 - `heartbeat_to_feishu`
+  - 自动将检测结果发送到飞书当前会话
+  - 脚本位置：`scripts/heartbeat_to_feishu.py`
+  - 通知格式：Markdown 格式，包含所有检查结果
+
