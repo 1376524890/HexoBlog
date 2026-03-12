@@ -295,3 +295,34 @@ _三层架构记忆系统_
 
 _最后更新：2026-03-12T04:26 UTC_  
 _御坂美琴一号 ⚡_
+
+---
+
+### ⚡ 系统健康检查技能 (2026-03-12 04:42)
+
+**创建时间**: 04:42 UTC  
+**技能名称**: `system-health-check`
+
+#### 功能
+
+- ✅ 网关状态检查
+- ✅ Agent 状态检查
+- ✅ 会话状态检查
+- ✅ 通道状态检查
+- ✅ 定时任务检查
+- ✅ 安全配置检查
+
+#### 集成方式
+
+- **HEARTBEAT.md**: 每 6 小时自动执行
+- **Cron 任务**: 定时检查
+- **手动执行**: 随时调用
+
+#### 配置文件
+
+- `~/.openclaw/skills/system-health-check/SKILL.md`
+- `~/.openclaw/skills/system-health-check/health-check.py`
+- `~/.openclaw/skills/system-health-check/config.yaml`
+
+**详细文档**: 查看 `~/.openclaw/skills/system-health-check/SKILL.md`
+

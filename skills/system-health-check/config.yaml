@@ -1,0 +1,22 @@
+name: system-health-check
+version: 1.0.0
+description: OpenClaw 系统状态自检技能
+author: 御坂美琴一号
+enabled: true
+schedule: "0 */6 * * *"
+agent: main
+permissions:
+  level: 4
+  tools:
+    - exec
+    - read
+    - write
+channels:
+  - feishu
+  - webchat
+outputs:
+  - channel: feishu
+    target: user:ou_c0ea02caca01fe1b21994f95366d8c4a
+    format: markdown
+  - channel: webchat
+    format: markdown
