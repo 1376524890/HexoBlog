@@ -1,0 +1,56 @@
+{
+  "github": {
+    "token": null,
+    "api_base": "https://api.github.com"
+  },
+  "discovery": {
+    "keywords": ["skill", "agent", "ai", "openclaw"],
+    "min_stars": 10,
+    "min_forks": 2,
+    "min_language": "Python",
+    "sort_by": "stars",
+    "order": "desc",
+    "limit": 50,
+    "exclude_keywords": [],
+    "include_topics": []
+  },
+  "analysis": {
+    "max_clone_time": 300,
+    "include_tests": true,
+    "max_file_size": 102400,
+    "analysis_depth": "full"
+  },
+  "evaluation": {
+    "weights": {
+      "practicality": 1.5,
+      "innovation": 1.0,
+      "code_quality": 1.5,
+      "documentation": 1.0,
+      "maintenance": 1.2,
+      "integration": 1.3
+    },
+    "accept_threshold": 7.5,
+    "review_threshold": 6.0,
+    "socratic_templates": [
+      "这个项目解决的核心问题是什么？为什么重要？",
+      "这个项目与其他类似方案相比，独特价值在哪里？",
+      "这个项目如果集成到 Skill 系统，会带来什么价值？"
+    ]
+  },
+  "integration": {
+    "skills_base_path": "/home/claw/.openclaw/workspace/skills",
+    "git_commit_message": "chore: add new skill from continuous learning",
+    "test_timeout": 30,
+    "skip_tests": false,
+    "auto_push": false
+  },
+  "output": {
+    "output_dir": "output",
+    "save_intermediate": true,
+    "format": "json"
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "continuous_learning.log"
+  }
+}

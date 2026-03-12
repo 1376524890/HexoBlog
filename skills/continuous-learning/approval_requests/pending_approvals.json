@@ -1,0 +1,62 @@
+{
+  "queue": [
+    {
+      "project_name": "skills",
+      "repo_url": "https://github.com/anthropics/skills",
+      "added_time": "2026-03-12T01:30:45.137038",
+      "status": "pending",
+      "priority": 34.0,
+      "analysis_result": null,
+      "evaluation_result": null,
+      "last_checked": null
+    },
+    {
+      "project_name": "antigravity-awesome-skills",
+      "repo_url": "https://github.com/sickn33/antigravity-awesome-skills",
+      "added_time": "2026-03-12T01:30:45.137539",
+      "status": "pending",
+      "priority": 34.0,
+      "analysis_result": null,
+      "evaluation_result": null,
+      "last_checked": null
+    },
+    {
+      "project_name": "agentskills",
+      "repo_url": "https://github.com/agentskills/agentskills",
+      "added_time": "2026-03-12T01:30:45.142397",
+      "status": "pending",
+      "priority": 34.0,
+      "analysis_result": null,
+      "evaluation_result": null,
+      "last_checked": null
+    },
+    {
+      "project_name": "agent-zero",
+      "repo_url": "https://github.com/agent0ai/agent-zero",
+      "added_time": "2026-03-12T01:30:45.142956",
+      "status": "pending",
+      "priority": 34.0,
+      "analysis_result": null,
+      "evaluation_result": null,
+      "last_checked": null
+    },
+    {
+      "project_name": "Open-AutoGLM",
+      "repo_url": "https://github.com/zai-org/Open-AutoGLM",
+      "added_time": "2026-03-12T01:30:45.143319",
+      "status": "pending",
+      "priority": 34.0,
+      "analysis_result": null,
+      "evaluation_result": null,
+      "last_checked": null
+    }
+  ],
+  "processed_projects": [
+    "https://github.com/zai-org/Open-AutoGLM",
+    "https://github.com/anthropics/skills",
+    "https://github.com/sickn33/antigravity-awesome-skills",
+    "https://github.com/agent0ai/agent-zero",
+    "https://github.com/agentskills/agentskills"
+  ],
+  "last_updated": "2026-03-12T01:30:45.143413"
+}

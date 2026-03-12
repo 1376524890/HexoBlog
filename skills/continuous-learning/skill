@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+"""
+持续学习进化系统 - OpenClaw 入口脚本
+=======================================
+
+此脚本用于通过 OpenClaw 命令调用 continuous-learning 技能。
+
+使用方式：
+  skill continuous-learning --all
+  skill continuous-learning --step discovery
+"""
+
+import sys
+import os
+
+# 添加当前目录到路径
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# 检查是否在 OpenClaw 环境中
+if "OPENCLAW_WORKSPACE" in os.environ:
+    # OpenClaw 环境
+    workspace = os.environ["OPENCLAW_WORKSPACE"]
+    skill_path = os.path.join(workspace, "skills", "continuous-learning")
+else:
+    # 本地环境
+    skill_path = os.path.dirname(os.path.abspath(__file__))
+
+# 导入主程序
+try:
+    from continuous_learning import main
+    sys.exit(main())
+except ImportError as e:
+    print(f"Error: 无法导入 continuous_learning 模块")
+    print(f"请确保已安装依赖：pip install github3.py GitPython pytest")
+    print(f"错误详情：{e}")
+    sys.exit(1)

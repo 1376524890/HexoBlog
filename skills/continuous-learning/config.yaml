@@ -1,0 +1,84 @@
+# 持续学习进化系统配置文件
+
+# GitHub 配置
+github:
+  # GitHub API token (可选，提升速率限制)
+  token: ""
+  
+  # API 基础地址
+  api_base: "https://api.github.com"
+
+# Discovery 配置
+discovery:
+  # 搜索关键词
+  keywords:
+    - "skill"
+    - "agent"
+    - "ai"
+    - "framework"
+  
+  # 过滤条件
+  min_stars: 10
+  min_forks: 2
+  limit: 50
+  
+  # 排序方式
+  sort_by: "stars"  # stars, updated, created
+  order: "desc"  # asc, desc
+  
+  # 排除关键词
+  exclude_keywords: []
+  
+  # 必须包含的话题
+  include_topics: []
+
+# Analysis 配置
+analysis:
+  # 克隆超时时间（秒）
+  max_clone_time: 300
+  
+  # 最大处理项目数
+  max_projects: 10
+  
+  # 是否包含测试文件
+  include_tests: true
+  
+  # 分析深度
+  analysis_depth: "full"  # quick, full, deep
+
+# Evaluation 配置
+evaluation:
+  # 评估权重
+  weights:
+    practicality: 1.5
+    innovation: 1.0
+    code_quality: 1.5
+    documentation: 1.0
+    maintenance: 1.2
+    integration: 1.3
+  
+  # 决策阈值
+  accept_threshold: 7.5
+  review_threshold: 6.0
+  
+  # 苏格拉底式三问
+  socratic_questions: true
+
+# Integration 配置
+integration:
+  # 是否跳过测试
+  skip_tests: false
+  
+  # 是否自动推送到 Git
+  auto_push: false
+  
+  # Skill 模板
+  skill_template: "default"
+  
+  # 输出目录
+  output_dir: "output"
+
+# 日志配置
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

@@ -1,0 +1,56 @@
+[
+    {
+        "header": "User-Agent",
+        "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    },
+    {
+        "header": "Accept",
+        "value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    },
+    {
+        "header": "Accept-Language",
+        "value": "zh-CN,zh;q=0.9,en;q=0.8",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    },
+    {
+        "header": "Accept-Encoding",
+        "value": "gzip, deflate, br",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    },
+    {
+        "header": "Referer",
+        "value": "https://www.wjx.cn/",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    },
+    {
+        "header": "Origin",
+        "value": "https://www.wjx.cn",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    },
+    {
+        "header": "X-Requested-With",
+        "value": "XMLHttpRequest",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    },
+    {
+        "header": "Connection",
+        "value": "keep-alive",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    },
+    {
+        "header": "Upgrade-Insecure-Requests",
+        "value": "1",
+        "pattern": "www.wjx.cn",
+        "state": "on"
+    }
+]

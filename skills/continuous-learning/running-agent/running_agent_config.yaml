@@ -1,0 +1,93 @@
+# 持续运行 Agent 配置
+# ====================
+# 御坂美琴的持续学习进化系统配置
+
+# GitHub API 配置
+github:
+  token: ""  # 填写你的 GitHub Token (可选，未填写会有速率限制)
+  rate_limit_warning: 100  # API 速率限制警告阈值
+
+# 项目发现配置
+discovery:
+  # 搜索关键词
+  keywords:
+    - "skill"
+    - "agent"
+    - "ai"
+    - "openclaw"
+    - "autonomous agent"
+  
+  # 过滤条件
+  min_stars: 10  # 最小星标数
+  min_forks: 2   # 最小分叉数
+  min_language: "Python"  # 首选语言
+  
+  # 排除关键词
+  exclude_keywords:
+    - "archive"
+    - "deprecated"
+    - "outdated"
+    - "wip"
+    - "work-in-progress"
+  
+  # 搜索限制
+  limit: 50  # 每次搜索最大结果数
+
+# 队列管理配置
+queue:
+  max_size: 5  # 最大队列长度
+  auto_cleanup: true  # 自动清理
+  cleanup_age_hours: 168  # 7 天清理过期项
+  
+  # 优先级权重
+  weights:
+    star_weight: 0.4  # 星标权重
+    fork_weight: 0.3  # 分叉权重
+    update_weight: 0.3  # 活跃度权重
+
+# 评估配置
+evaluation:
+  # 维度权重
+  weights:
+    practicality: 1.5    # 实用性
+    innovation: 1.0      # 创新性
+    code_quality: 1.5    # 代码质量
+    documentation: 1.0   # 文档质量
+    maintenance: 1.2     # 维护性
+    integration: 1.3     # 集成度
+  
+  # 决策阈值
+  accept_threshold: 7.5  # 接受阈值
+  review_threshold: 6.0  # 复审阈值
+
+# 运行配置
+running:
+  # 检查间隔 (秒)
+  check_interval: 300  # 5 分钟
+  
+  # 日志级别
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  
+  # 是否启用通知
+  notifications:
+    enabled: true
+    # 通知渠道 (待实现)
+    # channels:
+    #   - feishu
+    #   - email
+
+# 集成配置
+integration:
+  # 集成目标目录
+  target_dir: "skills/"
+  
+  # 是否需要人工确认
+  require_confirmation: false
+  
+  # 集成后的操作
+  post_integrate:
+    run_tests: true
+    update_index: true
+
+# 示例 GitHub Token (从 https://github.com/settings/tokens 获取)
+# github_token: "ghp_your_token_here"

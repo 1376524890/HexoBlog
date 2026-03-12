@@ -1,0 +1,9 @@
+{
+  "step": "integration",
+  "total_projects": 1,
+  "processed": 3,
+  "successful": 2,
+  "failed": 1,
+  "start_time": "2026-03-12T01:09:12.286017",
+  "end_time": "2026-03-12T01:10:58.444045"
+}

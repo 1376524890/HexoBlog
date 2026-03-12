@@ -1,0 +1,98 @@
+{
+  "project_name": "Corpus-OS/corpusos",
+  "repo_url": "https://github.com/Corpus-OS/corpusos",
+  "timestamp": "2026-03-12T01:10:58.440981",
+  "practicality": {
+    "name": "实用性",
+    "score": 5.0,
+    "max_score": 10.0,
+    "weight": 1.0,
+    "notes": [
+      "未找到明确的主入口",
+      "缺少测试文件"
+    ]
+  },
+  "innovation": {
+    "name": "创新性",
+    "score": 6.5,
+    "max_score": 10.0,
+    "weight": 1.0,
+    "notes": [
+      "README 中提到创新点"
+    ]
+  },
+  "code_quality": {
+    "name": "代码质量",
+    "score": 5.5,
+    "max_score": 10.0,
+    "weight": 1.0,
+    "notes": [
+      "代码文件数量异常",
+      "技术栈明确：['py']"
+    ]
+  },
+  "documentation": {
+    "name": "文档质量",
+    "score": 8.5,
+    "max_score": 10.0,
+    "weight": 1.0,
+    "notes": [
+      "README 内容完整",
+      "包含示例代码",
+      "包含安装说明",
+      "额外文档：32个"
+    ]
+  },
+  "maintenance": {
+    "name": "维护性",
+    "score": 7.0,
+    "max_score": 10.0,
+    "weight": 1.0,
+    "notes": [
+      "项目活跃度高",
+      "有社区互动"
+    ]
+  },
+  "integration": {
+    "name": "集成度",
+    "score": 9.5,
+    "max_score": 10.0,
+    "weight": 1.0,
+    "notes": [
+      "与 OpenClaw 兼容",
+      "有清晰的 API 设计",
+      "易于集成"
+    ]
+  },
+  "socratic_questions": [
+    [
+      "这个项目解决的核心问题是什么？为什么重要？",
+      "根据分析，Corpus-OS/corpusos 的核心功能是：待进一步分析",
+      "需要进一步思考"
+    ],
+    [
+      "这个项目与其他类似方案相比，独特价值在哪里？",
+      "Corpus-OS/corpusos 的独特之处在于：# Corpus OS \n<img width=\"1128\" height=\"191\" alt=\"image\" src=\"https://github.com/user-attachments/assets/cb2fe4ef-be6a-4406-b899-23ad1ed30c08\" />\n![Version](https://img.shields.io/badge/version-1.0.0-blue)\n![Python](https://img.shields.io/badge/python-3.10+-blue)\n![License](https://img.shields.io/badge/license-Apache--2.0-green)\n![LLM Protocol](https://img.shields.io/badge/LLM%20Protocol-100%25%20Conformant-brightgreen)\n![Vector Protocol](https://img.shields.io/badge/Vector%20Protocol-100%25%20Conformant-brightgreen)\n![Graph Protocol](https://img.shields.io/badge/Graph%20Protocol-100%25%20Conformant-brightgreen)\n![Embedding Protocol](https://img.shields.io/badge/Embedding%20Protocol-100%25%20Conformant-brightgreen)\n![Tests](https://img.shields.io/badge/Conformance%20Tests-3%2C330-brightgreen)\nReference implementation of the **[Corpus OS](https://corpusos.com)** — a **wire-first, vendor-neutral** SDK for interoperable AI frameworks and data backends across four domains: **LLM**, **Embedding**, **Vector**, and **Graph**.\n---\n**Contact:** [team@corpusos.com](mailto:team@corpusos.com) \n**Website:** [https://corpusos.com](https://corpusos.com) \n**Docs:** [https://docs.corpusos.com](https://docs.corpusos.com) \n---\n```\n┌──────────────────────────────────────────────────────────────────────┐\n│  Your App / Agents / RAG Pipelines                                   │\n│  (LangChain · LlamaIndex · Semantic Kernel · CrewAI · AutoGen · MCP) │\n├──────────────────────────────────────────────────────────────────────┤\n│  Corpus OS Protocol and SDK.                                         │\n│  One protocol · One error taxonomy · One metrics model               │\n├──────────┬──────────────┬────────────┬───────────────────────────────┤\n│ LLM/v1   │ Embedding/v1 │ Vector/v1  │ Graph/v1                      │\n├──────────┴──────────────┴────────────┴───────────────────────────────┤\n│  Any Provider: OpenAI · Anthropic · Pinecone · Neo4j · ...           │\n└──────────────────────────────────────────────────────────────────────┘\n```\n**Keep your frameworks. Standardize your infrastructure.**\n> **Open-Core Model**: The **[Corpus OS](https://corpusos.com)** Protocol Suite and SDK are **fully open source** (Apache-2.0). Corpus Router and official production adapters are **commercial**, optional, and built on the same public protocols. Using this SDK does **not** lock you into CORPUS Router.\n---\n## Table of Contents\n1. [Why CORPUS](#why-corpus)\n2. [How CORPUS Compares](#how-corpus-compares)\n3. [When Not to Use CORPUS](#when-not-to-use-corpus)\n4. [Install](#install)\n5. [Quick Start](#-quick-start)\n6. [Domain Examples](#domain-examples)\n7. [Core Concepts](#core-concepts)\n8. [Error Taxonomy & Observability](#error-taxonomy--observability)\n9. [Performance & Configuration](#performance--configuration)\n10. [Testing & Conformance](#testing--conformance)\n11. [Documentation Layout](#-documentation-layout)\n12. [FAQ](#faq)\n13. [Contributing](#contributing)\n14. [License & Commercial Options](#license--commercial-options)\n---\n## Why Corpus OS\nModern AI platforms juggle multiple LLM, embedding, vector, and graph backends. Each vendor ships unique APIs, error schemes, rate limits, and capabilities — making cross-provider integration brittle and costly.",
+      "深刻"
+    ],
+    [
+      "这个项目如果集成到 Skill 系统，会带来什么价值？",
+      "集成到 Skill 系统的价值：['py']",
+      "需要进一步思考"
+    ]
+  ],
+  "total_score": 7.0,
+  "weighted_score": 7.000000000000001,
+  "decision": "review",
+  "decision_threshold": 7.0,
+  "strengths": [
+    "未找到明确的主入口",
+    "技术栈明确：['py']",
+    "包含示例代码",
+    "包含安装说明"
+  ],
+  "weaknesses": [],
+  "recommendations": [
+    "建议人工审核后再决定"
+  ]
+}

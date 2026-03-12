@@ -1,0 +1,40 @@
+{
+  "search_time": "2026-03-12T01:09:12.681407",
+  "total_found": 1,
+  "projects": [
+    {
+      "name": "corpusos",
+      "full_name": "Corpus-OS/corpusos",
+      "description": "Open-source protocol suite standardizing LLM, Vector, Graph, and Embedding infrastructure across LangChain, LlamaIndex, AutoGen, CrewAI, Semantic Kernel, and MCP. 3,330+ conformance tests. One protocol. Any framework. Any provider.",
+      "html_url": "https://github.com/Corpus-OS/corpusos",
+      "stars": 118,
+      "forks": 7,
+      "language": "Python",
+      "updated_at": "2026-03-11T20:21:32Z",
+      "created_at": "2025-10-30T17:02:15Z",
+      "topics": [
+        "agents",
+        "ai-agents",
+        "ai-infrastructure",
+        "anthropic",
+        "autogen",
+        "chatgpt",
+        "crewai",
+        "enterprise",
+        "gemini",
+        "knowledge-graph",
+        "langchain",
+        "llamaindex",
+        "llm",
+        "mcp",
+        "multiagent",
+        "openai",
+        "python",
+        "rag",
+        "semantickernel",
+        "vector-database"
+      ],
+      "score": 53.2
+    }
+  ]
+}
