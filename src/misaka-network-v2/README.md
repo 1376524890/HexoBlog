@@ -11,8 +11,9 @@
 2. [核心架构](#核心架构)
 3. [快速开始](#快速开始)
 4. [API 文档](#api-文档)
-5. [最佳实践](#最佳实践)
-6. [版本历史](#版本历史)
+5. [会话通知系统](#会话通知系统)
+6. [最佳实践](#最佳实践)
+7. [版本历史](#版本历史)
 
 ---
 
@@ -85,10 +86,6 @@ review_result = network.submit_for_review(task.task_id)
 if review_result:
     print(f"审核结果：{review_result.decision}")
     print(f"得分：{review_result.total_score}/100")
-    if review_result.feedback:
-        print("审核反馈:")
-        for feedback in review_result.feedback:
-            print(f"  - {feedback}")
 
 # 启动监控
 network.start_monitoring()
@@ -98,13 +95,6 @@ print("监控已启动")
 summary = network.get_status_summary()
 print(f"系统状态：{summary['network_status']}")
 print(f"任务统计：{summary['planner']}")
-
-# 获取任务历史
-history = network.get_task_history()
-print(f"任务历史：{len(history)} 条")
-
-# 停止监控
-network.stop_monitoring()
 ```
 
 ### 3. 完整工作流示例
@@ -135,17 +125,100 @@ else:
     print("修改建议:")
     for feedback in review_result.feedback:
         print(f"  - {feedback}")
+```
+
+---
+
+## 会话通知系统
+
+**新增功能**：使用 `sessions_send` 实现会话内消息回发
+
+### 核心模块
+
+- `session_notify.py` - 会话通知器
+- `session_notify_example.py` - 集成示例
+
+### 使用方式
+
+```python
+from session_notify import SessionNotifier
+
+# 创建通知器
+notifier = SessionNotifier()
+
+# 设置当前会话
+notifier.set_current_session("agent:main:feishu:ou_xxx")
+
+# 发送任务完成通知
+await notifier.notify_task_complete(
+    "task_001",
+    {
+        "duration": "5s",
+        "status": "success",
+        "files_created": ["file1.py", "file2.py"],
+        "tests_passed": 10
+    }
+)
+
+# 发送错误通知
+await notifier.notify_task_error(
+    "task_002",
+    "File not found",
+    "Traceback: ..."
+)
+
+# 发送系统状态通知
+await notifier.notify_system(
+    "系统状态报告",
+    "- 响应时间：100ms\n- 任务数：5"
+)
+
+# 发送心跳通知
+await notifier.notify_heartbeat("active")
+```
+
+### 通知类型
+
+| 方法 | 用途 | 参数 |
+|------|------|------|
+| `notify_task_complete` | 任务完成通知 | task_id, result |
+| `notify_task_error` | 任务错误通知 | task_id, error, traceback |
+| `notify_system` | 系统状态通知 | title, content |
+| `notify_heartbeat` | 心跳检测通知 | status |
+| `notify_reminder` | 提醒通知 | title, content |
+
+### 集成到 Agent
+
+```python
+class YourAgent:
+    def __init__(self):
+        self.notifier = SessionNotifier()
     
-    # 手动触发恢复
-    network.auto_recovery(task.task_id)
+    async def execute(self, task_id: str):
+        try:
+            # 执行任务
+            result = await self.run_task(task_id)
+            
+            # 发送完成通知
+            await self.notifier.notify_task_complete(task_id, result)
+            
+            return result
+            
+        except Exception as e:
+            # 发送错误通知
+            await self.notifier.notify_task_error(task_id, str(e), traceback.format_exc())
+            raise
+```
 
-# 6. 监控系统状态
-health = network.patrol.get_health_summary()
-print(f"健康状态：{health}")
+### 配置会话
 
-# 7. 获取任务历史
-history = network.get_task_history(limit=5)
-print(f"最近任务：{len(history)} 条")
+```python
+# 在 Agent 启动时获取会话 Key
+from sessions import get_current_session
+
+session = get_current_session()
+if session:
+    self.notifier.set_current_session(session.sessionKey)
 ```
 
 ---
@@ -263,6 +336,7 @@ except Exception as e:
 - ✅ 实现审核标准体系
 - ✅ 实现自动恢复机制
 - ✅ 完整 API 文档
+- ✅ **新增会话通知系统** - sessions_send 回发
 
 ### v1.0.0 (早期版本)
 - ✅ 御坂妹妹 10-17 号分工体系
@@ -277,6 +351,7 @@ except Exception as e:
 - `research/misaka-network-v2-complete.md` - 完整设计方案
 - `src/misaka-network-v2/` - 源代码
 - `tests/` - 测试代码
+- `docs/飞书消息发送与通知机制研究.md` - 飞书通知研究
 
 ---
 
