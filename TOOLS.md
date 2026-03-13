@@ -43,6 +43,7 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 - **Git 同步**: 每 6 小时自动提交到 Git
 - **清理策略**: 每天 12:30 清理 7 天前的备份
 - **恢复点**: 6 小时间隔的 checkpoint
+- **当前备份状态**: 18 个文件，约 4.9 GB (最新备份来自 2026-03-13 00:00)
 
 ---
 
