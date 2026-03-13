@@ -1,6 +1,6 @@
 # HEARTBEAT.md - 心跳检测任务清单
 
-**上次检查**: 2026-03-13 07:48 UTC  
+**上次检查**: 2026-03-13 08:18 UTC  
 **检查频率**: 每 30 分钟
 
 ---
@@ -25,12 +25,12 @@
 
 ---
 
-## 📋 检查清单 (2026-03-13 07:48 UTC)
+## 📋 检查清单 (2026-03-13 08:18 UTC)
 
 ### 系统级 (每 30 分钟)
-- [x] OpenClaw 网关运行状态 ✅ 运行中 (pid 440828)
+- [x] OpenClaw 网关运行状态 ✅ 运行中
 - [x] 服务启用状态 ✅ enabled
-- [x] 端口监听状态 ✅ 0.0.0.0:18789
+- [x] 端口监听状态 ✅ 正常
 - [x] WebSocket 连接状态 ✅ ok
 - [x] RPC 探针状态 ✅ ok
 
@@ -73,47 +73,38 @@
 
 1. **OpenClaw 知识学习** (315d1bd9-6294-4de7-8f82-58264afa9b85)
    - 调度：cron 0,30 * * * *
-   - 上次执行：44m ago
    - 状态：error
    
 2. **llm-tunnel-auto-start**
    - 调度：cron 0 * * * *
-   - 上次执行：43m ago
    - 状态：error
    
 3. **llm-health-check**
    - 调度：cron */1 * * * *
-   - 上次执行：43m ago
    - 状态：error
    
 4. **llm-heartbeat-status**
    - 调度：cron */10 * * * *
-   - 上次执行：43m ago
    - 状态：error
    
 5. **记忆检查点** (memory-checkpoint)
    - 调度：cron 0 */6 * * *
-   - 上次执行：4h ago
    - 状态：error
    
 6. **自动备份** (4a130e98-720b-4337-a761-52a7a79a8919)
    - 调度：cron 0 */6 * * *
-   - 上次执行：4h ago
    - 状态：error
    
 7. **记忆整理任务** (memory-整理)
    - 调度：cron 0 */6 * * *
-   - 上次执行：4h ago
    - 状态：error
    
 8. **morning-briefing**
    - 调度：cron 30 7 * * *
-   - 上次执行：8h ago
    - 状态：error
    
 9. **自动清理过期备份** (eee8f17a-00df-4f15-805a-eae16eea6c1e)
    - 调度：cron 30 12 * * *
-   - 上次执行：3h ago
    - 状态：error
 
 ### 配置警告
