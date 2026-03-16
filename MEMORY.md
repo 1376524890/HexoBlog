@@ -43,6 +43,24 @@ _三层架构记忆系统_
   - 优势：17 个搜索引擎并行 + 四层降级架构
   - 不支持 web_search（Perplexity API key 未配置）
 
+### 🧠 系统架构更新（2026-03-16 新增）
+
+- **OpenClaw 核心概念**:
+  - **三层架构**: Agent Layer（大脑）→ Gateway Layer（路由器）→ Node Layer（手脚）
+  - **Gateway 本身不运行 AI 模型**，只是调度员！
+  - **四大核心理念**: Access control before intelligence、隐私优先、记忆即文件、工具优先
+  - **8 大工具分类**: Runtime、Filesystem、Session、Memory、Web、UI、Node、Messaging
+  - **18 个已安装 Skills**
+
+- **御坂网络第一代** (2026-03-12 完整实现):
+  - 主 Agent：御坂美琴一号（核心中枢）
+  - 子代理：10-17 号（专业分工，权限分级）
+  - 核心创新：专业分工、权限分级、任务拆解、协同执行
+
+- **Git 工作空间**:
+  - 双仓库架构：`origin` → HexoBlog，`backup` → Misaka-Network-Backup
+  - 记忆文件操作安全规则：使用 `trash`、操作前备份、检查 Git 状态、立即提交
+
 ### ⚡ 御坂网络 V2 完整实现 (2026-03-12)
 
 **完成时间**: 04:21 UTC  
