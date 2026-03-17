@@ -1,5 +1,14 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import { onMounted } from 'vue'
+import { useStockStore } from '@/stores/stock'
+
+const store = useStockStore()
+
+// 应用加载时获取后端数据
+onMounted(async () => {
+  await store.fetchAllData()
+})
 </script>
 
 <template>

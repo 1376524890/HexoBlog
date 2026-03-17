@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import axios from 'axios'
+
+// API 基础地址
+const API_BASE = '/api'
 
 export interface Stock {
   symbol: string
@@ -57,187 +61,250 @@ export interface SystemStats {
 }
 
 export const useStockStore = defineStore('stock', () => {
+  // Loading states
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+  const lastUpdate = ref<Date | null>(null)
+
   // System Stats
   const stats = ref<SystemStats>({
-    totalEquity: 1000000,
-    cash: 450000,
-    invested: 550000,
-    dayGain: 12500,
-    dayGainPercent: 1.25,
-    totalGain: 85000,
-    totalGainPercent: 9.5,
-    winRate: 68.5,
-    totalTrades: 127
+    totalEquity: 0,
+    cash: 0,
+    invested: 0,
+    dayGain: 0,
+    dayGainPercent: 0,
+    totalGain: 0,
+    totalGainPercent: 0,
+    winRate: 0,
+    totalTrades: 0
   })
 
   // Holdings
-  const holdings = ref<Holding[]>([
-    {
-      symbol: 'AAPL',
-      name: 'Apple Inc.',
-      shares: 500,
-      avgPrice: 175.50,
-      currentPrice: 182.30,
-      marketValue: 91150,
-      costBasis: 87750,
-      gainLoss: 3400,
-      gainLossPercent: 3.87
-    },
-    {
-      symbol: 'MSFT',
-      name: 'Microsoft Corporation',
-      shares: 300,
-      avgPrice: 380.20,
-      currentPrice: 395.80,
-      marketValue: 118740,
-      costBasis: 114060,
-      gainLoss: 4680,
-      gainLossPercent: 4.10
-    },
-    {
-      symbol: 'GOOGL',
-      name: 'Alphabet Inc.',
-      shares: 200,
-      avgPrice: 140.30,
-      currentPrice: 145.60,
-      marketValue: 29120,
-      costBasis: 28060,
-      gainLoss: 1060,
-      gainLossPercent: 3.78
-    },
-    {
-      symbol: 'TSLA',
-      name: 'Tesla Inc.',
-      shares: 150,
-      avgPrice: 245.80,
-      currentPrice: 238.50,
-      marketValue: 35775,
-      costBasis: 36870,
-      gainLoss: -1095,
-      gainLossPercent: -2.97
-    },
-    {
-      symbol: 'NVDA',
-      name: 'NVIDIA Corporation',
-      shares: 100,
-      avgPrice: 875.30,
-      currentPrice: 920.10,
-      marketValue: 92010,
-      costBasis: 87530,
-      gainLoss: 4480,
-      gainLossPercent: 5.12
-    }
-  ])
+  const holdings = ref<Holding[]>([])
 
   // Transactions
-  const transactions = ref<Transaction[]>([
-    {
-      id: 'TXN001',
-      symbol: 'AAPL',
-      type: 'buy',
-      shares: 200,
-      price: 175.50,
-      total: 35100,
-      timestamp: new Date('2026-03-15T10:30:00'),
-      fees: 5
-    },
-    {
-      id: 'TXN002',
-      symbol: 'MSFT',
-      type: 'buy',
-      shares: 150,
-      price: 380.20,
-      total: 57030,
-      timestamp: new Date('2026-03-14T14:20:00'),
-      fees: 5
-    },
-    {
-      id: 'TXN003',
-      symbol: 'NVDA',
-      type: 'buy',
-      shares: 100,
-      price: 875.30,
-      total: 87530,
-      timestamp: new Date('2026-03-13T11:15:00'),
-      fees: 5
-    },
-    {
-      id: 'TXN004',
-      symbol: 'TSLA',
-      type: 'buy',
-      shares: 150,
-      price: 245.80,
-      total: 36870,
-      timestamp: new Date('2026-03-12T09:45:00'),
-      fees: 5
-    },
-    {
-      id: 'TXN005',
-      symbol: 'GOOGL',
-      type: 'buy',
-      shares: 200,
-      price: 140.30,
-      total: 28060,
-      timestamp: new Date('2026-03-11T13:30:00'),
-      fees: 5
-    }
-  ])
+  const transactions = ref<Transaction[]>([])
 
   // News
-  const news = ref<MarketNews[]>([
+  const news = ref<MarketNews[]>([])
+
+  // 股票名称映射 (A 股代码 -> 名称)
+  const stockNames: Record<string, string> = {
+    '601398.SS': '工商银行',
+    '600519.SS': '贵州茅台',
+    '000001.SZ': '平安银行',
+    '600036.SS': '招商银行',
+    '601318.SS': '中国平安',
+    '000858.SZ': '五粮液',
+    '600000.SS': '浦发银行',
+    '601166.SS': '兴业银行',
+    '600276.SS': '恒瑞医药',
+    '000333.SZ': '美的集团'
+  }
+
+  // 获取股票名称
+  const getStockName = (symbol: string): string => {
+    return stockNames[symbol] || symbol
+  }
+
+  // Fetch portfolio summary
+  const fetchSummary = async () => {
+    try {
+      const response = await axios.get(`${API_BASE}/portfolio/summary`)
+      const data = response.data
+
+      stats.value = {
+        totalEquity: data.total_equity || 0,
+        cash: data.current_cash || 0,
+        invested: data.total_market_value || 0,
+        dayGain: 0, // 后端暂无此数据
+        dayGainPercent: 0,
+        totalGain: data.total_pnl || 0,
+        totalGainPercent: data.total_pnl_pct || 0,
+        winRate: data.win_rate || 0,
+        totalTrades: data.total_trades || 0
+      }
+    } catch (e) {
+      console.error('Failed to fetch summary:', e)
+      throw e
+    }
+  }
+
+  // Fetch holdings
+  const fetchHoldings = async () => {
+    try {
+      const response = await axios.get(`${API_BASE}/portfolio/positions`)
+      const data = response.data
+
+      if (data.status === 'empty' || !data.positions) {
+        holdings.value = []
+        return
+      }
+
+      holdings.value = data.positions.map((pos: any) => ({
+        symbol: pos.symbol,
+        name: getStockName(pos.symbol),
+        shares: pos.shares,
+        avgPrice: pos.avg_price,
+        currentPrice: pos.current_price,
+        marketValue: pos.market_value,
+        costBasis: pos.shares * pos.avg_price,
+        gainLoss: pos.pnl,
+        gainLossPercent: pos.pnl_pct
+      }))
+    } catch (e) {
+      console.error('Failed to fetch holdings:', e)
+      throw e
+    }
+  }
+
+  // Fetch trade history
+  const fetchTransactions = async () => {
+    try {
+      const response = await axios.get(`${API_BASE}/trade/history`)
+      const data = response.data
+
+      if (!data.trades) {
+        transactions.value = []
+        return
+      }
+
+      transactions.value = data.trades.map((trade: any, index: number) => ({
+        id: `TXN${String(index + 1).padStart(3, '0')}`,
+        symbol: trade.symbol,
+        type: trade.type as 'buy' | 'sell',
+        shares: trade.shares,
+        price: trade.price,
+        total: trade.shares * trade.price,
+        timestamp: new Date(trade.time),
+        fees: 5 // 默认手续费
+      }))
+    } catch (e) {
+      console.error('Failed to fetch transactions:', e)
+      throw e
+    }
+  }
+
+  // Fetch news
+  const fetchNews = async () => {
+    try {
+      const response = await axios.get(`${API_BASE}/news?limit=10`)
+      const data = response.data
+
+      // 如果后端有错误或没有数据，使用默认新闻
+      if (data.error || data.total === 0) {
+        news.value = getDefaultNews()
+        return
+      }
+
+      const allNews: MarketNews[] = []
+
+      // 合并所有分类的新闻
+      for (const sentiment of ['positive', 'neutral', 'negative'] as const) {
+        const items = data.categorized?.[sentiment] || []
+        for (const item of items) {
+          allNews.push({
+            id: item.id || `NEWS${Date.now()}`,
+            title: item.title || '',
+            summary: item.summary || item.content || '',
+            source: item.source || '财经资讯',
+            timestamp: new Date(item.publish_time || item.timestamp || Date.now()),
+            sentiment: sentiment,
+            relatedSymbols: item.related_symbols || item.symbols || []
+          })
+        }
+      }
+
+      news.value = allNews.length > 0 ? allNews : getDefaultNews()
+    } catch (e) {
+      console.error('Failed to fetch news:', e)
+      news.value = getDefaultNews()
+    }
+  }
+
+  // 默认新闻 (当后端无法获取时使用)
+  const getDefaultNews = (): MarketNews[] => [
     {
       id: 'NEWS001',
-      title: '科技股继续走强，AI 概念备受追捧',
-      summary: '主要科技股今日继续上涨，人工智能相关概念受到投资者热捧。市场分析师认为，AI 技术应用的持续拓展将为科技行业带来长期增长动力。',
+      title: 'A 股市场早报：关注金融板块走势',
+      summary: '今日 A 股市场开盘，银行板块表现活跃，投资者关注金融股走势。',
       source: '财经日报',
-      timestamp: new Date('2026-03-17T08:30:00'),
-      sentiment: 'positive',
-      relatedSymbols: ['AAPL', 'MSFT', 'GOOGL', 'NVDA']
+      timestamp: new Date(),
+      sentiment: 'neutral',
+      relatedSymbols: ['601398.SS', '600036.SS']
     },
     {
       id: 'NEWS002',
-      title: '特斯拉发布最新产能数据',
-      summary: '特斯拉公布了最新的季度产能数据，虽然超出市场预期，但投资者对自动驾驶技术的进展仍存在疑虑。股价在盘中出现震荡。',
-      source: '汽车财经',
-      timestamp: new Date('2026-03-17T07:15:00'),
-      sentiment: 'neutral',
-      relatedSymbols: ['TSLA']
-    },
-    {
-      id: 'NEWS003',
-      title: '美联储利率决议即将公布',
-      summary: '市场密切关注即将公布的美联储利率决议，投资者担心加息可能影响科技股估值。分析师建议保持谨慎乐观。',
-      source: '华尔街见闻',
-      timestamp: new Date('2026-03-16T16:00:00'),
-      sentiment: 'negative',
-      relatedSymbols: ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA']
-    },
-    {
-      id: 'NEWS004',
-      title: '英伟达新芯片架构引发关注',
-      summary: '英伟达宣布新一代 GPU 架构，性能提升显著，有望进一步巩固其在 AI 芯片市场的领先地位。股价随之上涨。',
-      source: '科技日报',
-      timestamp: new Date('2026-03-16T10:30:00'),
+      title: '央行发布最新货币政策报告',
+      summary: '央行发布季度货币政策执行报告，强调保持流动性合理充裕。',
+      source: '央行官网',
+      timestamp: new Date(Date.now() - 3600000),
       sentiment: 'positive',
-      relatedSymbols: ['NVDA']
-    },
-    {
-      id: 'NEWS005',
-      title: '苹果服务业务收入创新高',
-      summary: '苹果公布最新财报，服务业务收入首次突破 200 亿美元大关，显示出公司生态系统的强大粘性和盈利能力。',
-      source: '商业周刊',
-      timestamp: new Date('2026-03-15T14:20:00'),
-      sentiment: 'positive',
-      relatedSymbols: ['AAPL']
+      relatedSymbols: []
     }
-  ])
+  ]
+
+  // Fetch all data
+  const fetchAllData = async () => {
+    loading.value = true
+    error.value = null
+
+    try {
+      await Promise.all([
+        fetchSummary(),
+        fetchHoldings(),
+        fetchTransactions(),
+        fetchNews()
+      ])
+      lastUpdate.value = new Date()
+    } catch (e: any) {
+      error.value = e.message || '获取数据失败'
+      console.error('Failed to fetch data:', e)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Execute buy order
+  const buyStock = async (symbol: string, shares: number) => {
+    try {
+      const response = await axios.post(`${API_BASE}/trade/buy`, {
+        symbol,
+        shares
+      })
+      if (response.data.success) {
+        await fetchAllData()
+      }
+      return response.data
+    } catch (e) {
+      console.error('Buy failed:', e)
+      throw e
+    }
+  }
+
+  // Execute sell order
+  const sellStock = async (symbol: string, shares: number) => {
+    try {
+      const response = await axios.post(`${API_BASE}/trade/sell`, {
+        symbol,
+        shares
+      })
+      if (response.data.success) {
+        await fetchAllData()
+      }
+      return response.data
+    } catch (e) {
+      console.error('Sell failed:', e)
+      throw e
+    }
+  }
 
   // Computed
-  const totalMarketValue = computed(() => 
+  const totalMarketValue = computed(() =>
     holdings.value.reduce((sum, h) => sum + h.marketValue, 0)
   )
 
-  const totalGainLoss = computed(() => 
+  const totalGainLoss = computed(() =>
     holdings.value.reduce((sum, h) => sum + h.gainLoss, 0)
   )
 
@@ -249,14 +316,14 @@ export const useStockStore = defineStore('stock', () => {
 
   const topGainer = computed(() => {
     if (holdings.value.length === 0) return null
-    return holdings.value.reduce((prev, current) => 
+    return holdings.value.reduce((prev, current) =>
       current.gainLossPercent > prev.gainLossPercent ? current : prev
     )
   })
 
   const topLoser = computed(() => {
     if (holdings.value.length === 0) return null
-    return holdings.value.reduce((prev, current) => 
+    return holdings.value.reduce((prev, current) =>
       current.gainLossPercent < prev.gainLossPercent ? current : prev
     )
   })
@@ -267,7 +334,19 @@ export const useStockStore = defineStore('stock', () => {
     holdings,
     transactions,
     news,
-    
+    loading,
+    error,
+    lastUpdate,
+
+    // Actions
+    fetchAllData,
+    fetchSummary,
+    fetchHoldings,
+    fetchTransactions,
+    fetchNews,
+    buyStock,
+    sellStock,
+
     // Computed
     totalMarketValue,
     totalGainLoss,
