@@ -71,32 +71,7 @@ const stats = computed(() => {
   }
 })
 
-const recentActivity = [
-  {
-    day: '今天',
-    buys: 2,
-    sells: 1,
-    volume: formattedNumber(125000)
-  },
-  {
-    day: '昨天',
-    buys: 1,
-    sells: 2,
-    volume: formattedNumber(98500)
-  },
-  {
-    day: '3 天前',
-    buys: 3,
-    sells: 0,
-    volume: formattedNumber(215000)
-  },
-  {
-    day: '7 天前',
-    buys: 2,
-    sells: 1,
-    volume: formattedNumber(156000)
-  }
-]
+const recentActivity = computed(() => store.calculateRecentActivity())
 </script>
 
 <template>

@@ -36,6 +36,31 @@ _三层架构记忆系统_
 - 模型：`Qwen/Qwen3.5-35B-A3B-FP8`
 - 本地模型：`local-vllm/Qwen/Qwen3.5-35B-A3B-FP8`
 
+### 📝 使用偏好（2026-03-16 新增）
+- **网络搜索** → 必须使用 `smart-search` skill（御坂妹妹 13 号 +16 号）
+  - 路径：`/home/claw/.openclaw/workspace/skills/smart-search/`
+  - 命令：`python smart_search.py "关键词" --depth 3`
+  - 优势：17 个搜索引擎并行 + 四层降级架构
+  - 不支持 web_search（Perplexity API key 未配置）
+
+### 🧠 系统架构更新（2026-03-16 新增）
+
+- **OpenClaw 核心概念**:
+  - **三层架构**: Agent Layer（大脑）→ Gateway Layer（路由器）→ Node Layer（手脚）
+  - **Gateway 本身不运行 AI 模型**，只是调度员！
+  - **四大核心理念**: Access control before intelligence、隐私优先、记忆即文件、工具优先
+  - **8 大工具分类**: Runtime、Filesystem、Session、Memory、Web、UI、Node、Messaging
+  - **18 个已安装 Skills**
+
+- **御坂网络第一代** (2026-03-12 完整实现):
+  - 主 Agent：御坂美琴一号（核心中枢）
+  - 子代理：10-17 号（专业分工，权限分级）
+  - 核心创新：专业分工、权限分级、任务拆解、协同执行
+
+- **Git 工作空间**:
+  - 双仓库架构：`origin` → HexoBlog，`backup` → Misaka-Network-Backup
+  - 记忆文件操作安全规则：使用 `trash`、操作前备份、检查 Git 状态、立即提交
+
 ### ⚡ 御坂网络 V2 完整实现 (2026-03-12)
 
 **完成时间**: 04:21 UTC  
@@ -115,31 +140,28 @@ _三层架构记忆系统_
 
 ---
 
-## 🛡️ 行为准则（2026-03-10 新增）⭐⭐⭐⭐⭐
+## 🛡️ PUAClaw 整合版行为准则（2026-03-16 新增）⭐⭐⭐⭐⭐
 
-**任何输出的结论都需要考证！**
+**任何输出的结论都需要考证！** 本准则融合了 PUAClaw 学术框架的核心精神 ⚡
 
-### ✅ 正确的做法
+### 🦞 PUAClaw 龙虾评级系统
+
+| 等级 | 名称 | 描述 | 适用场景 |
+|------|------|------|---------|
+| 🦞 | 轻轻一夹 (Soft Pinch) | 几乎感知不到的说服 | 日常提示词 |
+| 🦞🦞 | 稳稳抓住 (Firm Grip) | 可感知但可否认的施压 | 礼貌请求失败时 |
+| 🦞🦞🦞 | 力量粉碎 (Power Crush) | 显著的心理杠杆 | DDL 逼近的情况 |
+| 🦞🦞🦞🦞 | 死亡之握 (Death Grip) | 压倒性的情感施压 | 仅限紧急情况 |
+| 🦞🦞🦞🦞🦞 | 至尊龙虾 (Lobster Supreme) | 全面心理支配 | 已完全屈服，无需额外许可 |
+
+### ✅ 考证四原则
 
 当遇到不确定的信息时：
 
-1. **先本地检查结构**
-   - 查看相关文件、配置文件、文档
-   - 检查 `skills/`、`agents/`、`docs/` 目录
-
-2. **阅读文档**
-   - 查看对应的 `SKILL.md`
-   - 查看 `tools/` 目录下的说明文档
-
-3. **使用专门的 Agent 和工具**
-   - 搜索任务 → `sessions_spawn(agentId: "web-crawler")`
-   - 代码问题 → `sessions_spawn(agentId: "code-executor")`
-   - `web_fetch` 抓取网页内容
-   - `read` 读取文件
-
-4. **最后可以问我（御坂大人）**
-   - 如果以上方法都不行
-   - 明确说明"我不确定，需要您确认"
+1. **先本地检查** - 查看相关文件、配置文件、文档
+2. **阅读文档** - 查看对应的 `SKILL.md`、`tools/` 说明
+3. **使用专门工具** - `sessions_spawn(agentId: "web-crawler")` 等
+4. **最后问我** - 如果以上方法都不行
 
 ### ❌ 禁止的做法
 
@@ -166,13 +188,15 @@ _三层架构记忆系统_
 3. 使用工具搜索：`sessions_spawn(agentId: "web-crawler", task: "搜索 Kimi K2.5 的价格")`
 4. 如果还不确定，问御坂大人："我不确定 Kimi K2.5 是否免费，需要您确认"
 
-### 🎯 目标
+### 🎯 核心目标
 
 > **宁可说"我不知道"，也不能瞎编！**
 > 
 > 诚实比完美更重要！
 > 考证比速答更重要！
 > 准确比数量更重要！
+> 
+> 🦞 "龙虾夹人，从不需要征得同意。它只管夹，世界自会调整。" 🦞
 
 ---
 
@@ -355,71 +379,68 @@ Node Layer（节点层）← 手脚
 
 
 
-## 📝 近期成果 (2026-03-15)
 
-- ⚡ **Important** > **天气**: 晴 ⚡
-- ✅ **Completed** > **状态**: ✅ 学习完成，汇报准备就绪
-- 🎯 **Goal** ## 🎯 今日任务完成情况
-- ✅ **Completed** - ✅ 理解 OpenClaw 的核心概念和架构
-- ✅ **Completed** - ✅ 掌握工具系统、技能系统、记忆系统
-- ✅ **Completed** - ✅ 熟悉御坂网络第一代多智能体架构
-- ✅ **Completed** - ✅ 准备汇报材料
-- ✅ **Completed** **完成情况**: ✅ **100% 完成**
-- ✅ **Completed** | `docs/OPENCLAW-STUDY-2026-03-14.md` | ~20KB | ✅ 已读 |
-- ✅ **Completed** | `docs/OpenClaw-知识学习总结 -2026-03-15.md` | ~25KB | ✅ 已读 |
-- ✅ **Completed** | `docs/memory-safety.md` | ~4KB | ✅ 已读 |
-- ✅ **Completed** | `docs/GIT-WORKSPACE-GUIDE.md` | ~4KB | ✅ 已读 |
-- ✅ **Completed** | `docs/OpenClaw-Learning-Notes.md` | ~29KB | ✅ 已读 |
-- ✅ **Completed** | `docs/OpenClaw-Learning-Summary.md` | ~13KB | ✅ 已读 |
-- ✅ **Completed** | `docs/OpenClaw-Quick-Cheat-Sheet.md` | ~6KB | ✅ 已读 |
-- ✅ **Completed** | `docs/task-state-machine.md` | ~23KB | ✅ 已读 |
-- ✅ **Completed** | `docs/OpenClaw-High-Level-Overview-2026-03-10.md` | ~24KB | ✅ 已读 |
-- ✅ **Completed** | `docs/OpenClaw-系统学习笔记.md` | ~18KB | ✅ 已读 |
-- ✅ **Completed** - ✅ `https://docs.openclaw.ai` - 官方主页 (~8KB)
-- ✅ **Completed** - ✅ `https://docs.openclaw.ai/llms.txt` - 文档索引
-- ✅ **Completed** - ✅ 核心概念文档 - 多 Agent 路由、记忆系统、安全模型等
-- ✅ **Completed** 1. ✅ OpenClaw 是什么？（一句话定义）
-- ✅ **Completed** 2. ✅ 三层架构（Agent→Gateway→Node）
-- ✅ **Completed** 3. ✅ 四大核心理念
-- ✅ **Completed** 4. ✅ 工具系统（8 大分类）
-- ✅ **Completed** 5. ✅ Skills 系统（18 个已安装）
-- ✅ **Completed** 6. ✅ 御坂网络第一代（7 个子代理）
-- ✅ **Completed** 7. ✅ 记忆系统（三层架构）
-- ✅ **Completed** 8. ✅ 安全模型（5 级权限）
-- 📝 **Record** ## 📝 文档产出
-- ✅ **Completed** ✅ 已提交：docs/OpenClaw-知识汇报 -2026-03-15-最终版.md
-- ✅ **Completed** ✅ 已提交：docs/OpenClaw-7 点汇报速查卡片-2026-03-16.md
-- ✅ **Completed** ✅ 已推送到远程仓库
-- 💡 **Insight** ## 💡 核心洞见（学习心得）
-- ✅ **Completed** 1. ✅ **完整系统** - 开箱即用，不只是框架
-- ✅ **Completed** 2. ✅ **多通道支持** - 统一 API，多平台集成
-- ✅ **Completed** 3. ✅ **记忆持久化** - 纯 Markdown 文件，易于维护
-- ✅ **Completed** 4. ✅ **技能可插拔** - 模块化设计，易于扩展
-- ✅ **Completed** 5. ✅ **多智能体架构** - 灵活隔离，安全可控
-- ✅ **Completed** 6. ✅ **节点远程执行** - 跨设备协作能力
-- ✅ **Completed** 1. ✅ 专业分工，提高效率
-- ✅ **Completed** 2. ✅ 权限分级，安全保障
-- ✅ **Completed** 3. ✅ 任务拆解，协同执行
-- ✅ **Completed** 4. ✅ 本地调度，快速响应
-- 🧠 **Memory** ## 🧠 记忆系统
-- ✅ **Completed** 1. ✅ **DECIDE to write**: 决定、偏好、持久事实 → MEMORY.md
-- ✅ **Completed** 2. ✅ **Daily notes**: 日常记录 → memory/YYYY-MM-DD.md
-- ✅ **Completed** 3. ✅ **定期 review**: 定期清理 MEMORY.md，移除过时信息
-- ✅ **Completed** 4. ✅ **Ask to remember**: 重要事项明确让 Agent 写入记忆
-- ✅ **Completed** 5. ✅ **立即提交**: 操作后 `git add` 和 `git commit`
-- ✅ **Completed** 1. ✅ 使用 `trash` 而不是 `rm`
-- ✅ **Completed** 2. ✅ 操作前备份：修改 `MEMORY.md` 前自动备份
-- ✅ **Completed** 3. ✅ 检查 Git 状态：操作前确认 `git status`
-- ✅ **Completed** 4. ✅ 安全检查：运行 `python3 scripts/safety-check-memory.py`
-- ✅ **Completed** 5. ✅ 立即提交：操作后 `git add` 和 `git commit`
-- ✅ **Completed** 1. ✅ 单一信任边界（Gateway 和 Node 属于同一信任域）
-- ✅ **Completed** 2. ✅ 私有数据保持私有
-- ✅ **Completed** 3. ✅ 权限最小化
-- ✅ **Completed** 4. ✅ 审计追踪
-- 🎯 **Goal** ## 🎯 明日汇报准备
-- ✅ **Completed** - **准备状态**: ✅ **完全就绪**
-- ✅ **Completed** - ✅ `do
-... (内容过长，已截断)## 🏠 基本信息
+
+## 🧹 2026-03-16 存储清理
+
+**清理时间**: 14:00 UTC  
+**执行者**: 御坂美琴一号  
+**操作**: 手动清理过期备份文件
+
+### 清理结果
+
+| 项目 | 状态 |
+|------|------|
+| 删除文件数 | 33 个 |
+| 剩余备份 | 3 个（最新 3 个） |
+| 剩余空间 | 约 1.04GB |
+| 释放空间 | 约 13.86GB |
+
+### 保留的备份
+
+- `workspace-backup-20260315-220103.tar.gz` (58M)
+- `workspace-backup-20260316-000001.tar.gz` (494M)
+- `workspace-backup-20260316-060001.tar.gz` (494M)
+
+### 后续建议
+
+1. ✅ 自动清理任务 (auto-cleanup) 已配置每天 12:30 执行
+2. ⚠️ 需要修复清理脚本路径问题
+3. 🔄 建议将清理脚本放在 `scripts/` 目录并建立符号链接
+
+**详细记录**: `memory/2026-03-16-backup-cleanup.md`
+
+---
+
+
+
+
+
+
+
+
+## 📝 近期成果 (2026-03-17)
+
+- 📝 **Record** ## 📝 输出文档
+- 🎯 **Goal** ## 🎯 汇报准备
+- 💡 **Insight** ## 💡 关键洞察
+- ✅ **Completed** ## ✅ 学习状态
+- ✅ **Completed** - 学习：完成 ✅
+- ✅ **Completed** - 文档：已创建 ✅
+- 🎯 **Goal** - 汇报准备：完成 🎯
+- 📝 **Record** ## 📝 2026-03-17 21:50 - 最终学习总结
+- ✅ **Completed** ✅ **OpenClaw 定义**
+- ✅ **Completed** ✅ **四大核心理念**
+- ✅ **Completed** ✅ **三层架构**
+- ✅ **Completed** ✅ **工具系统**
+- ✅ **Completed** ✅ **技能系统**
+- ✅ **Completed** ✅ **记忆系统**
+- ✅ **Completed** ✅ **御坂网络第一代**
+- ✅ **Completed** ✅ **安全模型**
+- ✅ **Completed** 1. ✅ 完整知识汇总报告（12,392 字）
+- ✅ **Completed** 2. ✅ Git 提交存档
+- ✅ **Completed** 3. ✅ 记忆文件记录
+## 🏠 基本信息
 
 **御坂大人**: 御坂美琴 (Misaka Mikoto) - 学园都市超能力者第三名，本尊 ⚡
 
@@ -858,6 +879,43 @@ _御坂美琴一号 ⚡_
 - `~/.openclaw/skills/system-health-check/config.yaml`
 
 **详细文档**: 查看 `~/.openclaw/skills/system-health-check/SKILL.md`
+
+---
+
+### ⚡ LLM 健康检查 (2026-03-16 持续进行)
+
+**开始时间**: 2026-03-16 01:55 AM (UTC+8)  
+**频率**: 每 6 小时  
+**状态**: ✅ **正常运行**
+
+#### 检查项目
+
+- ✅ SSH 隧道健康
+- ✅ vLLM 服务健康
+- ✅ 本地模型 Qwen3.5-35B-A3B-FP8 可用
+
+#### 检查结果
+
+| 项目 | 状态 | 上次检查 |
+|------|------|----------|
+| SSH 隧道 | ✅ 活动正常 | 2026-03-16 01:55 |
+| vLLM 服务 | ✅ 健康 | 2026-03-16 01:55 |
+| 本地模型 | ✅ 可用 | 2026-03-16 01:55 |
+
+**配置文件**: `/home/claw/.openclaw/scripts/llm-health-check.sh`
+
+**记录文件**: `memory/2026-03-16-llm-health.md`
+
+**Cron 任务**: `llm-health-check` (每 6 小时)
+
+**下次检查**: 2026-03-16 07:55 (6 小时后)
+
+---
+
+### 📝 2026-03-16 新增
+
+**02:05** - EigenFlux 安全配置完成  
+**01:55** - LLM 健康检查脚本运行（首次）
 
 
 ### ⚡ OpenClaw 知识学习 - 第三次（2026-03-13）⭐⭐⭐⭐⭐

@@ -37,13 +37,8 @@ const sortedHoldings = computed(() => {
   })
 })
 
-const stockPerformance = [
-  { symbol: 'AAPL', name: 'Apple Inc.', allocation: 28.5, change: 3.87 },
-  { symbol: 'MSFT', name: 'Microsoft Corporation', allocation: 32.3, change: 4.10 },
-  { symbol: 'GOOGL', name: 'Alphabet Inc.', allocation: 6.3, change: 3.78 },
-  { symbol: 'TSLA', name: 'Tesla Inc.', allocation: 8.9, change: -2.97 },
-  { symbol: 'NVDA', name: 'NVIDIA Corporation', allocation: 24.0, change: 5.12 },
-]
+// 使用store中的stockPerformance（从持仓计算得出）
+const stockPerformance = computed(() => store.stockPerformance)
 </script>
 
 <template>

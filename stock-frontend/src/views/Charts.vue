@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useStockStore } from '@/stores/stock'
+import type { KLineData } from '@/stores/stock'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement, Filler } from 'chart.js'
 import { Pie, Line, Bar } from 'vue-chartjs'
 
@@ -18,34 +19,83 @@ ChartJS.register(
 )
 
 const store = useStockStore()
-const selectedStock = ref<string>('AAPL')
+const selectedStock = ref<string>('')
+const klineHistory = ref<KLineData[]>([])
+const loadingHistory = ref(false)
 
-// Mock K-line data
-const klineData = computed(() => {
-  const stock = store.holdings.find(h => h.symbol === selectedStock.value)
-  if (!stock) return { prices: [], dates: [] }
-  
-  const prices: number[] = []
-  const dates: string[] = []
-  const basePrice = stock.currentPrice
-  
-  for (let i = 0; i < 60; i++) {
-    const date = new Date()
-    date.setDate(date.getDate() - (59 - i))
-    dates.push(date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' }))
-    
-    const volatility = basePrice * 0.05
-    const change = (Math.random() - 0.48) * volatility
-    prices.push(basePrice + change)
+// 初始化选中第一只股票
+onMounted(() => {
+  if (store.holdings.length > 0) {
+    selectedStock.value = store.holdings[0].symbol
   }
-  
-  return { prices, dates }
+})
+
+// 监听持仓变化，如果当前选中不在持仓中，重置为第一个
+watch(() => store.holdings, (newHoldings) => {
+  if (newHoldings.length > 0) {
+    const exists = newHoldings.find(h => h.symbol === selectedStock.value)
+    if (!exists) {
+      selectedStock.value = newHoldings[0].symbol
+    }
+  }
+}, { immediate: true })
+
+// 获取K线数据
+const fetchKLineData = async () => {
+  if (!selectedStock.value) return
+
+  loadingHistory.value = true
+  try {
+    const data = await store.fetchStockHistory(selectedStock.value, 60)
+    klineHistory.value = data
+  } catch (e) {
+    console.error('Failed to fetch K-line data:', e)
+    klineHistory.value = []
+  } finally {
+    loadingHistory.value = false
+  }
+}
+
+// 监听选中股票变化，获取新数据
+watch(selectedStock, fetchKLineData, { immediate: true })
+
+// K线数据（从API获取）
+const klineData = computed(() => {
+  if (klineHistory.value.length === 0) {
+    // 如果没有历史数据，使用当前价格生成一条平线
+    const stock = store.holdings.find(h => h.symbol === selectedStock.value)
+    if (!stock) return { prices: [], dates: [], volumes: [] }
+
+    const prices: number[] = []
+    const dates: string[] = []
+    const volumes: number[] = []
+    const basePrice = stock.currentPrice
+
+    for (let i = 0; i < 30; i++) {
+      const date = new Date()
+      date.setDate(date.getDate() - (29 - i))
+      dates.push(date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' }))
+      prices.push(basePrice)
+      volumes.push(0)
+    }
+
+    return { prices, dates, volumes }
+  }
+
+  const prices = klineHistory.value.map(d => d.close)
+  const dates = klineHistory.value.map(d => {
+    const date = new Date(d.date)
+    return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+  })
+  const volumes = klineHistory.value.map(d => d.volume)
+
+  return { prices, dates, volumes }
 })
 
 const volumeData = computed(() => {
-  return klineData.value.prices.map((price) => ({
+  return klineData.value.prices.map((price, index) => ({
     price,
-    volume: Math.floor(Math.random() * 1000000) + 500000
+    volume: klineData.value.volumes[index] || Math.floor(Math.random() * 1000000) + 500000
   }))
 })
 

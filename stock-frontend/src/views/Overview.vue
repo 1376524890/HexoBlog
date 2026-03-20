@@ -171,21 +171,33 @@ const formatDate = (date: Date) => {
           <div>
             <div class="flex items-center justify-between mb-2">
               <span class="text-sm text-gray-400">市场情绪</span>
-              <span class="text-sm text-green-400 font-medium">看涨</span>
+              <span :class="store.marketSentiment.overall >= 60 ? 'text-green-400' : store.marketSentiment.overall >= 40 ? 'text-yellow-400' : 'text-red-400'" class="text-sm font-medium">
+                {{ store.marketSentiment.overall >= 60 ? '看涨' : store.marketSentiment.overall >= 40 ? '中性' : '看跌' }}
+              </span>
             </div>
             <div class="w-full bg-gray-700 rounded-full h-2">
-              <div class="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style="width: 72%"></div>
+              <div
+                class="h-2 rounded-full transition-all duration-500"
+                :class="store.marketSentiment.overall >= 60 ? 'bg-gradient-to-r from-green-500 to-green-400' : store.marketSentiment.overall >= 40 ? 'bg-gradient-to-r from-yellow-500 to-yellow-400' : 'bg-gradient-to-r from-red-500 to-red-400'"
+                :style="{ width: `${store.marketSentiment.overall}%` }"
+              ></div>
             </div>
           </div>
 
-          <!-- Sector Allocation -->
+          <!-- Risk Level -->
           <div>
             <div class="flex items-center justify-between mb-2">
               <span class="text-sm text-gray-400">风险等级</span>
-              <span class="text-sm text-yellow-400 font-medium">中等</span>
+              <span :class="store.riskAnalysis?.concentration > 60 ? 'text-red-400' : store.riskAnalysis?.concentration > 40 ? 'text-yellow-400' : 'text-green-400'" class="text-sm font-medium">
+                {{ store.riskAnalysis?.concentration > 60 ? '偏高' : store.riskAnalysis?.concentration > 40 ? '中等' : '偏低' }}
+              </span>
             </div>
             <div class="w-full bg-gray-700 rounded-full h-2">
-              <div class="bg-gradient-to-r from-yellow-500 to-yellow-400 h-2 rounded-full" style="width: 45%"></div>
+              <div
+                class="h-2 rounded-full transition-all duration-500"
+                :class="store.riskAnalysis?.concentration > 60 ? 'bg-gradient-to-r from-red-500 to-red-400' : store.riskAnalysis?.concentration > 40 ? 'bg-gradient-to-r from-yellow-500 to-yellow-400' : 'bg-gradient-to-r from-green-500 to-green-400'"
+                :style="{ width: `${store.riskAnalysis?.concentration || 45}%` }"
+              ></div>
             </div>
           </div>
 

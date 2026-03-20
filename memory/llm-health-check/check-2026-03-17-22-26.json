@@ -1,0 +1,11 @@
+{
+  "checkDate": "2026-03-17 22:26:32",
+  "status": "✅ All checks passed",
+  "details": {
+    "sshTunnel": "✅ active",
+    "vllm": "✅ healthy",
+    "modelsEndpoint": "✅ accessible"
+  },
+  "retryCount": 0,
+  "notes": []
+}

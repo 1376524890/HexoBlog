@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useStockStore } from '@/stores/stock'
 import { ChartBarIcon, SparklesIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
+
+const store = useStockStore()
 
 const formattedNumber = (num: number) => {
   return new Intl.NumberFormat('zh-CN', {
@@ -10,79 +13,67 @@ const formattedNumber = (num: number) => {
   }).format(num)
 }
 
-const performanceMetrics = {
-  dailyReturn: 1.25,
-  weeklyReturn: 3.42,
-  monthlyReturn: 8.67,
-  quarterlyReturn: 15.23,
-  sharpeRatio: 1.85,
-  maxDrawdown: -8.34,
-  volatility: 12.45,
+// 从store获取性能指标
+const performanceMetrics = computed(() => ({
+  dailyReturn: store.stats.totalGainPercent / 30, // 估算日收益
+  weeklyReturn: store.stats.totalGainPercent / 4, // 估算周收益
+  monthlyReturn: store.stats.totalGainPercent,
+  quarterlyReturn: store.stats.totalGainPercent * 3,
+  sharpeRatio: store.stats.sharpeRatio || 0,
+  maxDrawdown: store.stats.maxDrawdown || 0,
+  volatility: store.stats.volatility || 12.45,
   beta: 1.12
-}
+}))
 
-const recommendations = [
-  {
-    symbol: 'NVDA',
-    action: '持有',
-    reason: 'AI 芯片需求持续强劲，公司基本面良好，建议继续持有',
-    confidence: 85,
-    targetPrice: 980,
-    timeHorizon: '3 个月'
-  },
-  {
-    symbol: 'TSLA',
-    action: '观望',
-    reason: '短期存在不确定性，等待更明确的信号再决定',
-    confidence: 65,
-    targetPrice: 250,
-    timeHorizon: '1 个月'
-  },
-  {
-    symbol: 'AAPL',
-    action: '加仓',
-    reason: '服务业务收入创新高，估值合理，建议逢低加仓',
-    confidence: 78,
-    targetPrice: 195,
-    timeHorizon: '2 个月'
+// 从store获取AI建议
+const recommendations = computed(() => store.aiRecommendations)
+
+// 从store获取风险分析
+const riskAnalysis = computed(() => {
+  if (!store.riskAnalysis) {
+    return [
+      {
+        category: '市场风险',
+        level: '中等',
+        score: 50,
+        description: '暂无风险分析数据'
+      }
+    ]
   }
-]
 
-const riskAnalysis = [
-  {
-    category: '市场风险',
-    level: '中等',
-    score: 65,
-    description: '市场波动性有所增加，需关注宏观经济数据'
-  },
-  {
-    category: '个股风险',
-    level: '低',
-    score: 35,
-    description: '持仓个股均为行业龙头，基本面稳健'
-  },
-  {
-    category: '集中度风险',
-    level: '中等',
-    score: 55,
-    description: '科技股占比偏高，建议适当分散投资'
-  },
-  {
-    category: '流动性风险',
-    level: '低',
-    score: 20,
-    description: '持仓股票流动性良好，变现能力强'
-  }
-]
+  const ra = store.riskAnalysis
+  return [
+    {
+      category: '市场风险',
+      level: ra.diversification_score > 70 ? '低' : ra.diversification_score > 40 ? '中等' : '高',
+      score: 100 - ra.diversification_score,
+      description: ra.diversification_score > 70
+        ? '市场波动适中，投资组合分散良好'
+        : '建议适当分散投资以降低市场风险'
+    },
+    {
+      category: '个股风险',
+      level: ra.position_count > 5 ? '低' : ra.position_count > 2 ? '中等' : '高',
+      score: ra.position_count > 5 ? 30 : ra.position_count > 2 ? 50 : 70,
+      description: `当前持仓${ra.position_count}只股票，${ra.position_count > 5 ? '分散度良好' : '建议增加持仓数量'}`
+    },
+    {
+      category: '集中度风险',
+      level: ra.concentration > 60 ? '高' : ra.concentration > 40 ? '中等' : '低',
+      score: Math.round(ra.concentration),
+      description: `最大持仓占比${ra.concentration.toFixed(1)}%，${ra.concentration > 60 ? '建议适当分散' : '分散度良好'}`
+    },
+    {
+      category: '流动性风险',
+      level: '低',
+      score: 20,
+      description: '持仓股票流动性良好，变现能力强'
+    }
+  ]
+})
 
-const marketSentiment = {
-  overall: 72,
-  technology: 78,
-  healthcare: 65,
-  finance: 58,
-  consumer: 69,
-  energy: 52
-}
+// 从store获取市场情绪
+const marketSentiment = computed(() => store.marketSentiment)
 </script>
 
 <template>
