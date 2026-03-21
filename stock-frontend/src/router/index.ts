@@ -5,6 +5,7 @@ import Charts from '@/views/Charts.vue'
 import Analysis from '@/views/Analysis.vue'
 import News from '@/views/News.vue'
 import Transactions from '@/views/Transactions.vue'
+import Backtest from '@/views/Backtest.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/analysis',
       name: 'Analysis',
       component: Analysis
+    },
+    {
+      path: '/backtest',
+      name: 'Backtest',
+      component: Backtest
     },
     {
       path: '/news',

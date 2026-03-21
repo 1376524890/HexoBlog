@@ -1,0 +1,442 @@
+# Search Results
+## 1. Title:
+**来源**: r.jina.ai
+**URL**: https://zhuanlan.zhihu.com/p/26906183708
+
+Title: 
+
+URL Source: https://zhuanlan.zhihu.com/p/26906183708
+
+Warning: Target URL returned error 403: Forbidden
+
+Markdown Content:
+知乎，让每一次点击都充满意义 —— 欢迎来到知乎，发现问题背后的世界。
+
+---
+## 2. Title: Mamba 模型
+**来源**: r.jina.ai
+**URL**: https://www.ibm.com/cn-zh/think/topics/mamba-model
+
+Title: Mamba 模型
+
+URL Source: https://www.ibm.com/cn-zh/think/topics/mamba-model
+
+Published Time: Fri, 20 Mar 2026 06:12:43 GMT
+
+Markdown Content:
+Mamba 作为[状态空间模型 (SSM)](https://www.ibm.com/cn-zh/think/topics/neural-networks) 衍生的[神经网络](https://www.ibm.com/cn-zh/think/topics/state-space-model)架构，适用于语言建模及其他序列建模任务。Mamba 架构凭借极速推理效能与计算效率（尤其长序列场景），成为自回归 [LLM](https://www.ibm.com/cn-zh/think/topics/transformer-model) 领域首个可匹敌 [Transformer 的替代架构](https://www.ibm.com/cn-zh/think/topics/large-language-models)。
+
+Mamba 模型或是首个在[语言建模](https://www.ibm.com/cn-zh/think/topics/deep-learning)任务中（Transformer 成名领域）媲美 Transformer 效能的[深度学习](https://www.ibm.com/cn-zh/think/topics/natural-language-processing)架构。最显著的是，在主流 [LLM 基准测试](https://www.ibm.com/cn-zh/think/topics/llm-benchmarks)中，Mamba 架构展现出与同等规模 Transformer 相当的性能，同时延迟与内存需求往往显著降低。
+
+Mamba 架构由 Tri Dao 与 Albert Gu 在 2023 年论文《Mamba：基于选择性状态空间的线性时间序列建模》中首次提出。一年后，二人发表续作论文，既探索了 SSM 与 Transformer 的关联性，又提出性能显著增强的 Mamba 架构升级版——Mamba-2。
+
+尽管 Transformer 在 Mamba 问世后的两年内仍是 LLM 主导架构，但 Mamba 已被日益增多的开源模型集成。其中如 Mistral AI 的 Codestral Mamba 采用纯 Mamba 架构。而 AI2I 的 Jamba 系列及 [IBM Granite 4.0](https://www.ibm.com/cn-zh/new/announcements/ibm-granite-4-0-tiny-preview-sneak-peek) 等更多模型则融合了[注意力](https://www.ibm.com/cn-zh/think/topics/attention-mechanism) (Transformer) 层与 SSM (Mamba) 层的混合架构。除性能优势外，基于 Mamba 的模型浪潮有望通过低成本硬件流畅运行，显著降低 AI 使用门槛。
+
+## 专家为您带来最新的 AI 趋势
+
+获取有关最重要且最有趣的 AI 新闻的精选洞察分析。订阅我们的每周 Think 时事通讯。请参阅 [IBM 隐私声明](https://www.ibm.com/cn-zh/privacy)。
+
+## 谢谢！您已订阅。
+
+SSM 最初设计用于预测连续序列（如电信号、天气模式或运动轨迹）在给定输入下的下一 _状态_。从概念与数学层面，它们与 2017 年 Transformer 出现前主导自然语言处理 (NLP) 的[循环神经网络 (RNN)](https://www.ibm.com/cn-zh/think/topics/recurrent-neural-networks) 相关，也与[卷积神经网络 (CNN)](https://www.ibm.com/cn-zh/think/topics/convolutional-neural-networks) 和隐马尔可夫模型 (HMM) 等算法存在关联。
+
+顾名思义，SSM 通过对 _[状态空间](https://www.ibm.com/cn-zh/think/topics/state-space-model#What+is+a+state+space)_ 的建模预测动态系统的下一状态：该[数学空间表征](https://www.ibm.com/cn-zh/think/topics/vector-embedding)描述系统 _状态的所有变量_ 及其相互关联的可能取值范围。
+
+SSM 接收输入序列 _x_(_t_)，将其映射至[隐藏](https://www.ibm.com/cn-zh/think/topics/latent-space)状态表示 _h_(_t_)——类比 RNN 的 _隐藏状态_——以预测输出序列 _y_(_t_)。SSM 核心由两个方程构成：
+
+*   **状态方程，h′(t)=A*h(t)+B*x(t)**
+*   **输出方程，y(t)=C*h(t)+D*x(t)**
+
+模型关键参数 A、B、C、D 通常为权重矩阵形式。在[控制理论](https://en.wikipedia.org/wiki/Control_theory)等传统 SSM 应用领域，这些矩阵常被视为固定值：表征既定系统的动态特性，SSM 用于寻找能产生理想输出 _y_ 的输入 _x_。现代 SSM 概念中，这些矩阵本身成为可通过[机器学习](https://www.ibm.com/cn-zh/think/topics/machine-learning)优化的参数。深度学习模型中，它们由神经网络的可学习权重表示。
+
+#### 状态方程
+
+_状态方程_ 描述状态演化机制。矩阵 A 值决定各状态变量的自主演化规律。矩阵 B 值控制输入（如文本序列的下一词元）对各状态变量的影响。
+
+![Image 1: SSM 状态空间方程示意图](https://assets.ibm.com/is/image/ibm/mamba_state-space-equation_2_1ratio?ts=1762891513362&dpr=off) 状态方程。本图示衍生自 Maarten Grootendorst《Mamba 与状态空间模型可视化指南》
+
+在语言建模中，当前状态代表文本序列的上下文信息，每个词元处理后更新。其作用等同于 Transformer 模型中的 KV 缓存。
+
+#### 输出方程
+
+_输出方程_ 描述了当前状态如何通过矩阵 C 影响输出，以及输入如何通过矩阵 D 直接影响输出。由于矩阵 D 本质上独立于 _h_ (t _)_ 自身的建模过程，在 SSM 的图示和讨论中通常被省略，以聚焦于核心矩阵 A、B 和 C。
+
+![Image 2: SSM输出方程图](https://assets.ibm.com/is/image/ibm/mamba_output-equation_2_1ratio?ts=1762891514188&dpr=off) 输出方程。状态方程。插图取自 Maarten Grootendorst 的《A Visual Guide to Mamba and State Space Models》。
+
+在 Mamba LLM 中，输出方程用于生成下一个[词元](https://www.ibm.com/docs/en/watsonx/saas?topic=solutions-tokens)。
+
+### 离散化 SSM
+
+传统 SSM 旨在建模 _连续_ 输入，但文本序列（及现代深度学习模型处理的大多数数据模态）属于 _离散_ 输入。利用 SSM 建模离散序列时，需将其离散的特定时间步表示为连续信号的一部分。
+
+从概念上，离散化本质是将连续函数在特定时刻采样取值。这需要引入新参数——_步长_（记作 _∆_），它决定每个离散时间步 _t_ 采样值的持续时长（即“保持”时间）。调整 _∆_ 类似于改变数据属性，例如[时间序列](https://www.ibm.com/cn-zh/think/topics/time-series-model)数据的分辨率或视频数据的帧率。存在多种“离散化”方法，但现代 SSM 变体（包括 Mamba）普遍采用简单的[零阶保持器 (ZOH)](https://en.wikipedia.org/wiki/Zero-order_hold) 方法。
+
+离散化 SSM 使其能像 RNN 一样用于序列到序列任务。离散化 SSM 的参数和方程通常经过改写，采用 RNN 常用的下标表示法以区别于连续时间模型。该表示法中，_h t_ 代表模型将生成的新状态空间，_h_ t-1 则代表前一时刻的状态——即当前的状态空间。
+
+**h t=A¯h t-1+B¯x t
+
+y t=C¯h t**
+
+### 结构化 SSM
+
+由于标准离散化 SSM 存在与 RNN 相同的若干缺陷，直接用于文本数据建模并不现实。Albert Gu _等人_ 于 2021 年提出的 _结构化状态空间序列模型_（简称“S4 模型”）解决了其中两大缺陷：训练效率低下以及长序列建模能力不足。
+
+尽管 S4 模型及其众多衍生版本（如对角 SSM (DSS)、对角 S4 (S4D) 和 H3 模型）的成功直接为 Mamba 的诞生铺平了道路。
+
+##### 通过卷积实现高效训练
+
+离散化 SSM 等效于 RNN 特定实例的优势在于：RNN 在推理时速度极快。但缺点在于 RNN 训练过程极其缓慢。
+
+所幸离散化 SSM 具备一项区别于其他 RNN 的关键特性：专有 _线性_ 关系建模能力。换句话说，仅使用基础乘法与加法运算。正如 [S4 论文所示](https://arxiv.org/pdf/2111.00396#subsection.2.4)，这些简单、重复且互依的线性递归展开为一维[卷积](https://developer.ibm.com/articles/introduction-to-convolutional-neural-networks/#convolution1)核 ，实现单步输入 _x_ 到输出 _y_ 的映射： 。该过程可通过[快速傅里叶变换](https://research.ibm.com/publications/what-is-the-fast-fourier-transform--1)高效计算。
+
+唯一局限在于：此方法需要预知完整输入序列的所有步骤。这种操作在推理时无法实现，但 _在_ 训练阶段可行。因此结构化 SSM 兼具双重优势：训练时可高效作为 CNN 运行；推理时可高效作为 RNN 运行。
+
+##### 通过结构化矩阵建模长序列
+
+与多数 RNN 类似，标准 SSM 天生不擅长建模长距离依赖关系。换言之，它们难以理解序列中远距离步骤（如段落首尾词语）的关联性，导致整体长序列建模能力薄弱。
+
+为解决此问题，Gu 及其合著者（其中包括 Tri Dao）采用名为 _HiPPO_（高阶多项式投影算子）的技术，通过正交多项式推导的公式[_结构化_ 初始化 A、B 矩阵的行为方式。](https://www.ibm.com/cn-zh/think/topics/state-space-model#Structured+state+space+models)这有别于标准机器学习实践——[模型权重在训练](https://www.ibm.com/cn-zh/think/topics/model-training)初始阶段采用随机初始化。对于 S4 模型，Dao 和 Gu 提出了基于 [Legendre 多项式](https://mathworld.wolfram.com/LegendrePolynomial.html)的初始化方案。他们在后续论文《如何训练你的 HiPPO》中探索了更多公式变体。1[](https://www.ibm.com/cn-zh/think/topics/mamba-model#_ftn1)
+
+S4 论文指出：“仅将 SSM 的随机矩阵 _A_ 替换为 HiPPO 矩阵，其在序列 MNIST 基准测试中的性能即从 60% 提升至 98%”，彻底解决 SSM 长期记忆问题。结构化 SSM 的后续变体（如 DSS、S5 和 Mamba）为矩阵 A 和 B 采用了不同（通常更简化）的初始化方案，但仍遵循 HiPPO 核心原则：通过实施对角矩阵结构确保更新稳定性，并维持矩阵各值间的部分独立性。
+
+Mamba 架构的核心包含两大创新。首先是 _选择性状态空间模型_，它赋予 Mamba 此前仅 Transformer 模型具备的关键能力——能根据当前相关性，选择性地聚焦或忽略历史输入中的特定部分。其次是硬件感知 _并行扫描_ 算法，该算法优化了[图形处理器 (GPU)](https://www.ibm.com/cn-zh/think/topics/gpu) 在内存层级中处理模型计算的方式，从而实现速度与计算效率的最大化。
+
+在 Transformer 中，这种能力由[注意力机制](https://www.ibm.com/cn-zh/think/topics/attention-mechanism)提供：该机制通过调整 _注意力权重_，基于历史词元与当前输入词元的相关性来增强或削弱其影响力。传统 SSM 显式依赖 _完整输入历史_ 实现输入-输出映射。虽适用于部分序列建模任务，却成为高级语言建模的显著缺陷。
+
+为解决无法动态忽略或强调历史输入的问题，Dao 和 Gu 提出了一类具备“选择性扫描”机制的新型状态空间模型。Mamba 论文中作者指出：“我们有时将选择性 SSM 简称为 _S6 模型_，因其本质是带 _选择机制_ 的 _S4 模型_，并通过扫描 _计算_ 实现”。他们将基于 S6 的架构命名为“Mamba”，[部分原因在于多个 S 字母连读形似蛇的嘶鸣声](https://xcancel.com/_albertgu/status/1731727694809723364#m)。
+
+Mamba 可以理解为以选择性状态空间模型为核心的神经网络架构。类比而言：Mamba 之于选择性 SSM，如同 Transformer 模型之于注意力机制。
+
+### 选择性状态空间模型 (S6) 原理
+
+传统 SSM 具有固定动态特性——控制隐藏状态逐步演化的规则（即[模型参数](https://www.ibm.com/cn-zh/think/topics/model-parameters)）对所有输入及序列每一步均相同。该特性称为线性时不变性 (LTI)。为使 SSM 能基于当前语境选择性筛选历史信息，Dao 和 Gu 重构了 SSM 框架，_使关键模型参数值随输入动态变化_。
+
+具体而言，选择性 SSM 使步长 _∆t_ 及矩阵 _B t_、_C t_ 成为当前输入词元 _x t_ 的直接函数。实现方式是将 [x](https://www.ibm.com/cn-zh/think/topics/vector-embedding)_t_ 的 向量嵌入 通过三个并行线性投影层（即标准前馈神经网络层或 _MLP 层_）处理。这类似于 Transformer 模型中并行[查询头、键头和值](https://www.ibm.com/cn-zh/think/topics/attention-mechanism#How+do+attention+mechanisms+work%3F)头生成输入对应的 _Q_、_K_、_V_ 向量。
+
+![Image 3: 选择性状态空间模型架构图](https://assets.ibm.com/is/image/ibm/mamba-s6-diagram?ts=1762891516439&dpr=off) GPU上的选择性 SSM 与内存分配机制。源自论文《Mamba：基于选择性状态空间的线性时间序列建模》
+
+将 _x_ t 向量嵌入乘以线性投影网络的权重和偏置项，即可得到∆t、B t 和 C t 的值。这些线性投影层的权重与偏置项本身，需在模型[预训练阶段](https://www.ibm.com/cn-zh/think/topics/self-supervised-learning)通过海量文本样本学习获得，后续（可选）通过微调进一步优化。
+
+*   **_∆t_** 的值决定了 _x_ t 对模型当前上下文记忆的影响强度：即控制从隐藏状态 _h t-1_ 到 _h t_ 的更新幅度。较大步长 _∆t_：导致状态内旧信息发生更剧烈变化并加速衰减（即“遗忘”）。较小步长 ∆t：产生更细微的更新。步长足够小时：当前输入对隐藏状态完全不产生影响。
+*   矩阵 **_B_ k** 的变化决定当前输入词元 _如何_ 更新隐藏状态。例如，若 _x_ t 是“yesterday”一词的词元，则 _B_ t 的调整可能使状态更新为：后续上下文很可能涉及过去时态。
+*   矩阵 **_C t_** 的变化决定 该上下文信息如何影响模型输出 _y_ t。延续以“yesterday”为词元 _x_ k 的示例：矩阵 _C_ k 的调整将导致模型后续输出的所有动词均以过去时态变位形式呈现。
+
+值得注意的是，矩阵 _A_ 不会基于输入进行此类调整。其作用与 S4 模型一致：高效记忆全部历史输入。在特定时刻决定 _使用哪些_ 历史信息的职责由矩阵 _B_、_C_ 承担。
+
+### 并行扫描
+
+但当模型失去时不变性后，训练阶段无法再使用卷积捷径——因为转移核不再恒定：选择性机制的核心在于，从 _h_ t-1 到 _h t_ 的转移过程现在依赖于上下文。
+
+作为替代方案，Mamba 采用巧妙变通实现类似并行化优势。由于 SSM 仅涉及乘法与加法运算，其计算遵循数学结合律：可通过不同方式分组计算而不改变最终结果。这使得大量顺序计算可拆解为独立小块，由 GPU 通过[_并行前缀和扫描_](https://developer.nvidia.com/gpugems/gpugems3/part-vi-gpu-computing/chapter-39-parallel-prefix-sum-scan-cuda)算法并行处理。
+
+此外，计算结果通过特定分层机制进行整合，该机制借鉴 Tri Dao 开发的 [FlashAttention](https://arxiv.org/abs/2205.14135) 技术原理，充分利用 GPU 不同类型硬件内存实现最优效率（该技术现已广泛用于现代大语言模型）。
+
+### Mamba 模块
+
+在 Mamba 架构中，S6 模型作为更大“模块”的组成部分运行，类似于注意力机制作为“注意力模块”中的子模块。该模块将 S6 模型与[门控神经网络](https://arxiv.org/pdf/2105.08050)架构相结合。Mamba 模型通常在最终输出预测层之前包含多个连续堆叠的模块（即神经网络中的连续 Mamba 层）。
+
+![Image 4: Mamba-2 模块图](https://assets.ibm.com/is/image/ibm/mamba-block-1?ts=1762891517618&dpr=off) Mamba-2 模块。选择性 SSM 后的“x”符号代表逐元素乘法，而非标准点积运算。
+
+在进入 Mamba 模块前，输入的副本作为 _残差连接_ 直接传输至末端。Mamba 模块的核心功能不仅在于识别全局上下文中与当前输入相关的部分，更在于确定上下文信息对原始输入含义的修正 _强度_。
+
+在 Mamba 模块内部，原始输入向量按以下流程处理：
+
+*   首先，输入通过宽度倍增的线性层（即输出维度为输入向量两倍）投影至高维空间。例如，若模型原将每个输入词元 _x_ 表示为 512 维向量嵌入，则经线性投影层权重扩展后，_x_ 将转换为 1024 维向量。
+*   随后，该扩展向量被均分为两部分。其中一半（称为 _x proj_）输入至 SSM 处理路径，另一半（称为 _z_ proj）输入至独立门控机制处理路径。为清晰起见，前述扩展步骤通常图示为两个并行线性层实现。
+*   在 x proj 进入 SSM 前，需经一维[卷积](https://developer.ibm.com/articles/introduction-to-convolutional-neural-networks/)层处理。该卷积层专门提取局部特征模式（如相邻词元间的依存关系：典型如简单主谓搭配）。此处理使 SSM 能专注于建模长距离全局依赖的上下文理解。
+*   卷积层的输出经非线性[激活函数](https://www.ibm.com/cn-zh/think/topics/backpropagation#How+neural+networks+work)处理。神经网络引入非线性是捕获复杂模式的标志。Mamba 论文采用 [Sigmoid 线性单元 (SiLU)](https://github.com/paperswithcode)。所得向量记为 _x_ act。
+*   同时，在独立门控机制路径中，_z_ proj 也经非线性激活函数处理生成 _z_ act。
+*   在 SSM 路径中，_x_ act 输入三个并行线性投影层，分别生成 ∆x、B x 和 C x 的值。
+*   SSM 利用这些输入相关参数（及矩阵 _A_、_D_）计算状态空间更新值及 SSM 输出 _y。_
+*   随后，SSM 的输出向量 _y_ 现在与门控路径的输出向量 _z_ act[按元素相乘](https://en.wikipedia.org/wiki/Hadamard_product_(matrices))。本质上，_z_ act 中的每个元素就像[音频混音台 的音量旋钮](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/SSL_SL9000J_%2872ch%29_%40_The_Cutting_Room_Recording_Studios%2C_NYC.jpg/1920px-SSL_SL9000J_%2872ch%29_%40_The_Cutting_Room_Recording_Studios%2C_NYC.jpg)：如果 _z_ act 的某个元素接近零，那么与 _y_ 对应部分相乘后，结果会更接近零，其影响也会随之减弱。相反，若 _z_ act 某元素值较大，则将放大 _y_ 中上下文信息的影响力。
+*   最终所得向量被投影压缩至原始尺寸。可理解为对原始输入向量各元素的加权上下文更新（或非更新）结果集。
+*   最后，该更新向量与作为残差连接直达模块末端的原始输入副本相加。
+*   此时原始输入向量已完成上下文感知更新（由选择性 SSM 提供）。现在可输送至下一 Mamba 层；若处于模型最终层，则作为 softmax 函数的输入，输出经全更新向量对应词表中各单词的概率分布。
+
+Mamba 论文发表一年后，Dao 与 Gu 发表续作《Transformer 即状态空间模型：基于结构化状态空间对偶性的通用模型与高效算法》。该论文做出三大贡献：
+
+*   理论探索：揭示 Mamba 与 Transformer 的架构关联性并建立统一术语体系
+*   系统阐释 Mamba 模型不同设计选项并进行深度探索
+*   架构升级：基于设计研究推出改进版 _Mamba-2_ 架构
+
+Mamba-2 算法较初版显著提速且更易实现——作者提供约 25 行代码的“极简 SSD”代码库实现选择性 SSM。2[](https://www.ibm.com/cn-zh/think/topics/mamba-model#_ftn1)其高效性支持 Mamba-2 在模型速度不变前提下大幅扩展隐藏状态维度，从而构建规模更大、能力更强、表达更丰富的模型。经测试，Mamba-2 模型在多项下游任务中确定持平或超越同规模 Mamba 及 Transformer 模型。
+
+### 关于 Transformer 的关联性
+
+如论文引言所述，Dao 与 Gu 的“核心目标在于建立结构化 SSM 与注意力变体间的理论关联体系”。这催生了统一两者的新概念框架——“状态空间对偶性” (SSD)。3[](https://www.ibm.com/cn-zh/think/topics/mamba-model#_ftn1)此举为 Mamba 架构开启了吸收 Transformer 多年优化成果的通道。
+
+显著成果之一是开发出[多头注意力 (MHA)](https://www.ibm.com/cn-zh/think/topics/grouped-query-attention#Standard+multi-head+attention) 的 Mamba 等效机制：Mamba 模块可拆分为多个“处理头”，类似于 Transformer 中的“注意力头”。其中被类比[分组查询注意力](https://www.ibm.com/cn-zh/think/topics/grouped-query-attention)的变体方案，通过 GPU 张量并行实现更高效率。
+
+### Mamba-2 架构
+
+在 Mamba-2 模块（作者称为 _并行 Mamba 模块_，区别于初版“串行”模块）中：输入相关参数 ∆、B、C 在初始投影层并行生成。具体而言，矩阵 B 和 C 的生成方式简化为：直接复制 _x proj_ 的片段数据，而非通过专用线性层对 x proj 执行矩阵乘法运算。此设计在简化模型结构、减少参数总量的同时，实现了显著更高效的大规模训练。4[](https://www.ibm.com/cn-zh/think/topics/mamba-model#_ftn1)
+
+![Image 5: Mamba-2 模块图](https://assets.ibm.com/is/image/ibm/mamba-block-2?ts=1762891519047&dpr=off) Mamba-2 模块。选择性 SSM 后的“x”符号代表逐元素乘法，而非标准点积运算。
+
+Mamba 与 Transformer 架构各有优势，但在内存使用和速度相关领域，基于 Mamba 的模型普遍更优：据 Mamba 论文显示，其吞吐量可达同等 Transformer 的 5 倍。
+
+Transformer 虽具备极高精度与通用性，但对计算资源需求极其严苛。在预训练（及[微调](https://www.ibm.com/cn-zh/think/topics/fine-tuning)）阶段，自注意力机制的内存需求随序列长度呈二次方增长：若序列[上下文长度](https://www.ibm.com/cn-zh/think/topics/context-window)加倍，注意力机制的资源消耗量将增至四倍。随着上下文窗口扩展，这种“二次方瓶颈”对速度和内存可用性的制约日益加剧。而在推理阶段，其内存需求仅呈线性增长。
+
+在训练阶段，Mamba 模型的内存消耗仅随序列长度线性增长。更重要的是，其在推理阶段的内存使用保持 _恒定_：无论模型处理过多少词元，SSM 始终以固定大小表征历史输入。这使得理论上支持无限上下文长度，实际仅受硬件限制。
+
+尽管如此，Transformer 虽内存密集且计算冗余，却具备独特优势。例如，[研究表明](https://arxiv.org/pdf/2406.07887)，在需要上下文学习（如[少样本提示](https://www.ibm.com/cn-zh/think/topics/few-shot-prompting)）、文本复制或长上下文推理任务中，Transformer 的性能仍优于 Mamba 及 Mamba-2。
+
+### 混合 Mamba 模型
+
+值得庆幸的是，Transformer 与 Mamba 的优势并非互斥。Mamba-2 论文指出，混合模型可能超越纯 Transformer 或 SSM 架构——该观点于 2024 年获英伟达研究正式验证。5[](https://www.ibm.com/cn-zh/think/topics/mamba-model#_ftn1)广义而言，混合模型兼具 Mamba 的高效性与 Transformer 注意力机制（尽管资源消耗更大）带来的精细建模及上下文学习能力。
+
+为深入探索，[IBM Research 联合 Dao、Gu](https://research.ibm.com/blog/bamba-ssm-transformer-model) 及伊利诺伊大学香槟分校 (UIUC) Minjia Zhang 团队开发 [Bamba](https://huggingface.co/ibm-ai-platform/Bamba-9B-v1) 与 [Bamba V2](https://huggingface.co/ibm-ai-platform/Bamba-9B-v2)。Bamba 反过来为 [IBM Granite 4.0](https://www.ibm.com/cn-zh/new/announcements/ibm-granite-4-0-tiny-preview-sneak-peek) 大模型提供了核心架构设计基础。
+
+混合模型研究仍是活跃领域，开源社区尤其聚焦于此方向。
+
+---
+## 3. Title: 华人学生立大功，新王Mamba-3直击Transformer死穴，推理效率碾压7倍-36氪
+**来源**: r.jina.ai
+**URL**: https://www.36kr.com/p/3729245598514561
+
+Title: 华人学生立大功，新王Mamba-3直击Transformer死穴，推理效率碾压7倍-36氪
+
+URL Source: https://www.36kr.com/p/3729245598514561
+
+Published Time: 2026-03-20T14:12:46+08:00
+
+Markdown Content:
+Transformer「杀手」架构迎重磅升级！
+
+就在今天，Mamba架构的「原班人马」正式发布了最新一代开源架构——Mamba-3。
+
+![Image 1](https://img.36krcdn.com/hsossms/20260319/v2_cc1a5a7c78a4471d912feec05c73bb1d@5091053_oswg41660oswg1080oswg278_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+论文地址：https://arxiv.org/pdf/2603.15569
+
+与Mamba-2相比，Mamba-3对核心SSM做了三大改动：
+
+*   改进了离散化过程，使其能够模拟卷积；
+*   将状态转移引入复数域，以优化状态追踪；
+*   采用MIMO架构提升推理利用率，在保持解码速度的同时增强模型表现。
+
+![Image 2](https://img.36krcdn.com/hsossms/20260319/v2_f2fd9e052dae4efa9d9b8b2b2af95507@5091053_oswg114167oswg1080oswg187_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+![Image 3](https://img.36krcdn.com/hsossms/20260319/v2_fb79a241ba2a4d4eb6529c2a7b30536c@5091053_oswg246819oswg1080oswg575_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+结果证明，仅用一半的内部状态大小，Mamba-3实力便与Mamba-2相当。
+
+在15亿参数规模下，Mamba-3 MIMO版本的平均准确率达到57.6%，比Transformer高出4%。
+
+在长序列任务上，Mamba-3的端到端延迟仅为Transformer的七分之一。
+
+![Image 4](https://img.36krcdn.com/hsossms/20260319/v2_7666c8d267904b149dd32b6a5f3ca11f@5091053_oswg81635oswg1080oswg331_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+## **剑指Transformer死穴**
+
+## **Mamba-3逆天改命**
+
+2017年，Transformer架构横空出世，成为当今LLM的基石。
+
+然而，它是一个不折不扣的「算力黑洞」，随着对话长度增加，计算需求呈平方级增长，内存占用线性飙升，导致大规模推理成本极高。
+
+为打破这一僵局，2023年，首个Mamba架构应运而生。
+
+2024年中，Mamba-2发布，进一步打通了SSM与注意力机制之间的数学等价关系，训练速度提升2-8倍。
+
+![Image 5](https://img.36krcdn.com/hsossms/20260319/v2_1a3a5ce515a74b22a538d341b8f86424@5091053_oswg1238733oswg1000oswg558_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+如今，由Albert Gu和Tri Dao联合指导、四位学生研究员主力操刀的Mamba-3，带着全新设计哲学登场。
+
+Mamba-3代表着一种范式转移：从追求训练效率，转向「推理优先」的设计。
+
+正如Albert Gu所说，Mamba-2的重点是打破预训练的瓶颈，Mamba-3则是为了解决「冷GPU」问题——
+
+即在解码过程中，现代硬件往往是在干等着数据传输（内存移动），而不是在真正进行计算。
+
+### **高效秘籍：摘要机器**
+
+作为一种状态空间模型（SSM），Mamba-3就像一个高效的「摘要机器」。
+
+其核心逻辑与Transformer有本质区别。
+
+Transformer每生成一个词，都要回顾全部历史token来理解上下文，历史越长负担越重。
+
+而Mamba-3将历史信息实时压缩成一个固定大小的「内部状态」，你可以理解为数据历史的「快照」。
+
+每当新信息进入，架构只需更新快照而无需重读全文。这就是SSM能做到固定内存、线性计算的根本原因。
+
+对SSM来说，这个「快照」的大小（即状态大小）是决定性能的核心旋钮：
+
+状态越大，能压缩的信息越丰富，模型越聪明，但推理时搬运数据的开销也越大，速度就越慢。
+
+反过来，状态缩小一半，速度能快一倍，但模型可能会变笨。
+
+Mamba-3的突破就在这里。它用仅为Mamba-2一半的状态大小，达到了与Mamba-2相当的语言建模性能。
+
+聪明程度不变，速度翻倍——等于把SSM的性能-效率曲线整体往下推了一档。
+
+## **推理优先，祭出三大核心杀招**
+
+Mamba-3是怎么做到的？这背后是一套全新的设计哲学：重新思考AI的「智能」与运行它的硬件速度之间的关系。
+
+如果说Mamba-2是为了刷训练速度的记录，那么Mamba-3就是一种「推理优先」的架构。
+
+所谓推理，就是用户在ChatGPT、Gemini或通过API使用AI的过程。
+
+![Image 6](https://img.36krcdn.com/hsossms/20260319/v2_eeb13383446b4b6f80272b97ba328d7c@5091053_oswg140777oswg1080oswg589_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+Mamba-3的核心目标是榨干GPU活跃的每一秒钟，确保模型在不让用户等待的情况下，进行最密集的「思考」。
+
+围绕这个目标，Mamba-3祭出了三招——
+
+*   数学上，更精准的离散化公式让模型的「记忆」更精确；
+*   能力上，引入复数值状态，就像给模型装了个「内部指南针」，补上了逻辑推理的短板；
+*   硬件上，MIMO机制让芯片不再「带薪休假」，把闲置算力全部榨干，让模型在生成每个词时进行更多「深度思考」，而用户等待的时间一点没变。
+
+接下来逐一拆解。
+
+### **三大核心技术**
+
+**指数梯形离散化：从一阶到二阶的精度跃迁**
+
+Mamba-1和Mamba-2使用的离散化方法，本质上是一阶近似，类似于用一个端点的高度来估算一段曲线下的面积。
+
+Mamba-3升级为「指数梯形法则」，同时参考两个端点进行加权平均，精度从一阶跃升到二阶。
+
+这看似只是数学层面的微调，效果却出乎意料。
+
+它在SSM的状态输入上隐式引入了一个宽度为2的数据依赖卷积，直接让Mamba-2中必不可少的短因果卷积模块变成了可选项。
+
+消融实验显示，指数梯形离散化与B、C偏置项的组合，能够完全替代过去几乎所有线性模型都依赖的外部短卷积——这是架构简化的重要一步。
+
+![Image 7](https://img.36krcdn.com/hsossms/20260319/v2_fe8301fc01e2479aadf70175c953deb3@5091053_oswg78554oswg1080oswg372_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+**复数值SSM：给模型装上「内部指南针」**
+
+长期以来，Transformer的替代方案都有一个「逻辑短板」——在简单的状态追踪任务（比如判断二进制序列的奇偶性）中经常翻车。
+
+根本原因在于，Mamba-2将状态转移矩阵限制为实数标量，无法表达「旋转」动态。
+
+举一个直观的例子，奇偶校验本质上是一个翻转操作——每读入一个1，状态就翻转一次。这种翻转在数学上对应旋转，而实数域天然不支持旋转。
+
+Mamba-3通过引入复数值状态空间解决了这个问题。
+
+结果证明，离散化后的复数SSM，等价于在B、C投影上施加一种数据依赖的旋转位置嵌入（RoPE）。
+
+这意味着可以用高效的「RoPE技巧」来实现复数运算，计算开销几乎可以忽略。
+
+数据显示，在奇偶校验任务上，Mamba-3达到100%准确率，而Mamba-2只有0.9%，和随机猜测无异。
+
+在模算术任务上，Mamba-3同样达到98.51%，Mamba-2仅47.81%。线性模型的推理能力终于能和最先进的系统平起平坐。
+
+**MIMO：榨干每一分闲置算力**
+
+现在的AI模型大多受限于「内存带宽」。
+
+一组数据足以说明问题：Mamba标准SISO解码的算术强度仅约2.5 ops/byte，而NVIDIA H100的bf16张量核心能力是295 ops/byte。
+
+换算下来，GPU在解码时有超过99%的计算能力在空转。
+
+![Image 8](https://img.36krcdn.com/hsossms/20260319/v2_8cc6b69de8374298bd6b4785048ea8c3@5091053_oswg51483oswg1080oswg335_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+Mamba-3引入多输入多输出（MIMO）公式，将状态更新从外积运算变成矩阵乘法。
+
+当MIMO秩为4时，每一步的计算量增加到原来的4倍，但由于这些计算恰好填满了空闲的张量核心，解码延迟几乎没有增加。
+
+kernel延迟测试验证了这一点。在bf16、状态维度128的常用配置下，Mamba-3 SISO解码延迟仅0.156毫秒，比Mamba-2（0.203毫秒）还快；MIMO版本为0.179毫秒，依然快于Mamba-2。
+
+![Image 9](https://img.36krcdn.com/hsossms/20260319/v2_28fd5dde8fb148bdbb092fe4389db956@5091053_oswg55945oswg894oswg664_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+用一句话总结MIMO的哲学：不是让GPU跑得更快，而是不让它闲着。
+
+## **全面碾压：从180M到1.5B**
+
+研究团队在4个参数规模（180M、440M、880M、1.5B）上进行了系统对比，对手包括Transformer、Mamba-2和Gated DeltaNet（GDN）三大基线。
+
+所有模型使用相同的训练流程、100B FineWeb-Edu数据、Llama-3.1分词器。
+
+在1.5B规模下，Mamba-3 MIMO以57.6%的平均准确率排名第一，领先Transformer 4%、Mamba-2 3.4%、GDN 3.2%。
+
+即使是不使用MIMO的标准版Mamba-3 SISO，也以56.4%超越了所有非Mamba-3基线。
+
+![Image 10](https://img.36krcdn.com/hsossms/20260319/v2_7e825e105aff43eb998c1d0cce06476c@5091053_oswg156361oswg1080oswg753_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+在端到端推理延迟上，16384个token的prefill+decode场景中，Mamba-3 SISO耗时140.61秒，而vLLM跑Llama-3.2-1B需要976.50秒，快了近7倍。
+
+随着序列长度增长，线性模型的优势只会越来越大。
+
+![Image 11](https://img.36krcdn.com/hsossms/20260319/v2_2bba288df26b4cb59306b83013fcf0a1@5091053_oswg142006oswg1080oswg271_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+更值得关注的是上下文长度外推能力。所有模型仅在2K长度上训练，然后直接扔到更长的序列上测试。
+
+结果显示，Mamba-3的语言建模表现一路稳步提升直到32K，而Mamba-2在超过训练长度后迅速崩坏。
+
+这说明Mamba-3不仅在训练分布内更强，面对从未见过的长序列时也更加稳健。
+
+## **混合架构才是终局**
+
+不过，Mamba-3团队对一个现实问题并不回避：纯SSM模型在检索任务上仍不如Transformer。
+
+这很好理解。固定大小的状态就像一个容量有限的笔记本，而Transformer的KV缓存是一个可以无限扩展的档案柜。需要精确回忆「第三段第二句话说了什么」时，档案柜天然更占优。
+
+他们的解法是混合架构：将Mamba-3层与无位置编码的自注意力层按5:1比例交替堆叠。
+
+实验显示，这种混合模型在检索任务上超过了纯Transformer基线，同时保持了线性模型的高效推理能力。
+
+这也印证了行业趋势，Nemotron-H、Kimi Linear、HunyuanTurboS都在走混合路线，把Mamba层和注意力层穿插组合。
+
+未来最有竞争力的模型架构，大概率不是「非此即彼」，而是「各取所长」。
+
+## **华人学生立大功**
+
+这次Mamba-3的一个突出特点是「学生主导」。
+
+正如Gu在发布推文中写道：「这是第一个由学生主导的Mamba，所有功劳归于他们。」
+
+### **Kevin Li**
+
+![Image 12](https://img.36krcdn.com/hsossms/20260319/v2_02bafffc683d462e8673d53a487b4638@5091053_oswg1384740oswg1000oswg1000_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+Kevin Li是卡内基梅隆大学机器学习系的博三在读生。
+
+在此之前，他在佐治亚理工学院完成了计算机科学和生物医学工程的本科课程，导师是Polo Chau教授。
+
+个人研究兴趣主要集中在开发高效的深度学习架构与方法，以及通过扩展推理端算力来提升模型的逻辑推理能力和通用性能。
+
+### **Berlin Chen**
+
+![Image 13](https://img.36krcdn.com/hsossms/20260319/v2_65812f727a5e44cbb2befab9613d052a@5091053_oswg274317oswg400oswg400_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+Berlin Chen目前是普林斯顿大学计算机科学博士生，也是Together AI实习生。
+
+此前，他曾获得了剑桥大学数学硕士学位，斯沃斯莫尔学院 （Swarthmore College）的数学与计算机科学学士学位。
+
+### **Caitlin Wang**
+
+![Image 14](https://img.36krcdn.com/hsossms/20260319/v2_7f415fdf9ce240ae9b93220264a4c322@5091053_oswg123974oswg285oswg285_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+Caitlin Wang目前是普林斯顿大学计算机科学专业的大学生。
+
+共同指导者之一的Tri Dao，越南裔美国人，斯坦福博士毕业后加入普林斯顿担任助理教授，同时也是Together AI的联合创始人兼首席科学家。
+
+他更广为人知的身份是FlashAttention的发明者——这个几乎被所有主流AI框架集成的算法，直接改变了Transformer模型的训练和推理方式。2025年，他获得了Schmidt Sciences颁发的AI2050 Fellowship。
+
+![Image 15](https://img.36krcdn.com/hsossms/20260319/v2_65882c00e2634df0bd20a31b2b409543@5091053_oswg398612oswg481oswg640_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+另一位指导者Albert Gu，华裔，CMU机器学习系助理教授，同时也是语音AI公司Cartesia的联合创始人兼首席科学家。
+
+2024年，他被TIME杂志评选为「AI领域100位最具影响力人物」。
+
+在X上，他的个人简介写着「leading the SSM revolution」（引领SSM革命），两年多内监督了Mamba三代架构的诞生。
+
+可以说，整个SSM革命的理论根基，就是由这位华人学者一手奠定的。
+
+![Image 16](https://img.36krcdn.com/hsossms/20260319/v2_f737f609b9be4616a662d6d7ed6e2ca0@5091053_oswg683208oswg1080oswg1080_img_000?x-oss-process=image/format,jpg/interlace,1)
+
+**参考资料：**
+
+https://venturebeat.com/technology/open-source-mamba-3-arrives-to-surpass-transformer-architecture-with-nearly
+
+https://x.com/_albertgu/status/2033948415139451045?s=20
+
+https://arxiv.org/pdf/2603.15569
+
+本文来自微信公众号[“新智元”](https://mp.weixin.qq.com/s/ydBmqGZ6OBvuIV2Xi6zJcQ)，作者：新智元，编辑：好困 桃子，36氪经授权发布。
+
+---

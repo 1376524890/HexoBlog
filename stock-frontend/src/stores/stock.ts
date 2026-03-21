@@ -475,7 +475,7 @@ export const useStockStore = defineStore('stock', () => {
   // Calculate market sentiment based on holdings performance
   const calculateMarketSentiment = () => {
     const gainers = holdings.value.filter(h => h.gainLossPercent > 0).length
-    const losers = holdings.value.filter(h => h.gainLossPercent < 0).length
+    // const losers = holdings.value.filter(h => h.gainLossPercent < 0).length  // 暂不使用
     const total = holdings.value.length
 
     if (total === 0) {

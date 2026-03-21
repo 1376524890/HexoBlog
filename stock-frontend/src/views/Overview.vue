@@ -15,6 +15,20 @@ const store = useStockStore()
 
 const { stats, holdings, transactions, news, topGainer, topLoser } = store
 
+// 计算属性：风险等级
+const riskLevel = computed(() => {
+  const concentration = store.riskAnalysis?.concentration ?? 45
+  return {
+    concentration,
+    isHigh: concentration > 60,
+    isMedium: concentration > 40 && concentration <= 60,
+    isLow: concentration <= 40,
+    label: concentration > 60 ? '偏高' : concentration > 40 ? '中等' : '偏低',
+    colorClass: concentration > 60 ? 'text-red-400' : concentration > 40 ? 'text-yellow-400' : 'text-green-400',
+    barClass: concentration > 60 ? 'bg-gradient-to-r from-red-500 to-red-400' : concentration > 40 ? 'bg-gradient-to-r from-yellow-500 to-yellow-400' : 'bg-gradient-to-r from-green-500 to-green-400'
+  }
+})
+
 const formattedNumber = (num: number) => {
   return new Intl.NumberFormat('zh-CN', {
     style: 'currency',
@@ -188,15 +202,15 @@ const formatDate = (date: Date) => {
           <div>
             <div class="flex items-center justify-between mb-2">
               <span class="text-sm text-gray-400">风险等级</span>
-              <span :class="store.riskAnalysis?.concentration > 60 ? 'text-red-400' : store.riskAnalysis?.concentration > 40 ? 'text-yellow-400' : 'text-green-400'" class="text-sm font-medium">
-                {{ store.riskAnalysis?.concentration > 60 ? '偏高' : store.riskAnalysis?.concentration > 40 ? '中等' : '偏低' }}
+              <span :class="riskLevel.colorClass" class="text-sm font-medium">
+                {{ riskLevel.label }}
               </span>
             </div>
             <div class="w-full bg-gray-700 rounded-full h-2">
               <div
                 class="h-2 rounded-full transition-all duration-500"
-                :class="store.riskAnalysis?.concentration > 60 ? 'bg-gradient-to-r from-red-500 to-red-400' : store.riskAnalysis?.concentration > 40 ? 'bg-gradient-to-r from-yellow-500 to-yellow-400' : 'bg-gradient-to-r from-green-500 to-green-400'"
-                :style="{ width: `${store.riskAnalysis?.concentration || 45}%` }"
+                :class="riskLevel.barClass"
+                :style="{ width: `${riskLevel.concentration}%` }"
               ></div>
             </div>
           </div>

@@ -42,14 +42,20 @@ onMounted(async () => {
                 >
                   K 线图
                 </router-link>
-                <router-link 
-                  to="/analysis" 
+                <router-link
+                  to="/analysis"
                   class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
                 >
                   分析
                 </router-link>
-                <router-link 
-                  to="/news" 
+                <router-link
+                  to="/backtest"
+                  class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+                >
+                  回测
+                </router-link>
+                <router-link
+                  to="/news"
                   class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
                 >
                   新闻
