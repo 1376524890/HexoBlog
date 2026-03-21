@@ -1,0 +1,26 @@
+{
+  "stocks": {},
+  "last_update": "2026-03-21 19:02:23",
+  "source_health": {
+    "东方财富": {
+      "last_check": "2026-03-21 19:02:08",
+      "fail_count": 3,
+      "status": "unhealthy"
+    },
+    "新浪财经": {
+      "last_check": "2026-03-21 19:02:12",
+      "fail_count": 3,
+      "status": "unhealthy"
+    },
+    "腾讯行情": {
+      "last_check": "2026-03-21 19:02:18",
+      "fail_count": 3,
+      "status": "unhealthy"
+    },
+    "AkShare": {
+      "last_check": "2026-03-21 19:02:23",
+      "fail_count": 3,
+      "status": "unhealthy"
+    }
+  }
+}
