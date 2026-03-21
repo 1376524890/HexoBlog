@@ -88,7 +88,7 @@ class BrowserFetcher:
     """
     浏览器模式抓取器
     
-    使用 browser 工具访问动态页面，支持：
+    使用 agent-browser（Vercel 官方）访问动态页面，支持：
     - JavaScript 渲染页面
     - 交互式内容
     - 单页应用 (SPA)
@@ -103,11 +103,20 @@ class BrowserFetcher:
             browser_profile: 浏览器配置文件 ("openclaw" 或 "chrome")
         """
         self.browser_profile = browser_profile
-        self.browser_active = False
+        
+        # 尝试导入 agent-browser 模块
+        try:
+            from agent_browser import get_agent_browser_instance
+            self.agent_browser = get_agent_browser_instance(profile=browser_profile)
+            self.use_agent_browser = True
+        except ImportError:
+            self.use_agent_browser = False
+            self.agent_browser = None
+            print(f"⚠️ agent-browser 模块未找到，将使用降级方案")
     
-    async def fetch(self, url: str, timeout: int = 30) -> BrowserFetchResult:
+    async def fetch(self, url: str, timeout: int = 60) -> BrowserFetchResult:
         """
-        使用浏览器抓取页面内容
+        使用 agent-browser 抓取页面内容
         
         Args:
             url: 目标 URL
@@ -120,22 +129,23 @@ class BrowserFetcher:
         start_time = time.time()
         
         try:
-            # 使用 browser 工具访问页面
-            # 注意：这里需要调用实际的 browser 工具
-            # 由于 browser 工具是同步的，我们需要在异步环境中调用
-            
-            # 模拟浏览器访问（实际实现需要调用 browser 工具）
-            snapshot_result = await self._take_snapshot(url, timeout)
+            if self.use_agent_browser and self.agent_browser:
+                # 使用 agent-browser
+                result = await self._fetch_with_agent_browser(url, timeout)
+            else:
+                # 降级方案
+                result = await self._fallback_fetch(url, timeout)
             
             fetch_time = time.time() - start_time
             
             return BrowserFetchResult(
-                success=True,
+                success=result.success,
                 url=url,
-                content=snapshot_result.get("markdown", ""),
-                title=snapshot_result.get("title", "无标题"),
-                source="browser",
-                method="browser",
+                content=result.get("content", ""),
+                title=result.get("title", "无标题"),
+                source="agent-browser",
+                method="agent-browser" if self.use_agent_browser else "fallback",
+                error=result.get("error", ""),
                 fetch_time=fetch_time
             )
             
@@ -152,9 +162,9 @@ class BrowserFetcher:
                 fetch_time=fetch_time
             )
     
-    async def _take_snapshot(self, url: str, timeout: int) -> Dict[str, Any]:
+    async def _fetch_with_agent_browser(self, url: str, timeout: int) -> Dict[str, Any]:
         """
-        获取浏览器快照
+        使用 agent-browser 抓取
         
         Args:
             url: 目标 URL
@@ -163,33 +173,95 @@ class BrowserFetcher:
         Returns:
             包含页面内容的字典
         """
-        # 注意：实际实现需要调用 browser 工具
-        # 这里提供接口定义
+        import sys
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
+        from agent_browser import AgentBrowser, get_agent_browser_instance
         
-        # 伪代码示例：
-        # response = await browser(
-        #     action="navigate",
-        #     targetUrl=url,
-        #     profile=self.browser_profile
-        # )
-        # 
-        # snapshot = await browser(
-        #     action="snapshot",
-        #     snapshotFormat="ai",
-        #     refs="aria"
-        # )
+        browser = get_agent_browser_instance(profile=self.browser_profile)
         
-        return {
-            "title": "示例标题",
-            "markdown": "示例内容",
-            "url": url
-        }
+        try:
+            # 1. 打开页面
+            open_result = await browser.open(url, wait="networkidle")
+            if not open_result.success:
+                return {
+                    "success": False,
+                    "error": f"打开页面失败：{open_result.error}"
+                }
+            
+            # 2. 等待页面加载
+            await asyncio.sleep(2)  # 额外等待动态内容
+            
+            # 3. 获取快照（交互式）
+            snapshot_result = await browser.snapshot(interactive=True)
+            
+            # 4. 获取标题
+            title_result = await browser.get_title()
+            title = title_result.output.strip() if title_result.success else "无标题"
+            
+            # 5. 关闭浏览器
+            await browser.close()
+            
+            # 6. 解析快照内容
+            content = snapshot_result.output
+            
+            return {
+                "success": True,
+                "content": content,
+                "title": title
+            }
+            
+        except Exception as e:
+            try:
+                await browser.close()
+            except:
+                pass
+            
+            return {
+                "success": False,
+                "error": str(e)
+            }
+    
+    async def _fallback_fetch(self, url: str, timeout: int) -> Dict[str, Any]:
+        """
+        降级抓取方案（使用 web_fetch）
+        
+        Args:
+            url: 目标 URL
+            timeout: 超时时间
+            
+        Returns:
+            包含页面内容的字典
+        """
+        try:
+            from web_fetch import fetch_page
+            
+            result = await fetch_page(url, max_chars=50000)
+            
+            return {
+                "success": result.get("success", False),
+                "content": result.get("content", ""),
+                "title": result.get("title", "无标题"),
+                "error": result.get("error", "")
+            }
+            
+        except ImportError:
+            return {
+                "success": False,
+                "error": "web_fetch 和 agent-browser 都不可用"
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e)
+            }
     
     async def close(self):
         """关闭浏览器"""
-        if self.browser_active:
-            # await browser(action="close")
-            self.browser_active = False
+        if self.use_agent_browser and self.agent_browser:
+            try:
+                await self.agent_browser.close()
+            except:
+                pass
 
 
 @dataclass
