@@ -1,0 +1,76 @@
+# 本地知识库搜索配置
+
+# 索引配置
+index:
+  # 索引目录
+  directory: "./index"
+  
+  # 支持的扩展名
+  supported_extensions:
+    - ".md"
+    - ".txt"
+    - ".json"
+    - ".yaml"
+    - ".yml"
+    - ".py"
+    - ".js"
+    - ".ts"
+    - ".java"
+    - ".c"
+    - ".cpp"
+    - ".html"
+    - ".css"
+    - ".sql"
+    - ".xml"
+  
+  # 分块配置
+  chunking:
+    max_chunk_size: 500
+    chunk_overlap: 50
+
+# 搜索配置
+search:
+  # 默认返回结果数量
+  default_top_k: 5
+  
+  # 是否使用语义搜索
+  use_semantic: true
+  
+  # 语义搜索权重
+  semantic_weight: 0.4
+  
+  # 关键词搜索权重
+  bm25_weight: 0.6
+  
+  # 最小相关度阈值
+  min_score_threshold: 0.1
+
+# Embedding 模型配置
+embedding:
+  # 模型名称
+  model: "all-MiniLM-L6-v2"
+  
+  # 是否缓存模型
+  cache: true
+  
+  # 模型目录（可选）
+  model_dir: null
+
+# 日志配置
+logging:
+  # 日志级别
+  level: "INFO"
+  
+  # 日志文件
+  file: null
+  
+  # 是否控制台输出
+  console: true
+
+# 性能配置
+performance:
+  # 最大并发数
+  max_workers: 4
+  
+  # 超时时间（秒）
+  timeout: 30

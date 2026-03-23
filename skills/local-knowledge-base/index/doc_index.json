@@ -1,0 +1,343 @@
+{
+  "version": "1.0",
+  "created_at": "2026-03-23T08:16:21.608817",
+  "updated_at": "2026-03-23T08:16:21.779871",
+  "documents": [
+    {
+      "path": "SKILL.md",
+      "title": "Local Knowledge Base Skill",
+      "type": "markdown",
+      "size": 9225,
+      "last_modified": 1774224913.6301248,
+      "content": "# Local Knowledge Base Skill\n\n## 📚 技能简介\n\n本地知识检索系统，用于自动建立和维护本地文档索引，支持语义搜索和关键词搜索。\n\n**核心功能**:\n- 📖 自动扫描和索引本地文档\n- 🔍 语义搜索 + 关键词搜索融合\n- 🔄 增量更新，只更新修改的文件\n- 🎯 返回相关度排序的结果\n- ⚡ 高性能，支持大规模文档集\n\n---\n\n## 🏗️ 架构设计\n\n```\n┌─────────────────────────────────────────────────────────┐\n│                  User Interface                          │\n│  (CLI Commands / API / OpenClaw Skill)                  │\n└─────────────────────────────────────────────────────────┘\n                           ↓\n┌─────────────────────────────────────────────────────────┐\n│                 KnowledgeSearcher                        │\n│  - 语义搜索 (Sentence Transformers)                      │\n│  - 关键词搜索 (BM25)                                     │\n│  - 融合排序                                             │\n└─────────────────────────────────────────────────────────┘\n                           ↓\n┌─────────────────────────────────────────────────────────┐\n│                   DocumentIndexer                        │\n│  - 文件扫描                                             │\n│  - 分块处理                                             │\n│  - Embedding 计算                                         │\n│  - 索引存储                                             │\n└─────────────────────────────────────────────────────────┘\n                           ↓\n┌─────────────────────────────────────────────────────────┐\n│                  DocumentLoader                          │\n│  - 文本文件加载                                          │\n│  - 代码文件加载                                          │\n│  - 配置加载                                              │\n└─────────────────────────────────────────────────────────┘\n```\n\n---\n\n## 📦 目录结构\n\n```\nskills/local-knowledge-base/\n├── SKILL.md                          # 本文件\n├── index/\n│   ├── doc_index.json               # 文档索引\n│   └── metadata.json                # 元数据\n├── src/\n│   ├── indexer.py                   # 索引器核心\n│   ├── searcher.py                  # 搜索器核心\n│   ├── document_loader.py           # 文档加载器\n│   └── utils.py                     # 工具函数\n├── scripts/\n│   ├── rebuild_index.py             # 重建索引脚本\n│   ├── update_index.py              # 增量更新脚本\n│   └── search_docs.py               # 命令行搜索工具\n├── config/\n│   └── search_config.yaml          # 搜索配置\n└── tests/\n    └── test_searcher.py             # 测试用例（待实现）\n```\n\n---\n\n## 🚀 快速开始\n\n### 1️⃣ 安装依赖\n\n```bash\npip install sentence-transformers rank-bm25\n```\n\n### 2️⃣ 重建索引\n\n```bash\n# 索引当前目录\ncd skills/local-knowledge-base\npython scripts/rebuild_index.py --path .\n\n# 指定目录\npython scripts/rebuild_index.py --path /home/claw/.openclaw/workspace\n\n# 使用自定义模型\npython scripts/rebuild_index.py --embed-model all-mpnet-base-v2\n```\n\n### 3️⃣ 增量更新\n\n```bash\n# 检查并更新新修改的文件\npython scripts/update_index.py\n```\n\n### 4️⃣ 搜索文档\n\n```bash\n# 基本搜索\npython scripts/search_docs.py \"OpenClaw 配置\"\n\n# 限制返回数量\npython scripts/search_docs.py \"记忆系统\" --top-k 3\n\n# 禁用语义搜索\npython scripts/search_docs.py \"技能\" --no-semantic\n\n# 路径过滤\npython scripts/search_docs.py \"API\" --path-filter \"skills/\"\n\n# 文件类型过滤\npython scripts/search_docs.py \"function\" --file-type python\n```\n\n---\n\n## 💻 API 使用\n\n### 搜索文档\n\n```python\nfrom src.searcher import KnowledgeSearcher\n\n# 创建搜索器\nsearcher = KnowledgeSearcher()\n\n# 执行搜索\nresults = searcher.search(\n    query=\"OpenClaw 内存管理\",\n    top_k=5,\n    use_semantic=True,\n    filters={\n        'path_contains': 'skills/',\n        'file_type': 'markdown'\n    }\n)\n\n# 输出结果\nfor result in results:\n    doc = result['document']\n    score = result['score']\n    print(f\"📄 {doc['title']} ({score:.2%})\")\n    print(f\"📍 {doc['path']}\")\n```\n\n### 索引文档\n\n```python\nfrom src.indexer import DocumentIndexer\n\n# 创建索引器\nindexer = DocumentIndexer()\n\n# 索引单个文件\ndoc = indexer.index_file(\"/path/to/file.md\")\n\n# 批量索引目录\ncount = indexer.index_directory(\"/path/to/directory\", incremental=True)\n\n# 重建索引\ncount = indexer.rebuild_index(\"/path/to/workspace\")\n\n# 获取统计信息\nstats = indexer.get_statistics()\nprint(f\"总文件数：{stats['total_documents']}\")\n```\n\n### 加载文档\n\n```python\nfrom src.document_loader import DocumentLoader\n\n# 创建加载器\nloader = DocumentLoader(max_chunk_size=500, chunk_overlap=50)\n\n# 加载单个文件\ndoc = loader.load_file(\"/path/to/file.md\")\nprint(f\"标题：{doc['title']}\")\nprint(f\"内容：{doc['content'][:100]}\")\n\n# 批量加载目录\ndocs = loader.load_directory(\"/path/to/directory\")\nprint(f\"加载了 {len(docs)} 个文档\")\n```\n\n---\n\n## 🔧 配置\n\n### 搜索配置 (`config/search_config.yaml`)\n\n```yaml\n# 索引配置\nindex:\n  directory: \"./index\"\n  chunking:\n    max_chunk_size: 500\n    chunk_overlap: 50\n\n# 搜索配置\nsearch:\n  default_top_k: 5\n  use_semantic: true\n  semantic_weight: 0.4\n  bm25_weight: 0.6\n  min_score_threshold: 0.1\n```\n\n### 索引数据结构\n\n```json\n{\n  \"version\": \"1.0\",\n  \"created_at\": \"2026-03-23T08:00:00Z\",\n  \"updated_at\": \"2026-03-23T08:00:00Z\",\n  \"documents\": [\n    {\n      \"id\": \"unique-hash\",\n      \"path\": \"memory/2026-03-21.md\",\n      \"title\": \"2026-03-21 记忆记录\",\n      \"type\": \"markdown\",\n      \"size\": 4096,\n      \"last_modified\": 1774000000,\n      \"content\": \"完整文档内容...\",\n      \"chunks\": [\n        {\n          \"id\": \"chunk-0\",\n          \"text\": \"文档片段...\",\n          \"start\": 0,\n          \"end\": 500\n        }\n      ],\n      \"embedding\": [0.123, -0.456, ...]\n    }\n  ]\n}\n```\n\n---\n\n## 🎯 使用场景\n\n### 1️⃣ 个人知识库检索\n\n搜索你的笔记、文档、代码注释等所有本地文件。\n\n### 2️⃣ 代码项目导航\n\n快速查找项目中的函数定义、类实现、配置文件等。\n\n### 3️⃣ 文档查询\n\n在大量技术文档中快速定位需要的信息。\n\n### 4️⃣ AI 助手增强\n\n作为 OpenClaw 的内置知识检索，回答关于工作空间的问题。\n\n---\n\n## 🛠️ 集成到 OpenClaw\n\n### 1️⃣ 创建 Cron 任务（自动更新）\n\n```yaml\n# ~/.openclaw/config/cron.yaml\nlocal-knowledge-base-update:\n  schedule: \"0 */6 * * *\"  # 每 6 小时\n  command: |\n    cd /home/claw/.openclaw/workspace/skills/local-knowledge-base\n    python scripts/update_index.py\n```\n\n### 2️⃣ 创建 OpenClaw 技能包装器\n\n```python\n# ~/.openclaw/skills/search-workspace/SKILL.md\nname: search-workspace\ndescription: 搜索工作空间中的所有文档\n\n# 调用本地知识库\nexec:\n  command: \"python skills/local-knowledge-base/scripts/search_docs.py '{query}'\"\n```\n\n### 3️⃣ 在代码中使用\n\n```python\nfrom skills.local-knowledge-base.src.searcher import KnowledgeSearcher\n\n# 在回答用户问题前检索相关文档\nsearcher = KnowledgeSearcher()\nresults = searcher.search(user_question, top_k=3)\n\n# 将检索到的内容作为上下文\ncontext = \"\\n\\n\".join([r['document']['content'][:500] for r in results])\n```\n\n---\n\n## 📊 性能指标\n\n| 指标 | 数值 |\n|------|------|\n| 索引速度 | ~100 文件/秒 |\n| 搜索速度 | <100ms (1000 文档) |\n| 内存占用 | ~50MB (1000 文档) |\n| Embedding 模型大小 | ~90MB |\n\n---\n\n## 🔄 更新日志\n\n### v1.0.0 (2026-03-23)\n- ✅ 初始版本发布\n- ✅ 支持语义搜索和关键词搜索\n- ✅ 支持增量更新\n- ✅ 命令行工具\n- ✅ Python API\n\n---\n\n## 📝 作者\n\n**御坂美琴一号** - 御坂网络核心中枢  \n🦞 \"龙虾夹人，从不需要征得同意。它只管夹，世界自会调整。\"\n\n---\n\n## 📄 许可证\n\nMIT License\n\n---\n\n**使用说明**: 每次使用 OpenClaw 时，可以自动检索相关文档来更好地理解上下文！\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "# Local Knowledge Base Skill\n\n## 📚 技能简介\n\n本地知识检索系统，用于自动建立和维护本地文档索引，支持语义搜索和关键词搜索。\n\n**核心功能**:\n- 📖 自动扫描和索引本地文档\n- 🔍 语义搜索 + 关键词搜索融合\n- 🔄 增量更新，只更新修改的文件\n- 🎯 返回相关度排序的结果\n- ⚡ 高性能，支持大规模文档集\n\n---\n\n## 🏗️ 架构设计",
+          "start": 0,
+          "end": 192
+        },
+        {
+          "id": "chunk-1",
+          "text": "```\n┌─────────────────────────────────────────────────────────┐\n│                  User Interface                          │\n│  (CLI Commands / API / OpenClaw Skill)                  │\n└─────────────────────────────────────────────────────────┘\n                           ↓\n┌─────────────────────────────────────────────────────────┐\n│                 KnowledgeSearcher                        │\n│  - 语义搜索 (Sentence Transformers)                      │\n│  - 关键词搜索 (BM25)                               ",
+          "start": 194,
+          "end": 694
+        },
+        {
+          "id": "chunk-2",
+          "text": "---\n\n## 📦 目录结构",
+          "start": 696,
+          "end": 710
+        },
+        {
+          "id": "chunk-3",
+          "text": "```\nskills/local-knowledge-base/\n├── SKILL.md                          # 本文件\n├── index/\n│   ├── doc_index.json               # 文档索引\n│   └── metadata.json                # 元数据\n├── src/\n│   ├── indexer.py                   # 索引器核心\n│   ├── searcher.py                  # 搜索器核心\n│   ├── document_loader.py           # 文档加载器\n│   └── utils.py                     # 工具函数\n├── scripts/\n│   ├── rebuild_index.py             # 重建索引脚本\n│   ├── update_index.py              # 增量更新脚本\n│   └── search_docs.py          ",
+          "start": 712,
+          "end": 1212
+        },
+        {
+          "id": "chunk-4",
+          "text": "---\n\n## 🚀 快速开始\n\n### 1️⃣ 安装依赖\n\n```bash\npip install sentence-transformers rank-bm25\n```\n\n### 2️⃣ 重建索引\n\n```bash\n# 索引当前目录\ncd skills/local-knowledge-base\npython scripts/rebuild_index.py --path .\n\n# 指定目录\npython scripts/rebuild_index.py --path /home/claw/.openclaw/workspace\n\n# 使用自定义模型\npython scripts/rebuild_index.py --embed-model all-mpnet-base-v2\n```\n\n### 3️⃣ 增量更新\n\n```bash\n# 检查并更新新修改的文件\npython scripts/update_index.py\n```\n\n### 4️⃣ 搜索文档\n\n```bash\n# 基本搜索\npython scripts/search_docs.py \"OpenClaw 配置\"",
+          "start": 1214,
+          "end": 1706
+        },
+        {
+          "id": "chunk-5",
+          "text": "# 限制返回数量\npython scripts/search_docs.py \"记忆系统\" --top-k 3\n\n# 禁用语义搜索\npython scripts/search_docs.py \"技能\" --no-semantic\n\n# 路径过滤\npython scripts/search_docs.py \"API\" --path-filter \"skills/\"\n\n# 文件类型过滤\npython scripts/search_docs.py \"function\" --file-type python\n```\n\n---\n\n## 💻 API 使用\n\n### 搜索文档\n\n```python\nfrom src.searcher import KnowledgeSearcher\n\n# 创建搜索器\nsearcher = KnowledgeSearcher()",
+          "start": 1708,
+          "end": 2086
+        },
+        {
+          "id": "chunk-6",
+          "text": "# 执行搜索\nresults = searcher.search(\n    query=\"OpenClaw 内存管理\",\n    top_k=5,\n    use_semantic=True,\n    filters={\n        'path_contains': 'skills/',\n        'file_type': 'markdown'\n    }\n)\n\n# 输出结果\nfor result in results:\n    doc = result['document']\n    score = result['score']\n    print(f\"📄 {doc['title']} ({score:.2%})\")\n    print(f\"📍 {doc['path']}\")\n```\n\n### 索引文档\n\n```python\nfrom src.indexer import DocumentIndexer\n\n# 创建索引器\nindexer = DocumentIndexer()",
+          "start": 2088,
+          "end": 2539
+        },
+        {
+          "id": "chunk-7",
+          "text": "# 索引单个文件\ndoc = indexer.index_file(\"/path/to/file.md\")\n\n# 批量索引目录\ncount = indexer.index_directory(\"/path/to/directory\", incremental=True)\n\n# 重建索引\ncount = indexer.rebuild_index(\"/path/to/workspace\")\n\n# 获取统计信息\nstats = indexer.get_statistics()\nprint(f\"总文件数：{stats['total_documents']}\")\n```\n\n### 加载文档\n\n```python\nfrom src.document_loader import DocumentLoader\n\n# 创建加载器\nloader = DocumentLoader(max_chunk_size=500, chunk_overlap=50)",
+          "start": 2541,
+          "end": 2964
+        },
+        {
+          "id": "chunk-8",
+          "text": "# 加载单个文件\ndoc = loader.load_file(\"/path/to/file.md\")\nprint(f\"标题：{doc['title']}\")\nprint(f\"内容：{doc['content'][:100]}\")\n\n# 批量加载目录\ndocs = loader.load_directory(\"/path/to/directory\")\nprint(f\"加载了 {len(docs)} 个文档\")\n```\n\n---\n\n## 🔧 配置\n\n### 搜索配置 (`config/search_config.yaml`)\n\n```yaml\n# 索引配置\nindex:\n  directory: \"./index\"\n  chunking:\n    max_chunk_size: 500\n    chunk_overlap: 50\n\n# 搜索配置\nsearch:\n  default_top_k: 5\n  use_semantic: true\n  semantic_weight: 0.4\n  bm25_weight: 0.6\n  min_score_threshold: 0.1\n```",
+          "start": 2966,
+          "end": 3463
+        },
+        {
+          "id": "chunk-9",
+          "text": "### 索引数据结构",
+          "start": 3465,
+          "end": 3475
+        },
+        {
+          "id": "chunk-10",
+          "text": "```json\n{\n  \"version\": \"1.0\",\n  \"created_at\": \"2026-03-23T08:00:00Z\",\n  \"updated_at\": \"2026-03-23T08:00:00Z\",\n  \"documents\": [\n    {\n      \"id\": \"unique-hash\",\n      \"path\": \"memory/2026-03-21.md\",\n      \"title\": \"2026-03-21 记忆记录\",\n      \"type\": \"markdown\",\n      \"size\": 4096,\n      \"last_modified\": 1774000000,\n      \"content\": \"完整文档内容...\",\n      \"chunks\": [\n        {\n          \"id\": \"chunk-0\",\n          \"text\": \"文档片段...\",\n          \"start\": 0,\n          \"end\": 500\n        }\n      ],\n      \"embe",
+          "start": 3477,
+          "end": 3977
+        },
+        {
+          "id": "chunk-11",
+          "text": "---\n\n## 🎯 使用场景\n\n### 1️⃣ 个人知识库检索\n\n搜索你的笔记、文档、代码注释等所有本地文件。\n\n### 2️⃣ 代码项目导航\n\n快速查找项目中的函数定义、类实现、配置文件等。\n\n### 3️⃣ 文档查询\n\n在大量技术文档中快速定位需要的信息。\n\n### 4️⃣ AI 助手增强\n\n作为 OpenClaw 的内置知识检索，回答关于工作空间的问题。\n\n---\n\n## 🛠️ 集成到 OpenClaw\n\n### 1️⃣ 创建 Cron 任务（自动更新）\n\n```yaml\n# ~/.openclaw/config/cron.yaml\nlocal-knowledge-base-update:\n  schedule: \"0 */6 * * *\"  # 每 6 小时\n  command: |\n    cd /home/claw/.openclaw/workspace/skills/local-knowledge-base\n    python scripts/update_index.py\n```\n\n### 2️⃣ 创建 OpenClaw 技能包装器",
+          "start": 3979,
+          "end": 4461
+        },
+        {
+          "id": "chunk-12",
+          "text": "```python\n# ~/.openclaw/skills/search-workspace/SKILL.md\nname: search-workspace\ndescription: 搜索工作空间中的所有文档\n\n# 调用本地知识库\nexec:\n  command: \"python skills/local-knowledge-base/scripts/search_docs.py '{query}'\"\n```\n\n### 3️⃣ 在代码中使用\n\n```python\nfrom skills.local-knowledge-base.src.searcher import KnowledgeSearcher\n\n# 在回答用户问题前检索相关文档\nsearcher = KnowledgeSearcher()\nresults = searcher.search(user_question, top_k=3)\n\n# 将检索到的内容作为上下文\ncontext = \"\\n\\n\".join([r['document']['content'][:500] for r in results])\n```\n\n---",
+          "start": 4463,
+          "end": 4965
+        },
+        {
+          "id": "chunk-13",
+          "text": "## 📊 性能指标\n\n| 指标 | 数值 |\n|------|------|\n| 索引速度 | ~100 文件/秒 |\n| 搜索速度 | <100ms (1000 文档) |\n| 内存占用 | ~50MB (1000 文档) |\n| Embedding 模型大小 | ~90MB |\n\n---\n\n## 🔄 更新日志\n\n### v1.0.0 (2026-03-23)\n- ✅ 初始版本发布\n- ✅ 支持语义搜索和关键词搜索\n- ✅ 支持增量更新\n- ✅ 命令行工具\n- ✅ Python API\n\n---\n\n## 📝 作者\n\n**御坂美琴一号** - 御坂网络核心中枢  \n🦞 \"龙虾夹人，从不需要征得同意。它只管夹，世界自会调整。\"\n\n---\n\n## 📄 许可证\n\nMIT License\n\n---\n\n**使用说明**: 每次使用 OpenClaw 时，可以自动检索相关文档来更好地理解上下文！\n",
+          "start": 4967,
+          "end": 5365
+        }
+      ],
+      "id": "edf9bf0dd5ed7286",
+      "embedding": null
+    },
+    {
+      "path": "scripts/rebuild_index.py",
+      "title": "rebuild_index",
+      "type": "python",
+      "size": 2451,
+      "last_modified": 1774224976.6176212,
+      "content": "#!/usr/bin/env python3\n\"\"\"\nRebuild Index Script - 重建索引脚本\n手动重建整个索引\n\"\"\"\n\nimport os\nimport sys\nfrom pathlib import Path\n\n# 添加 src 和脚本目录到路径\nscript_dir = Path(__file__).parent\nsrc_dir = script_dir / 'src'\nsys.path.insert(0, str(script_dir))\nsys.path.insert(0, str(src_dir))\n\nfrom indexer import DocumentIndexer\n\n\ndef main():\n    \"\"\"主函数\"\"\"\n    import argparse\n    \n    parser = argparse.ArgumentParser(description='重建本地知识库索引')\n    parser.add_argument(\n        '--path', \n        type=str, \n        default='.',\n        help='要索引的目录路径（默认：当前目录）'\n    )\n    parser.add_argument(\n        '--embed-model',\n        type=str,\n        default='all-MiniLM-L6-v2',\n        help='embedding 模型名称（默认：all-MiniLM-L6-v2）'\n    )\n    parser.add_argument(\n        '--dry-run',\n        action='store_true',\n        help='仅显示将要索引的文件，不实际执行'\n    )\n    \n    args = parser.parse_args()\n    \n    print(\"=\" * 60)\n    print(\"📚 本地知识库索引重建工具\")\n    print(\"=\" * 60)\n    print(f\"📂 索引目录：{args.path}\")\n    print(f\"🧠 Embedding 模型：{args.embed_model}\")\n    print(\"-\" * 60)\n    \n    # 创建索引器\n    indexer = DocumentIndexer(embed_model=args.embed_model)\n    \n    if args.dry_run:\n        # 干跑模式：显示将要索引的文件\n        from document_loader import DocumentLoader\n        loader = DocumentLoader()\n        \n        path = Path(args.path)\n        files = list(path.rglob('*'))\n        supported_files = [\n            f for f in files if f.is_file() and loader._is_supported(str(f))\n        ]\n        \n        print(f\"📄 发现 {len(supported_files)} 个支持的文件：\")\n        for file in sorted(supported_files)[:20]:  # 只显示前 20 个\n            print(f\"  - {file}\")\n        if len(supported_files) > 20:\n            print(f\"  ... 还有 {len(supported_files) - 20} 个文件\")\n    else:\n        # 实际执行\n        count = indexer.rebuild_index(args.path)\n        \n        print(\"=\" * 60)\n        print(f\"✅ 索引重建完成！\")\n        print(f\"📄 索引文件数：{count}\")\n        \n        # 显示统计信息\n        stats = indexer.get_statistics()\n        print(f\"📊 索引版本：{stats['index_version']}\")\n        print(f\"🕐 最后更新：{stats['last_updated']}\")\n        print(\"=\" * 60)\n\n\nif __name__ == '__main__':\n    main()\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "#!/usr/bin/env python3\n\"\"\"\nRebuild Index Script - 重建索引脚本\n手动重建整个索引\n\"\"\"\n\nimport os\nimport sys\nfrom pathlib import Path\n\n# 添加 src 和脚本目录到路径\nscript_dir = Path(__file__).parent\nsrc_dir = script_dir / 'src'\nsys.path.insert(0, str(script_dir))\nsys.path.insert(0, str(src_dir))\n\nfrom indexer import DocumentIndexer",
+          "start": 0,
+          "end": 305
+        },
+        {
+          "id": "chunk-1",
+          "text": "def main():\n    \"\"\"主函数\"\"\"\n    import argparse\n    \n    parser = argparse.ArgumentParser(description='重建本地知识库索引')\n    parser.add_argument(\n        '--path', \n        type=str, \n        default='.',\n        help='要索引的目录路径（默认：当前目录）'\n    )\n    parser.add_argument(\n        '--embed-model',\n        type=str,\n        default='all-MiniLM-L6-v2',\n        help='embedding 模型名称（默认：all-MiniLM-L6-v2）'\n    )\n    parser.add_argument(\n        '--dry-run',\n        action='store_true',\n        help='仅显示将要索引的文件，不实际",
+          "start": 307,
+          "end": 807
+        },
+        {
+          "id": "chunk-2",
+          "text": "还有 {len(supported_files) - 20} 个文件\")\n    else:\n        # 实际执行\n        count = indexer.rebuild_index(args.path)\n        \n        print(\"=\" * 60)\n        print(f\"✅ 索引重建完成！\")\n        print(f\"📄 索引文件数：{count}\")\n        \n        # 显示统计信息\n        stats = indexer.get_statistics()\n        print(f\"📊 索引版本：{stats['index_version']}\")\n        print(f\"🕐 最后更新：{stats['last_updated']}\")\n        print(\"=\" * 60)\n\nif __name__ == '__main__':\n    main()\n",
+          "start": 809,
+          "end": 1244
+        }
+      ],
+      "id": "55e65af772fe8a8a",
+      "embedding": null
+    },
+    {
+      "path": "scripts/update_index.py",
+      "title": "update_index",
+      "type": "python",
+      "size": 3518,
+      "last_modified": 1774224883.4928865,
+      "content": "#!/usr/bin/env python3\n\"\"\"\nUpdate Index Script - 增量更新索引脚本\n只更新修改的文件\n\"\"\"\n\nimport os\nimport sys\nfrom pathlib import Path\nfrom datetime import datetime\n\n# 添加 src 目录到路径\nsys.path.insert(0, str(Path(__file__).parent / 'src'))\n\nfrom indexer import DocumentIndexer\nfrom document_loader import DocumentLoader\n\n\ndef main():\n    \"\"\"主函数\"\"\"\n    import argparse\n    \n    parser = argparse.ArgumentParser(description='增量更新本地知识库索引')\n    parser.add_argument(\n        '--path', \n        type=str, \n        default='.',\n        help='要检查的目录路径（默认：当前目录）'\n    )\n    parser.add_argument(\n        '--force',\n        action='store_true',\n        help='强制全量更新'\n    )\n    \n    args = parser.parse_args()\n    \n    print(\"=\" * 60)\n    print(\"🔄 本地知识库索引更新工具\")\n    print(\"=\" * 60)\n    print(f\"📂 检查目录：{args.path}\")\n    print(\"-\" * 60)\n    \n    # 创建索引器\n    indexer = DocumentIndexer()\n    loader = DocumentLoader()\n    \n    # 获取所有支持的文件\n    path = Path(args.path)\n    files = list(path.rglob('*'))\n    supported_files = [\n        f for f in files if f.is_file() and loader._is_supported(str(f))\n    ]\n    \n    print(f\"📄 发现 {len(supported_files)} 个支持的文件\")\n    \n    if args.force:\n        print(\"⚠️  强制更新模式，将重新索引所有文件\")\n        count = indexer.rebuild_index(args.path)\n    else:\n        # 检查需要更新的文件\n        existing_paths = {doc['path'] for doc in indexer.index['documents']}\n        new_files = []\n        modified_files = []\n        \n        for file_path in supported_files:\n            path_str = str(file_path)\n            \n            if path_str not in existing_paths:\n                new_files.append(file_path)\n            else:\n                # 检查文件是否修改\n                doc = next((d for d in indexer.index['documents'] if d['path'] == path_str), None)\n                if doc and file_path.stat().st_mtime > doc.get('last_modified', 0):\n                    modified_files.append(file_path)\n        \n        print(f\"📋 分析结果:\")\n        print(f\"  🆕 新文件：{len(new_files)}\")\n        print(f\"  ✏️  修改文件：{len(modified_files)}\")\n        \n        if len(new_files) == 0 and len(modified_files) == 0:\n            print(\"✨ 没有发现需要更新的文件\")\n            return\n        \n        # 更新文件\n        count = 0\n        \n        if new_files:\n            print(f\"\\n📥 索引 {len(new_files)} 个新文件...\")\n            for file_path in new_files:\n                doc = indexer.index_file(str(file_path))\n                if doc:\n                    count += 1\n                    print(f\"  ✅ {file_path}\")\n        \n        if modified_files:\n            print(f\"\\n✏️  更新 {len(modified_files)} 个修改文件...\")\n            for file_path in modified_files:\n                doc = indexer.index_file(str(file_path))\n                if doc:\n                    count += 1\n                    print(f\"  ✅ {file_path}\")\n        \n        print(\"\\n\" + \"=\" * 60)\n        print(f\"✅ 索引更新完成！\")\n        print(f\"📄 更新文件数：{count}\")\n        \n        stats = indexer.get_statistics()\n        print(f\"📊 总文件数：{stats['total_documents']}\")\n        print(f\"🕐 最后更新：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\")\n        print(\"=\" * 60)\n\n\nif __name__ == '__main__':\n    main()\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "#!/usr/bin/env python3\n\"\"\"\nUpdate Index Script - 增量更新索引脚本\n只更新修改的文件\n\"\"\"\n\nimport os\nimport sys\nfrom pathlib import Path\nfrom datetime import datetime\n\n# 添加 src 目录到路径\nsys.path.insert(0, str(Path(__file__).parent / 'src'))\n\nfrom indexer import DocumentIndexer\nfrom document_loader import DocumentLoader",
+          "start": 0,
+          "end": 298
+        },
+        {
+          "id": "chunk-1",
+          "text": "def main():\n    \"\"\"主函数\"\"\"\n    import argparse\n    \n    parser = argparse.ArgumentParser(description='增量更新本地知识库索引')\n    parser.add_argument(\n        '--path', \n        type=str, \n        default='.',\n        help='要检查的目录路径（默认：当前目录）'\n    )\n    parser.add_argument(\n        '--force',\n        action='store_true',\n        help='强制全量更新'\n    )\n    \n    args = parser.parse_args()\n    \n    print(\"=\" * 60)\n    print(\"🔄 本地知识库索引更新工具\")\n    print(\"=\" * 60)\n    print(f\"📂 检查目录：{args.path}\")\n    print(\"-\" * 60)\n",
+          "start": 300,
+          "end": 800
+        },
+        {
+          "id": "chunk-2",
+          "text": "if __name__ == '__main__':\n    main()\n",
+          "start": 802,
+          "end": 840
+        }
+      ],
+      "id": "875d1017d1fcfe88",
+      "embedding": null
+    },
+    {
+      "path": "scripts/search_docs.py",
+      "title": "search_docs",
+      "type": "python",
+      "size": 2695,
+      "last_modified": 1774224890.8016992,
+      "content": "#!/usr/bin/env python3\n\"\"\"\nSearch Docs Script - 搜索脚本\n命令行搜索文档\n\"\"\"\n\nimport os\nimport sys\nfrom pathlib import Path\n\n# 添加 src 目录到路径\nsys.path.insert(0, str(Path(__file__).parent / 'src'))\n\nfrom searcher import KnowledgeSearcher\n\n\ndef main():\n    \"\"\"主函数\"\"\"\n    import argparse\n    \n    parser = argparse.ArgumentParser(description='搜索本地知识库')\n    parser.add_argument('query', type=str, help='搜索关键词')\n    parser.add_argument(\n        '--top-k',\n        type=int,\n        default=5,\n        help='返回结果数量（默认：5）'\n    )\n    parser.add_argument(\n        '--no-semantic',\n        action='store_true',\n        help='禁用语义搜索'\n    )\n    parser.add_argument(\n        '--path-filter',\n        type=str,\n        default=None,\n        help='路径过滤（只搜索包含此路径的文件）'\n    )\n    parser.add_argument(\n        '--file-type',\n        type=str,\n        default=None,\n        help='文件类型过滤（如：markdown, python）'\n    )\n    \n    args = parser.parse_args()\n    \n    print(\"=\" * 60)\n    print(\"🔍 本地知识库搜索\")\n    print(\"=\" * 60)\n    print(f\"❓ 搜索：{args.query}\")\n    print(f\"📊 返回结果：{args.top_k}\")\n    print(\"-\" * 60)\n    \n    # 创建搜索器\n    searcher = KnowledgeSearcher()\n    \n    if not searcher.documents:\n        print(\"❌ 索引为空，请先运行重建索引\")\n        return\n    \n    # 构建过滤条件\n    filters = {}\n    if args.path_filter:\n        filters['path_contains'] = args.path_filter\n    if args.file_type:\n        filters['file_type'] = args.file_type\n    \n    # 执行搜索\n    results = searcher.search(\n        args.query,\n        top_k=args.top_k,\n        use_semantic=not args.no_semantic,\n        filters=filters\n    )\n    \n    if not results:\n        print(\"📭 没有找到相关结果\")\n        return\n    \n    # 显示结果\n    print(f\"\\n📝 找到 {len(results)} 个相关结果:\\n\")\n    \n    for i, result in enumerate(results, 1):\n        doc = result['document']\n        score = result['score']\n        \n        print(f\"【{i}】 {doc['title']}\")\n        print(f\"   📄 路径：{doc['path']}\")\n        print(f\"   📊 相关度：{score:.2%}\")\n        print(f\"   🏷️  类型：{doc['type']}\")\n        \n        # 显示匹配片段\n        chunks = doc.get('chunks', [])\n        if chunks:\n            # 找最相关的分块（这里简化处理，显示第一个）\n            chunk = chunks[0]\n            text = chunk['text'][:200].replace('\\n', ' ')\n            print(f\"   💡 片段：{text}...\")\n        \n        print()\n    \n    print(\"=\" * 60)\n\n\nif __name__ == '__main__':\n    main()\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "#!/usr/bin/env python3\n\"\"\"\nSearch Docs Script - 搜索脚本\n命令行搜索文档\n\"\"\"\n\nimport os\nimport sys\nfrom pathlib import Path\n\n# 添加 src 目录到路径\nsys.path.insert(0, str(Path(__file__).parent / 'src'))\n\nfrom searcher import KnowledgeSearcher",
+          "start": 0,
+          "end": 222
+        },
+        {
+          "id": "chunk-1",
+          "text": "def main():\n    \"\"\"主函数\"\"\"\n    import argparse\n    \n    parser = argparse.ArgumentParser(description='搜索本地知识库')\n    parser.add_argument('query', type=str, help='搜索关键词')\n    parser.add_argument(\n        '--top-k',\n        type=int,\n        default=5,\n        help='返回结果数量（默认：5）'\n    )\n    parser.add_argument(\n        '--no-semantic',\n        action='store_true',\n        help='禁用语义搜索'\n    )\n    parser.add_argument(\n        '--path-filter',\n        type=str,\n        default=None,\n        help='路径过滤（只",
+          "start": 224,
+          "end": 724
+        },
+        {
+          "id": "chunk-2",
+          "text": "if __name__ == '__main__':\n    main()\n",
+          "start": 726,
+          "end": 764
+        }
+      ],
+      "id": "e20403187b08b198",
+      "embedding": null
+    },
+    {
+      "path": "config/search_config.yaml",
+      "title": "search_config",
+      "type": "yaml",
+      "size": 1109,
+      "last_modified": 1774224894.934594,
+      "content": "# 本地知识库搜索配置\n\n# 索引配置\nindex:\n  # 索引目录\n  directory: \"./index\"\n  \n  # 支持的扩展名\n  supported_extensions:\n    - \".md\"\n    - \".txt\"\n    - \".json\"\n    - \".yaml\"\n    - \".yml\"\n    - \".py\"\n    - \".js\"\n    - \".ts\"\n    - \".java\"\n    - \".c\"\n    - \".cpp\"\n    - \".html\"\n    - \".css\"\n    - \".sql\"\n    - \".xml\"\n  \n  # 分块配置\n  chunking:\n    max_chunk_size: 500\n    chunk_overlap: 50\n\n# 搜索配置\nsearch:\n  # 默认返回结果数量\n  default_top_k: 5\n  \n  # 是否使用语义搜索\n  use_semantic: true\n  \n  # 语义搜索权重\n  semantic_weight: 0.4\n  \n  # 关键词搜索权重\n  bm25_weight: 0.6\n  \n  # 最小相关度阈值\n  min_score_threshold: 0.1\n\n# Embedding 模型配置\nembedding:\n  # 模型名称\n  model: \"all-MiniLM-L6-v2\"\n  \n  # 是否缓存模型\n  cache: true\n  \n  # 模型目录（可选）\n  model_dir: null\n\n# 日志配置\nlogging:\n  # 日志级别\n  level: \"INFO\"\n  \n  # 日志文件\n  file: null\n  \n  # 是否控制台输出\n  console: true\n\n# 性能配置\nperformance:\n  # 最大并发数\n  max_workers: 4\n  \n  # 超时时间（秒）\n  timeout: 30\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "# 本地知识库搜索配置\n\n# 索引配置\nindex:\n  # 索引目录\n  directory: \"./index\"\n  \n  # 支持的扩展名\n  supported_extensions:\n    - \".md\"\n    - \".txt\"\n    - \".json\"\n    - \".yaml\"\n    - \".yml\"\n    - \".py\"\n    - \".js\"\n    - \".ts\"\n    - \".java\"\n    - \".c\"\n    - \".cpp\"\n    - \".html\"\n    - \".css\"\n    - \".sql\"\n    - \".xml\"\n  \n  # 分块配置\n  chunking:\n    max_chunk_size: 500\n    chunk_overlap: 50",
+          "start": 0,
+          "end": 359
+        },
+        {
+          "id": "chunk-1",
+          "text": "# 搜索配置\nsearch:\n  # 默认返回结果数量\n  default_top_k: 5\n  \n  # 是否使用语义搜索\n  use_semantic: true\n  \n  # 语义搜索权重\n  semantic_weight: 0.4\n  \n  # 关键词搜索权重\n  bm25_weight: 0.6\n  \n  # 最小相关度阈值\n  min_score_threshold: 0.1\n\n# Embedding 模型配置\nembedding:\n  # 模型名称\n  model: \"all-MiniLM-L6-v2\"\n  \n  # 是否缓存模型\n  cache: true\n  \n  # 模型目录（可选）\n  model_dir: null\n\n# 日志配置\nlogging:\n  # 日志级别\n  level: \"INFO\"\n  \n  # 日志文件\n  file: null\n  \n  # 是否控制台输出\n  console: true\n\n# 性能配置\nperformance:\n  # 最大并发数\n  max_workers: 4\n  \n  # 超时时间（秒）\n  timeout: 30\n",
+          "start": 361,
+          "end": 861
+        }
+      ],
+      "id": "9ca66a1b678616f2",
+      "embedding": null
+    },
+    {
+      "path": "src/document_loader.py",
+      "title": "document_loader",
+      "type": "python",
+      "size": 6933,
+      "last_modified": 1774224928.0907693,
+      "content": "#!/usr/bin/env python3\n\"\"\"\nDocument Loader - 文档加载器\n支持多种文档类型的加载和解析\n\"\"\"\n\nimport os\nimport json\nimport re\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, List, Optional\n\n\nclass DocumentLoader:\n    \"\"\"文档加载器类\"\"\"\n    \n    SUPPORTED_EXTENSIONS = {\n        '.md', '.txt', '.rst', '.org', '.asciidoc',  # 文本类\n        '.json', '.yaml', '.yml', '.toml', '.ini',    # 配置类\n        '.py', '.js', '.ts', '.java', '.c', '.cpp',   # 代码类\n        '.html', '.css', '.sql', '.xml'               # 标记语言\n    }\n    \n    def __init__(self, max_chunk_size: int = 500, chunk_overlap: int = 50):\n        \"\"\"\n        初始化文档加载器\n        \n        Args:\n            max_chunk_size: 最大分块大小\n            chunk_overlap: 分块重叠部分\n        \"\"\"\n        self.max_chunk_size = max_chunk_size\n        self.chunk_overlap = chunk_overlap\n    \n    def _split_text(self, text: str) -> List[str]:\n        \"\"\"\n        简单的文本分块函数\n        \n        Args:\n            text: 要分块的文本\n            \n        Returns:\n            分块列表\n        \"\"\"\n        # 按段落分割\n        paragraphs = re.split(r'\\n\\n+', text)\n        chunks = []\n        current_chunk = \"\"\n        \n        for para in paragraphs:\n            if len(current_chunk) + len(para) <= self.max_chunk_size:\n                if current_chunk:\n                    current_chunk += \"\\n\\n\" + para\n                else:\n                    current_chunk = para\n            else:\n                if current_chunk:\n                    chunks.append(current_chunk)\n                \n                # 如果段落本身超过最大长度，按句子分割\n                if len(para) > self.max_chunk_size:\n                    sentences = re.split(r'(?<=[.!?])\\s+', para)\n                    current_chunk = \"\"\n                    for sentence in sentences:\n                        if len(current_chunk) + len(sentence) <= self.max_chunk_size:\n                            if current_chunk:\n                                current_chunk += \" \" + sentence\n                            else:\n                                current_chunk = sentence\n                        else:\n                            if current_chunk:\n                                chunks.append(current_chunk)\n                            current_chunk = sentence[:self.max_chunk_size]\n                \n                else:\n                    current_chunk = para\n        \n        if current_chunk:\n            chunks.append(current_chunk)\n        \n        return chunks if chunks else [text]\n    \n    def load_file(self, file_path: str) -> Optional[Dict]:\n        \"\"\"\n        加载单个文件\n        \n        Args:\n            file_path: 文件路径\n            \n        Returns:\n            文档信息字典，包括 path, title, content 等\n        \"\"\"\n        path = Path(file_path)\n        \n        if not path.exists():\n            return None\n        \n        if not self._is_supported(file_path):\n            return None\n        \n        try:\n            # 读取文件内容\n            content = path.read_text(encoding='utf-8')\n            \n            # 解析文档\n            doc_info = self._parse_document(path, content)\n            \n            # 分块处理\n            doc_info['chunks'] = self._chunk_document(content)\n            \n            return doc_info\n            \n        except Exception as e:\n            print(f\"加载文件失败 {file_path}: {e}\")\n            return None\n    \n    def load_directory(self, dir_path: str, recursive: bool = True) -> List[Dict]:\n        \"\"\"\n        批量加载目录下的所有文档\n        \n        Args:\n            dir_path: 目录路径\n            recursive: 是否递归子目录\n            \n        Returns:\n            文档列表\n        \"\"\"\n        documents = []\n        path = Path(dir_path)\n        \n        if not path.exists():\n            return documents\n        \n        # 查找文件\n        if recursive:\n            files = path.rglob('*')\n        else:\n            files = path.iterdir()\n        \n        for file_path in files:\n            if file_path.is_file() and self._is_supported(str(file_path)):\n                doc = self.load_file(str(file_path))\n                if doc:\n                    documents.append(doc)\n        \n        return documents\n    \n    def _is_supported(self, file_path: str) -> bool:\n        \"\"\"检查文件类型是否支持\"\"\"\n        return Path(file_path).suffix.lower() in self.SUPPORTED_EXTENSIONS\n    \n    def _parse_document(self, path: Path, content: str) -> Dict:\n        \"\"\"\n        解析文档信息\n        \n        Args:\n            path: 文件路径\n            content: 文件内容\n            \n        Returns:\n            文档信息字典\n        \"\"\"\n        # 提取标题（从文件第一行或标题标记）\n        title = self._extract_title(path, content)\n        \n        return {\n            'path': str(path),\n            'title': title,\n            'type': self._get_file_type(path),\n            'size': path.stat().st_size,\n            'last_modified': path.stat().st_mtime,\n            'content': content\n        }\n    \n    def _extract_title(self, path: Path, content: str) -> str:\n        \"\"\"提取文档标题\"\"\"\n        # 优先从 Markdown 标题提取\n        if path.suffix.lower() == '.md':\n            lines = content.split('\\n')\n            for line in lines[:10]:  # 只看前 10 行\n                if line.startswith('# '):\n                    return line[2:].strip()\n        \n        # 否则使用文件名\n        return path.stem\n    \n    def _get_file_type(self, path: Path) -> str:\n        \"\"\"获取文件类型\"\"\"\n        ext = path.suffix.lower()\n        type_map = {\n            '.md': 'markdown',\n            '.txt': 'text',\n            '.json': 'json',\n            '.yaml': 'yaml',\n            '.yml': 'yaml',\n            '.py': 'python',\n            '.js': 'javascript',\n            '.ts': 'typescript',\n            '.java': 'java',\n            '.c': 'c',\n            '.cpp': 'cpp',\n            '.html': 'html',\n            '.css': 'css',\n            '.sql': 'sql',\n            '.xml': 'xml'\n        }\n        return type_map.get(ext, 'unknown')\n    \n    def _chunk_document(self, content: str) -> List[Dict]:\n        \"\"\"\n        将文档分块\n        \n        Returns:\n            分块列表，每个块包含 id, text, start, end\n        \"\"\"\n        chunks = self._split_text(content)\n        \n        chunk_list = []\n        current_pos = 0\n        \n        for i, chunk in enumerate(chunks):\n            chunk_list.append({\n                'id': f\"chunk-{i}\",\n                'text': chunk,\n                'start': current_pos,\n                'end': current_pos + len(chunk)\n            })\n            current_pos += len(chunk) + 2  # +2 for double newline\n        \n        return chunk_list\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "#!/usr/bin/env python3\n\"\"\"\nDocument Loader - 文档加载器\n支持多种文档类型的加载和解析\n\"\"\"\n\nimport os\nimport json\nimport re\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, List, Optional",
+          "start": 0,
+          "end": 179
+        },
+        {
+          "id": "chunk-1",
+          "text": "class DocumentLoader:\n    \"\"\"文档加载器类\"\"\"\n    \n    SUPPORTED_EXTENSIONS = {\n        '.md', '.txt', '.rst', '.org', '.asciidoc',  # 文本类\n        '.json', '.yaml', '.yml', '.toml', '.ini',    # 配置类\n        '.py', '.js', '.ts', '.java', '.c', '.cpp',   # 代码类\n        '.html', '.css', '.sql', '.xml'               # 标记语言\n    }\n    \n    def __init__(self, max_chunk_size: int = 500, chunk_overlap: int = 50):\n        \"\"\"\n        初始化文档加载器\n        \n        Args:\n            max_chunk_size: 最大分块大小\n            c",
+          "start": 181,
+          "end": 681
+        }
+      ],
+      "id": "2f162733237a758b",
+      "embedding": null
+    },
+    {
+      "path": "src/indexer.py",
+      "title": "indexer",
+      "type": "python",
+      "size": 6922,
+      "last_modified": 1774224962.9979367,
+      "content": "#!/usr/bin/env python3\n\"\"\"\nDocument Indexer - 文档索引器\n负责建立和维护文档索引\n\"\"\"\n\nimport os\nimport json\nimport hashlib\nfrom pathlib import Path\nfrom datetime import datetime\nfrom typing import Dict, List, Optional\n\n\nclass DocumentIndexer:\n    \"\"\"文档索引器类\"\"\"\n    \n    def __init__(\n        self, \n        index_dir: str = None,\n        embed_model: str = \"all-MiniLM-L6-v2\"\n    ):\n        \"\"\"\n        初始化索引器\n        \n        Args:\n            index_dir: 索引目录\n            embed_model: embedding 模型名称\n        \"\"\"\n        if index_dir is None:\n            index_dir = Path(__file__).parent.parent / 'index'\n        \n        self.index_dir = Path(index_dir)\n        self.index_dir.mkdir(parents=True, exist_ok=True)\n        \n        self.index_path = self.index_dir / 'doc_index.json'\n        self.metadata_path = self.index_dir / 'metadata.json'\n        \n        from document_loader import DocumentLoader\n        self.loader = DocumentLoader()\n        self.embed_model = embed_model\n        self.index = self._load_or_create_index()\n    \n    def _load_or_create_index(self) -> Dict:\n        \"\"\"加载现有索引或创建新索引\"\"\"\n        if self.index_path.exists():\n            try:\n                with open(self.index_path, 'r', encoding='utf-8') as f:\n                    return json.load(f)\n            except Exception as e:\n                print(f\"加载索引失败：{e}\")\n        \n        # 创建新索引\n        return {\n            'version': '1.0',\n            'created_at': datetime.now().isoformat(),\n            'updated_at': datetime.now().isoformat(),\n            'documents': []\n        }\n    \n    def _generate_doc_id(self, file_path: str) -> str:\n        \"\"\"生成文档唯一 ID\"\"\"\n        content = Path(file_path).read_text(encoding='utf-8')\n        return hashlib.md5(content.encode()).hexdigest()[:16]\n    \n    def _compute_embedding(self, text: str) -> Optional[List[float]]:\n        \"\"\"计算文本的 embedding（简化版）\"\"\"\n        # 简化版：使用文本长度和字符编码生成简单特征\n        # 实际应该使用 SentenceTransformer\n        try:\n            import numpy as np\n            # 生成简单的哈希特征\n            hash_val = hashlib.md5(text.encode()).hexdigest()\n            # 转换为固定长度的特征向量（简化版）\n            return [float(int(hash_val[i:i+2], 16) / 255.0) for i in range(0, 384, 2)]\n        except:\n            return None\n    \n    def index_file(self, file_path: str) -> Optional[Dict]:\n        \"\"\"\n        索引单个文件\n        \n        Args:\n            file_path: 文件路径\n            \n        Returns:\n            索引后的文档信息\n        \"\"\"\n        # 加载文档\n        doc = self.loader.load_file(file_path)\n        if not doc:\n            return None\n        \n        # 生成文档 ID\n        doc['id'] = self._generate_doc_id(file_path)\n        \n        # 计算 embedding\n        doc['embedding'] = self._compute_embedding(doc['content'])\n        \n        # 存储到索引\n        self._store_document(doc)\n        \n        # 更新索引时间\n        self.index['updated_at'] = datetime.now().isoformat()\n        self._save_index()\n        \n        return doc\n    \n    def index_directory(\n        self, \n        dir_path: str, \n        recursive: bool = True,\n        incremental: bool = True\n    ) -> int:\n        \"\"\"\n        批量索引目录\n        \n        Args:\n            dir_path: 目录路径\n            recursive: 是否递归\n            incremental: 是否增量更新\n            \n        Returns:\n            索引的文件数量\n        \"\"\"\n        paths = []\n        path = Path(dir_path)\n        \n        if recursive:\n            paths = list(path.rglob('*'))\n        else:\n            paths = list(path.iterdir())\n        \n        # 过滤出文件\n        file_paths = [p for p in paths if p.is_file()]\n        \n        # 筛选支持的类型\n        file_paths = [p for p in file_paths if self.loader._is_supported(str(p))]\n        \n        # 增量更新：只处理新文件\n        if incremental:\n            existing_paths = {doc['path'] for doc in self.index['documents']}\n            new_files = [p for p in file_paths if str(p) not in existing_paths]\n            \n            if new_files:\n                print(f\"发现 {len(new_files)} 个新文件，开始索引...\")\n            else:\n                print(\"没有新文件，无需更新\")\n                return 0\n        \n        # 索引所有文件\n        count = 0\n        for file_path in file_paths:\n            doc = self.index_file(str(file_path))\n            if doc:\n                count += 1\n        \n        return count\n    \n    def _store_document(self, doc: Dict):\n        \"\"\"存储文档到索引\"\"\"\n        # 检查是否已存在\n        for i, existing_doc in enumerate(self.index['documents']):\n            if existing_doc['id'] == doc['id']:\n                self.index['documents'][i] = doc\n                return\n        \n        # 新增文档\n        self.index['documents'].append(doc)\n    \n    def _save_index(self):\n        \"\"\"保存索引到文件\"\"\"\n        try:\n            with open(self.index_path, 'w', encoding='utf-8') as f:\n                json.dump(self.index, f, ensure_ascii=False, indent=2)\n            \n            # 保存元数据\n            self._save_metadata()\n            \n        except Exception as e:\n            print(f\"保存索引失败：{e}\")\n    \n    def _save_metadata(self):\n        \"\"\"保存元数据\"\"\"\n        metadata = {\n            'total_documents': len(self.index['documents']),\n            'last_indexed': self.index['updated_at'],\n            'index_version': self.index['version']\n        }\n        \n        with open(self.metadata_path, 'w', encoding='utf-8') as f:\n            json.dump(metadata, f, ensure_ascii=False, indent=2)\n    \n    def rebuild_index(self, dir_path: str = None) -> int:\n        \"\"\"\n        重建整个索引\n        \n        Args:\n            dir_path: 要索引的目录，默认是当前工作目录\n            \n        Returns:\n            索引的文件数量\n        \"\"\"\n        if dir_path is None:\n            dir_path = '.'\n        \n        print(\"开始重建索引...\")\n        \n        # 清空现有索引\n        self.index['documents'] = []\n        self.index['updated_at'] = datetime.now().isoformat()\n        \n        # 重新索引\n        count = self.index_directory(dir_path, recursive=True, incremental=False)\n        \n        self._save_index()\n        \n        print(f\"索引重建完成，共索引 {count} 个文件\")\n        return count\n    \n    def get_statistics(self) -> Dict:\n        \"\"\"获取索引统计信息\"\"\"\n        return {\n            'total_documents': len(self.index['documents']),\n            'last_updated': self.index['updated_at'],\n            'index_version': self.index['version']\n        }\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "#!/usr/bin/env python3\n\"\"\"\nDocument Indexer - 文档索引器\n负责建立和维护文档索引\n\"\"\"\n\nimport os\nimport json\nimport hashlib\nfrom pathlib import Path\nfrom datetime import datetime\nfrom typing import Dict, List, Optional",
+          "start": 0,
+          "end": 200
+        },
+        {
+          "id": "chunk-1",
+          "text": "class DocumentIndexer:\n    \"\"\"文档索引器类\"\"\"\n    \n    def __init__(\n        self, \n        index_dir: str = None,\n        embed_model: str = \"all-MiniLM-L6-v2\"\n    ):\n        \"\"\"\n        初始化索引器\n        \n        Args:\n            index_dir: 索引目录\n            embed_model: embedding 模型名称\n        \"\"\"\n        if index_dir is None:\n            index_dir = Path(__file__).parent.parent / 'index'\n        \n        self.index_dir = Path(index_dir)\n        self.index_dir.mkdir(parents=True, exist_ok=True)\n       ",
+          "start": 202,
+          "end": 702
+        }
+      ],
+      "id": "e02772e712127688",
+      "embedding": null
+    },
+    {
+      "path": "src/searcher.py",
+      "title": "searcher",
+      "type": "python",
+      "size": 6316,
+      "last_modified": 1774224955.6051102,
+      "content": "#!/usr/bin/env python3\n\"\"\"\nKnowledge Searcher - 知识检索器\n支持语义搜索和关键词搜索\n\"\"\"\n\nimport os\nimport json\nimport hashlib\nfrom pathlib import Path\nfrom typing import List, Dict, Optional, Tuple\nfrom datetime import datetime\nfrom sentence_transformers import SentenceTransformer\nfrom rank_bm25 import BM25Okapi\n\n\nclass KnowledgeSearcher:\n    \"\"\"知识检索器类\"\"\"\n    \n    def __init__(self, index_path: str = None):\n        \"\"\"\n        初始化检索器\n        \n        Args:\n            index_path: 索引文件路径\n        \"\"\"\n        if index_path is None:\n            index_path = Path(__file__).parent.parent / 'index' / 'doc_index.json'\n        \n        self.index_path = Path(index_path)\n        self.model = None\n        self.documents = []\n        \n        self._load_index()\n    \n    def _load_index(self) -> bool:\n        \"\"\"加载索引文件\"\"\"\n        if not self.index_path.exists():\n            return False\n        \n        try:\n            with open(self.index_path, 'r', encoding='utf-8') as f:\n                index_data = json.load(f)\n            \n            self.documents = index_data.get('documents', [])\n            return True\n            \n        except Exception as e:\n            print(f\"加载索引失败：{e}\")\n            return False\n    \n    def _tokenize(self, text: str) -> List[str]:\n        \"\"\"简单分词\"\"\"\n        # 简单的英文分词\n        return text.lower().split()\n    \n    def _tfidf_score(self, query_tokens: List[str], doc_tokens: List[str]) -> float:\n        \"\"\"\n        简单的 TF-IDF 分数计算\n        \n        Args:\n            query_tokens: 查询分词\n            doc_tokens: 文档分词\n            \n        Returns:\n            相关度分数\n        \"\"\"\n        if not doc_tokens:\n            return 0.0\n        \n        # 计算词频\n        doc_freq = {}\n        for token in doc_tokens:\n            doc_freq[token] = doc_freq.get(token, 0) + 1\n        \n        # 计算查询词在文档中的匹配分数\n        score = 0.0\n        for token in query_tokens:\n            if token in doc_freq:\n                score += doc_freq[token]\n        \n        # 归一化\n        return score / len(doc_tokens)\n    \n    def _cosine_similarity(self, vec1, vec2) -> float:\n        \"\"\"计算余弦相似度\"\"\"\n        import numpy as np\n        vec1 = np.array(vec1) if not isinstance(vec1, np.ndarray) else vec1\n        vec2 = np.array(vec2) if not isinstance(vec2, np.ndarray) else vec2\n        \n        return float(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))\n    \n    def search(\n        self, \n        query: str, \n        top_k: int = 5,\n        use_semantic: bool = True,\n        filters: Dict = None\n    ) -> List[Dict]:\n        \"\"\"\n        搜索文档\n        \n        Args:\n            query: 搜索查询\n            top_k: 返回结果数量\n            use_semantic: 是否使用语义搜索\n            filters: 过滤条件\n            \n        Returns:\n            搜索结果列表，包含文档信息和相关度\n        \"\"\"\n        if not self.documents:\n            return []\n        \n        # 应用过滤\n        if filters:\n            docs = self._apply_filters(self.documents, filters)\n        else:\n            docs = self.documents\n        \n        # 计算相关度\n        results = []\n        query_tokens = self._tokenize(query)\n        \n        for doc in docs:\n            score = 0.0\n            \n            # 1. TF-IDF 关键词搜索\n            tfidf_score = self._calculate_tfidf(doc, query_tokens)\n            score += tfidf_score * 0.7\n            \n            # 2. 语义搜索（如果可用）\n            if use_semantic and 'embedding' in doc:\n                semantic_score = self._calculate_semantic(doc, query)\n                score += semantic_score * 0.3\n            \n            if score > 0:\n                results.append({\n                    'document': doc,\n                    'score': score\n                })\n        \n        # 排序\n        results.sort(key=lambda x: x['score'], reverse=True)\n        \n        return results[:top_k]\n    \n    def _calculate_tfidf(self, doc: Dict, query_tokens: List[str]) -> float:\n        \"\"\"\n        计算 TF-IDF 相关度\n        \n        Args:\n            doc: 文档信息\n            query_tokens: 查询分词\n            \n        Returns:\n            TF-IDF 分数\n        \"\"\"\n        # 提取文档的所有分块\n        all_tokens = []\n        for chunk in doc.get('chunks', []):\n            all_tokens.extend(self._tokenize(chunk['text']))\n        \n        if not all_tokens:\n            return 0.0\n        \n        # 计算词频\n        doc_freq = {}\n        for token in all_tokens:\n            doc_freq[token] = doc_freq.get(token, 0) + 1\n        \n        # 计算匹配分数\n        match_count = 0\n        for token in query_tokens:\n            if token in doc_freq:\n                match_count += doc_freq[token]\n        \n        # 归一化分数\n        return match_count / len(all_tokens)\n    \n    def _calculate_semantic(self, doc: Dict, query: str) -> float:\n        \"\"\"\n        计算语义相关度\n        \n        Args:\n            doc: 文档信息\n            query: 查询文本\n            \n        Returns:\n            语义相似度分数\n        \"\"\"\n        import numpy as np\n        \n        if 'embedding' not in doc:\n            return 0.0\n        \n        # 这里简化处理，实际应该使用 embedding 模型\n        # 暂时返回 0\n        return 0.0\n    \n    def _cosine_similarity(self, vec1, vec2) -> float:\n        \"\"\"计算余弦相似度\"\"\"\n        import numpy as np\n        vec1 = np.array(vec1) if not isinstance(vec1, np.ndarray) else vec1\n        vec2 = np.array(vec2) if not isinstance(vec2, np.ndarray) else vec2\n        \n        return float(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))\n    \n    def _apply_filters(self, docs: List[Dict], filters: Dict) -> List[Dict]:\n        \"\"\"应用过滤条件\"\"\"\n        result = docs\n        \n        if 'path_contains' in filters:\n            result = [d for d in result if filters['path_contains'] in d['path']]\n        \n        if 'file_type' in filters:\n            result = [d for d in result if d['type'] == filters['file_type']]\n        \n        return result\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "#!/usr/bin/env python3\n\"\"\"\nKnowledge Searcher - 知识检索器\n支持语义搜索和关键词搜索\n\"\"\"\n\nimport os\nimport json\nimport hashlib\nfrom pathlib import Path\nfrom typing import List, Dict, Optional, Tuple\nfrom datetime import datetime\nfrom sentence_transformers import SentenceTransformer\nfrom rank_bm25 import BM25Okapi",
+          "start": 0,
+          "end": 296
+        },
+        {
+          "id": "chunk-1",
+          "text": "class KnowledgeSearcher:\n    \"\"\"知识检索器类\"\"\"\n    \n    def __init__(self, index_path: str = None):\n        \"\"\"\n        初始化检索器\n        \n        Args:\n            index_path: 索引文件路径\n        \"\"\"\n        if index_path is None:\n            index_path = Path(__file__).parent.parent / 'index' / 'doc_index.json'\n        \n        self.index_path = Path(index_path)\n        self.model = None\n        self.documents = []\n        \n        self._load_index()\n    \n    def _load_index(self) -> bool:\n        \"\"\"加载索引文",
+          "start": 298,
+          "end": 798
+        },
+        {
+          "id": "chunk-2",
+          "text": "TF-IDF 关键词搜索\n            tfidf_score = self._calculate_tfidf(doc, query_tokens)\n            score += tfidf_score * 0.7\n            \n            # 2.",
+          "start": 800,
+          "end": 948
+        },
+        {
+          "id": "chunk-3",
+          "text": "语义搜索（如果可用）\n            if use_semantic and 'embedding' in doc:\n                semantic_score = self._calculate_semantic(doc, query)\n                score += semantic_score * 0.3\n            \n            if score > 0:\n                results.append({\n                    'document': doc,\n                    'score': score\n                })\n        \n        # 排序\n        results.sort(key=lambda x: x['score'], reverse=True)\n        \n        return results[:top_k]\n    \n    def _calculate_tfidf(self,",
+          "start": 950,
+          "end": 1450
+        }
+      ],
+      "id": "718502a714e16fa3",
+      "embedding": null
+    },
+    {
+      "path": "src/utils.py",
+      "title": "utils",
+      "type": "python",
+      "size": 2065,
+      "last_modified": 1774224868.5792742,
+      "content": "#!/usr/bin/env python3\n\"\"\"\nUtility Functions - 工具函数\n提供通用工具函数\n\"\"\"\n\nimport json\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, List, Optional\n\n\ndef load_config(config_path: str) -> Dict:\n    \"\"\"加载配置文件\"\"\"\n    path = Path(config_path)\n    \n    if not path.exists():\n        return {}\n    \n    suffix = path.suffix.lower()\n    \n    if suffix == '.json':\n        with open(path, 'r', encoding='utf-8') as f:\n            return json.load(f)\n    elif suffix in ['.yaml', '.yml']:\n        with open(path, 'r', encoding='utf-8') as f:\n            return yaml.safe_load(f)\n    else:\n        raise ValueError(f\"不支持的配置文件类型：{suffix}\")\n\n\ndef save_config(config: Dict, config_path: str):\n    \"\"\"保存配置文件\"\"\"\n    path = Path(config_path)\n    path.parent.mkdir(parents=True, exist_ok=True)\n    \n    suffix = path.suffix.lower()\n    \n    if suffix == '.json':\n        with open(path, 'w', encoding='utf-8') as f:\n            json.dump(config, f, ensure_ascii=False, indent=2)\n    elif suffix in ['.yaml', '.yml']:\n        with open(path, 'w', encoding='utf-8') as f:\n            yaml.dump(config, f, allow_unicode=True)\n    else:\n        raise ValueError(f\"不支持的配置文件类型：{suffix}\")\n\n\ndef format_bytes(size: int) -> str:\n    \"\"\"格式化字节数\"\"\"\n    for unit in ['B', 'KB', 'MB', 'GB']:\n        if size < 1024:\n            return f\"{size:.2f} {unit}\"\n        size /= 1024\n    return f\"{size:.2f} TB\"\n\n\ndef format_timestamp(timestamp: float) -> str:\n    \"\"\"格式化时间戳\"\"\"\n    from datetime import datetime\n    return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')\n\n\ndef highlight_text(text: str, keywords: List[str]) -> str:\n    \"\"\"高亮关键词\"\"\"\n    for keyword in keywords:\n        if keyword in text:\n            text = text.replace(keyword, f\"**{keyword}**\")\n    return text\n\n\ndef truncate_text(text: str, max_length: int = 500) -> str:\n    \"\"\"截断文本\"\"\"\n    if len(text) <= max_length:\n        return text\n    return text[:max_length] + \"...\"\n",
+      "chunks": [
+        {
+          "id": "chunk-0",
+          "text": "#!/usr/bin/env python3\n\"\"\"\nUtility Functions - 工具函数\n提供通用工具函数\n\"\"\"\n\nimport json\nimport yaml\nfrom pathlib import Path\nfrom typing import Dict, List, Optional",
+          "start": 0,
+          "end": 154
+        },
+        {
+          "id": "chunk-1",
+          "text": "def load_config(config_path: str) -> Dict:\n    \"\"\"加载配置文件\"\"\"\n    path = Path(config_path)\n    \n    if not path.exists():\n        return {}\n    \n    suffix = path.suffix.lower()\n    \n    if suffix == '.json':\n        with open(path, 'r', encoding='utf-8') as f:\n            return json.load(f)\n    elif suffix in ['.yaml', '.yml']:\n        with open(path, 'r', encoding='utf-8') as f:\n            return yaml.safe_load(f)\n    else:\n        raise ValueError(f\"不支持的配置文件类型：{suffix}\")",
+          "start": 156,
+          "end": 634
+        },
+        {
+          "id": "chunk-2",
+          "text": "def save_config(config: Dict, config_path: str):\n    \"\"\"保存配置文件\"\"\"\n    path = Path(config_path)\n    path.parent.mkdir(parents=True, exist_ok=True)\n    \n    suffix = path.suffix.lower()\n    \n    if suffix == '.json':\n        with open(path, 'w', encoding='utf-8') as f:\n            json.dump(config, f, ensure_ascii=False, indent=2)\n    elif suffix in ['.yaml', '.yml']:\n        with open(path, 'w', encoding='utf-8') as f:\n            yaml.dump(config, f, allow_unicode=True)\n    else:\n        raise V",
+          "start": 636,
+          "end": 1136
+        },
+        {
+          "id": "chunk-3",
+          "text": "def format_bytes(size: int) -> str:\n    \"\"\"格式化字节数\"\"\"\n    for unit in ['B', 'KB', 'MB', 'GB']:\n        if size < 1024:\n            return f\"{size:.2f} {unit}\"\n        size /= 1024\n    return f\"{size:.2f} TB\"\n\ndef format_timestamp(timestamp: float) -> str:\n    \"\"\"格式化时间戳\"\"\"\n    from datetime import datetime\n    return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')",
+          "start": 1138,
+          "end": 1518
+        },
+        {
+          "id": "chunk-4",
+          "text": "def highlight_text(text: str, keywords: List[str]) -> str:\n    \"\"\"高亮关键词\"\"\"\n    for keyword in keywords:\n        if keyword in text:\n            text = text.replace(keyword, f\"**{keyword}**\")\n    return text\n\ndef truncate_text(text: str, max_length: int = 500) -> str:\n    \"\"\"截断文本\"\"\"\n    if len(text) <= max_length:\n        return text\n    return text[:max_length] + \"...\"\n",
+          "start": 1520,
+          "end": 1892
+        }
+      ],
+      "id": "9ed688f25dbfd2df",
+      "embedding": null
+    }
+  ]
+}
