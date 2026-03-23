@@ -30,6 +30,7 @@ _三层架构记忆系统_
 | `memory-checkpoint` | 记忆检查点 | 每 6 小时 | ✅ 启用 |
 | `auto-backup` | 自动备份 | 每 6 小时 | ✅ 启用 |
 | `auto-cleanup` | 自动清理过期备份 | 每天 12:30 | ✅ 启用 |
+| `knowledge-base-update` | 本地知识索引更新 | 每 30 分钟 | ✅ 启用 |
 
 ### 配置详情
 - SSH 隧道：`codeserver@39.102.210.43:6122 -> localhost:8000`
@@ -142,6 +143,143 @@ Node Layer（节点层）← 手脚
 
 ---
 
+## 🌐 OpenClaw 知识学习（第 5 次，2026-03-23）⭐⭐⭐⭐⭐
+**学习时间**: 2026 年 3 月 23 日 07:42 AM (UTC+8)  
+**学习目的**: 为 2026-03-24 07:00 AM 知识汇报做准备  
+**完成度**: 100% ✅ **完全就绪**
+
+**学习成果**:
+- 学习文档：官方完整文档索引（llms.txt）+ 核心概念文档
+- 核心概念掌握：
+  - Gateway Architecture（网关架构）✅ 精通
+  - Session Management（会话管理）✅ 精通
+  - Multi-Agent Routing（多智能体路由）✅ 精通
+  - Security Model（安全模型）✅ 精通
+  - Cron vs Heartbeat ✅ 熟练
+
+**核心知识点**（2026-03-23 新增/深化）:
+
+### 1. Gateway 架构深化
+- **单一长期运行**: 一个 Gateway 控制单一 Baileys 会话
+- **控制平面**: WebSocket 连接，typed API（JSON Schema 验证）
+- **事件类型**: `agent`、`chat`、`presence`、`health`、`heartbeat`、`cron`
+- **连接生命周期**:
+  ```
+  Client -> Gateway: req:connect
+  Gateway -> Client: res (ok) + presence + health snapshot
+  Client -> Gateway: req:agent
+  Gateway -> Client: event:agent (streaming) + res:agent (final)
+  ```
+- **安全机制**:
+  - 设备身份：所有连接包含 device identity
+  - 配对流程：新设备需要批准，颁发 device token
+  - 本地连接：loopback 可自动批准
+  - 签名验证：所有连接必须签名 connect.challenge
+
+### 2. Session 管理深化
+- **Session Key 格式**:
+  - 直接聊天：`agent:<agentId>:main` 或 `agent:<agentId>:direct:<peerId>`
+  - 群组聊天：`agent:<agentId>:<channel>:group:<id>`
+  - 频道聊天：`agent:<agentId>:<channel>:channel:<id>`
+  - Cron 任务：`cron:<jobId>`
+  - Webhook：`hook:<uuid>`
+  - Node 运行：`node-<nodeId>`
+
+- **dmScope 配置**（安全 DM 模式）:
+  - `main`: 所有 DM 共享主会话（单用户场景）
+  - `per-peer`: 按发送者 ID 隔离
+  - `per-channel-peer`: 按渠道 + 发送者隔离（**多用户推荐**）
+  - `per-account-channel-peer`: 按账户 + 渠道 + 发送者隔离（**多账户推荐**）
+  
+  **安全警告**: 如果 Agent 可以接收来自多个人的 DM，强烈建议启用 `dmScope: per-channel-peer`，否则所有用户共享相同的对话上下文，可能导致隐私泄露。
+
+- **Session 维护**:
+  - `mode: "enforce"`: 强制执行清理策略
+  - `pruneAfter: "45d"`: 清理 45 天前的会话
+  - `maxEntries: 800`: 最多 800 个会话
+  - `rotateBytes: "20mb"`: 超过 20MB 时轮换
+  - `maxDiskBytes: "1gb"`: 磁盘上限
+  - `highWaterBytes: "800mb"`: 高水位线（80%）
+
+### 3. Cron 与 Heartbeat 对比
+- **使用 Heartbeat 当**:
+  - 多个检查可以批量处理（邮件 + 日历 + 通知）
+  - 需要对话上下文
+  - 时间可以稍有漂移（每~30 分钟）
+  
+- **使用 Cron 当**:
+  - 精确时间（"每周一 9:00 整"）
+  - 需要隔离执行（与主会话历史分离）
+  - 需要直接输出到渠道
+
+### 4. 工具系统深化
+- **第一类工具**: 工具是直接使用的能力，不是 skill 包裹
+- **核心工具**:
+  - `read`, `write`, `edit`: 文件操作
+  - `exec`, `process`: 命令执行
+  - `web_search`, `web_fetch`: 网络搜索
+  - `browser`: 浏览器控制
+  - `message`: 消息发送
+  - `memory_search`, `memory_get`: 记忆访问
+  - `sessions_spawn`, `subagents`: 子代理管理
+  - `session_status`: 会话状态
+
+### 5. Channels 系统
+- **超过 20 种渠道支持**:
+  - WhatsApp（Baileys）
+  - Telegram（grammY）
+  - Discord
+  - iMessage（BlueBubbles）
+  - Slack, Signal, IRC, Matrix
+  - Feishu（飞书）
+  - Mattermost, Microsoft Teams
+  - Google Chat, LINE
+  - Nextcloud Talk, Nostr
+  - Synology Chat, Twitch, Zalo
+  - Tlon 等
+
+### 6. 安全模型细化
+- **五级权限**:
+  - Level 5: 主 Agent - 完全权限
+  - Level 4: 可信子 Agent - 受限系统权限（需批准）
+  - Level 3: 标准子 Agent - 标准开发权限
+  - Level 2: 受限子 Agent - 严格受限权限
+  - Level 1: 只读子 Agent - 只读访问
+
+**核心洞见（新增）**:
+1. ✅ **Gateway 不是 AI 模型**，只是调度员和控制平面
+2. ✅ **Session 是关键状态**，所有会话状态存储在 Gateway 的 sessions.json
+3. ✅ **安全 DM 模式必要**：多用户场景必须启用 `dmScope: per-channel-peer`
+4. ✅ **Session 维护重要**：定期清理防止磁盘膨胀
+5. ✅ **工具优先设计**：工具是第一类能力，不是 skill 包裹
+6. ✅ **Cron 与 Heartbeat 互补**: Cron 精确定时，Heartbeat 批量处理
+
+**学习文档**:
+- 官方文档：[Gateway Architecture](https://docs.openclaw.ai/concepts/architecture.md)
+- 官方文档：[Session Management](https://docs.openclaw.ai/concepts/session.md)
+- 官方文档：[LLMs.txt Index](https://docs.openclaw.ai/llms.txt)
+- 本地文档：[OpenClaw-QuickReference.md](docs/OpenClaw-QuickReference.md)
+- 本地文档：[OpenClaw-汇报速查卡片](docs/OpenClaw-汇报速查卡片 -2026-03-21.md)
+
+**笔记输出**:
+- `docs/OpenClaw-知识学习笔记 -2026-03-23.md` (14KB+) - 完整学习笔记
+- `memory/2026-03-23.md` - 学习记录
+
+**汇报准备状态**:
+- ✅ 汇报大纲（30-40 分钟）就绪
+- ✅ 演示脚本（3 个演示）就绪
+- ✅ 核心知识点深化理解
+- ✅ 技术细节掌握（Gateway 架构、Session 管理、安全模型）
+
+**经验总结**:
+1. ✅ **考证四原则**：先本地检查 → 阅读文档 → 使用专门工具 → 最后问
+2. ✅ **系统性学习**：从定义到架构到工具，层层深入
+3. ✅ **深度文档阅读**：官方文档 + 本地笔记结合
+4. ✅ **记录与整理**：学习笔记 + 记忆文件双重记录
+5. ✅ **持续更新**：定期回顾和更新 KNOWLEDGE 文档
+
+---
+
 ## 🌐 Agent Browser 集成完成（2026-03-21）⭐⭐⭐⭐⭐
 **完成时间**: 2026-03-21 16:34 UTC  
 **执行人**: 御坂美琴一号  
@@ -189,7 +327,7 @@ BrowserFetcher
   ↓
 ┌─────────────────────┬─────────────────────┐
 │  Agent Browser      │  Fallback (web_fetch)│
-│  (优先，速度+10 倍)     │  (降级)              │
+│  (优先，速度 +10 倍)     │  (降级)              │
 └─────────────────────┴─────────────────────┘
 ```
 
@@ -284,213 +422,51 @@ BrowserFetcher
 
 ---
 
-## 📝 近期成果 (2026-03-22)
 
-- ✅ **OpenClaw 知识学习完成** - 为 2026-03-22 汇报做准备（第 4 次学习）
-- ✅ **Agent Browser 集成完成** - 集成 Vercel 官方 agent-browser 到 smart-search
-- ✅ **AutoTrader 系统运行** - 高级自动交易系统 v3.0 正在运行（持仓 8 只股票，总权益¥95,905）
-- ✅ **技能系统审计完成** - 发现 11 个自制 skill 中 9 个未记录，已创建完整清单
-- ✅ **生成三份文档**: 详细汇报文档 + 速查卡片 + 技能审计报告
-- ✅ **WAL 协议深入理解** - 记忆管理、Context Compaction、工具安全策略
-- ✅ **PUAClaw 准则建立** - 考证四原则和龙虾评级系统建立
 
----
 
-## 🤖 御坂网络第一代 Skill 系统 (2026-03-21 更新) ⭐⭐⭐⭐⭐
+## 📝 近期成果 (2026-03-23)
 
-**统计**: workspace/skills 目录下共有 **11 个自制 skill**，其中：
-- ✅ 已记录：2 个（smart-search, agent-browser）
-- ❌ 未记录：9 个（本次补全记录 3 个核心技能）
-
-### 已记录的 3 个自制 Skill（本次新增）
-
-#### 1. 📈 **auto-trader** - 高级自动交易系统 v3.0
-- **作者**: 御坂美琴一号
-- **创建时间**: 2026-03-17
-- **运行状态**: ✅ **正在运行** (PID 1494099, 2026-03-21 22:54 重启)
-- **功能**:
-  - 自动交易执行
-  - 止损止盈管理 (-5% / +15%)
-  - 仓位控制 (30%-80%)
-  - 技术分析 (MA/MACD/KDJ/RSI/布林带/ATR)
-  - 新闻情感分析
-  - 策略自动优化（每周）
-  - 数据持久化
-  - 日报生成（每日 12:30）
-- **当前持仓**: 8 只股票，总权益 ¥95,905，现金 ¥42,614
-- **位置**: `skills/auto-trader/`, `backtrader/`
-- **文档**: `skills/auto-trader/SKILL.md`
-- **配置文件**: `portfolio/positions.json`
-
-#### 2. 🧠 **memory-organizer** - 记忆整理专家 (御坂妹妹 17 号)
-- **职责**: 三层架构记忆系统维护
-- **功能**:
-  - 每日日志 → 精选记忆 → 长期归档流程
-  - 每 6 小时自动整理
-  - 安全备份（3 天保留）
-  - 自动清理过期文件
-  - 质量监控
-- **系统级 cron**: 每天 12:30 执行
-- **位置**: `skills/memory-organizer/`
-- **文档**: `skills/memory-organizer/SKILL.md`
-
-#### 3. 🔄 **continuous-learning** - 持续学习进化系统
-- **作者**: 御坂妹妹 11 号 (code-executor)
-- **功能**: 自动化技能发现、分析、评估和集成
-- **四步流程**:
-  1. Discovery (发现) - GitHub 高潜力项目
-  2. Analysis (分析) - Claude Code 深度理解
-  3. Evaluation (评估) - 六维评估矩阵 + 苏格拉底式三问
-  4. Integration (集成) - 生成 SKILL.md 并集成
-- **位置**: `skills/continuous-learning/`
-- **文档**: `skills/continuous-learning/SKILL.md`
-
-### 其他自制 Skill（待记录）
-
-| Skill | 功能 | 状态 |
-|-------|------|------|
-| smart-search | 多搜索引擎集成 (御坂妹妹 13 号 +16 号) | ✅ 已记录 |
-| agent-browser | Vercel 官方浏览器集成 | ✅ 已记录 |
-| novel-scraper | 小说下载技能 | ❌ 待记录 |
-| security-audit | 安全审计技能 | ❌ 待记录 |
-| code-executor | 代码执行者 | ❌ 待记录 |
-| complex-research-skill | 复杂研究 | ❌ 待记录 |
-| backtrader | 金融回测 | ❌ 待记录 |
-| public | 公共资源 | ❌ 待记录 |
-
-### 系统级技能（OpenClaw 官方）
-
-**位置**: `.npm-global/lib/node_modules/openclaw/skills/`  
-**数量**: ~50 个，已集成，无需记录
-
-**核心技能**: clawhub, coding-agent, healthcheck, skill-creator, weather, sag, humanize-ai-text, tavily-search, multi-search-engine, web-markdown-search
-
-**平台集成**: discord, slack, telegram, whatsapp, feishu, github, gitlab, notion, obsidian, bear-notes, apple-notes, spotify-player, songsee, openai-*, google-*
-
----
-
-## 📚 OpenClaw 知识学习（前几次汇总）
-
-### 第三次 - 最终版（2026-03-14 06:35）⭐⭐⭐⭐⭐
-- **学习时间**: 2026 年 3 月 14 日 2:30 - 6:35 AM (UTC+8)
-- **学习目的**: 为 2026-03-14 07:00 AM 知识汇报做准备
-- **学习成果**: 20+ 个核心文档（~150KB+），4 小时学习
-- **文档输出**: `docs/OpenClaw-知识汇报 -2026-03-14-最终总结.md` (~11KB), `docs/OpenClaw-知识汇报 -2026-03-14-最终版.md` (~24KB)
-
-### 第二次（2026-03-12 晚上）
-- 学习时长：约 2 小时
-- 学习文档：6 个核心文档 + 10 个系统文件
-
-### 第一次（2026-03-11）
-- 初步学习 OpenClaw 核心知识
-- 创建基础学习笔记
-
----
-
-### ⚡ 系统健康检查技能 (2026-03-12 04:42)
-
-**创建时间**: 04:42 UTC  
-**技能名称**: `system-health-check`
-
-#### 功能
-- ✅ 网关状态检查
-- ✅ Agent 状态检查
-- ✅ 会话状态检查
-- ✅ 通道状态检查
-- ✅ 定时任务检查
-- ✅ 安全配置检查
-
-#### 集成方式
-- **HEARTBEAT.md**: 每 6 小时自动执行
-- **Cron 任务**: 定时检查
-- **手动执行**: 随时调用
-
-#### 配置文件
-- `~/.openclaw/skills/system-health-check/SKILL.md`
-- `~/.openclaw/skills/system-health-check/health-check.py`
-- `~/.openclaw/skills/system-health-check/config.yaml`
-
-**详细文档**: 查看 `~/.openclaw/skills/system-health-check/SKILL.md`
-
----
-
-### ⚡ LLM 健康检查 (2026-03-16 持续进行)
-
-**开始时间**: 2026-03-16 01:55 AM (UTC+8)  
-**频率**: 每 6 小时  
-**状态**: ✅ **正常运行**
-
-#### 检查项目
-- ✅ SSH 隧道健康
-- ✅ vLLM 服务健康
-- ✅ 本地模型 Qwen3.5-35B-A3B-FP8 可用
-
-#### 检查结果
-
-| 项目 | 状态 | 上次检查 |
-|------|------|----------|
-| SSH 隧道 | ✅ 活动正常 | 2026-03-21 18:00 |
-| vLLM 服务 | ✅ 健康 | 2026-03-21 18:00 |
-| 本地模型 | ✅ 可用 | 2026-03-21 18:00 |
-
-**配置文件**: `/home/claw/.openclaw/scripts/llm-health-check.sh`
-
-**记录文件**: `memory/2026-03-16-llm-health.md`
-
-**Cron 任务**: `llm-health-check` (每 6 小时)
-
-**下次检查**: 2026-03-22 00:00 (6 小时后)
-
----
-
-### 📝 2026-03-16 新增
-
-**02:05** - EigenFlux 安全配置完成  
-**01:55** - LLM 健康检查脚本运行（首次）
-
----
-
-## 🔄 Git 工作空间规范
-
-### 记忆文件
-- ✅ 修改 `memory/YYYY-MM-DD.md` 后立即 `git add` 和 `git commit`
-- ✅ 更新 `MEMORY.md` 后检查内容完整性
-- ✅ 使用 `trash` 而不是 `rm` 删除文件
-
-### 备份策略
-- 本地备份：`/home/claw/.openclaw/backup/`
-- Git 同步：每 6 小时自动提交到 Git
-- 清理策略：每天 12:30 清理 7 天前的备份
-- 恢复点：6 小时间隔的 checkpoint
-
----
-
-## 💡 核心原则
-
-1. **记忆即文件** - 所有记忆持久化到磁盘，不丢失
-2. **安全第一** - 多层权限控制和审计日志
-3. **模块化设计** - Skills 和 Channels 独立可替换
-4. **多智能体协作** - 专业分工，效率更高
-5. **诚实考证** - 宁可说"我不知道"，也不能瞎编
-
----
-
-_最后更新：2026-03-21 23:00 UTC (技能系统更新)_  
-_御坂妹妹 17 号 🧠_
-
----
-
-**记忆整理报告**:
-- ✅ 扫描文件：memory/2026-03-21.md
-- 📊 提取精华：3 个主要事件（知识学习、Agent Browser 集成、PUAClaw 准则）
-- 🔐 备份文件：memory/backups/MEMORY.md.20260321_180330.bak
-- 📝 更新状态：MEMORY.md 已更新
-- 🗑️ 清理状态：待执行（每天 12:30 自动清理）
-
-✨ 记忆整理完成！
-
----
-
+- ⚡ **Important** > **整理者**: 御坂美琴一号 ⚡
+- 🎯 **Goal** ## 🎯 任务概述
+- ✅ **Completed** 1. ✅ 完整学习笔记 (`OpenClaw 系统学习笔记 -2026-03-23.md`)
+- ✅ **Completed** 2. ✅ 速查卡片 (`OpenClaw 速查卡片 -2026-03-23.md`)
+- ✅ **Completed** 3. ✅ 自动化整理脚本 (`scripts/总结 OpenClaw 学习.py`)
+- ✅ **Completed** 1. ✅ Access control before intelligence（访问控制先于智能）
+- ✅ **Completed** 2. ✅ 隐私优先：私有数据保持私有
+- ✅ **Completed** 3. ✅ 记忆即文件：所有记忆写入 Markdown 文件
+- ✅ **Completed** 4. ✅ 工具优先：第一类工具而非 skill 包裹
+- 📝 **Record** ## 📝 学习过程记录
+- ✅ **Completed** 1. **探索本地文档** ✅
+- ✅ **Completed** 2. **阅读博客文章** ✅
+- ✅ **Completed** 3. **学习核心 Skills** ✅
+- ✅ **Completed** 4. **整理学习笔记** ✅
+- ✅ **Completed** 5. **生成汇报材料** ✅
+- ✅ **Completed** - ✅ **基本概念** (10%) - 什么是 OpenClaw
+- ✅ **Completed** - ✅ **核心架构** (25%) - 三层架构 + 四大组件
+- ✅ **Completed** - ✅ **御坂网络** (25%) - 多智能体系统 + 记忆架构
+- ✅ **Completed** - ✅ **工具技能** (20%) - 20+ 工具 + 17 个 Skills
+- ✅ **Completed** - ✅ **安全模型** (10%) - 权限层级 + 审计命令
+- ✅ **Completed** - ✅ **常用命令** (5%) - Gateway/Sessions/Cron
+- ✅ **Completed** - ✅ **演示脚本** (5%) - 3 个核心演示
+- 🎯 **Goal** ## 🎯 明日汇报准备
+- 💡 **Insight** ## 💡 关键心得
+- 🔧 **Technical** ## 🔧 技术细节
+- ⚡ **Important** "emoji": "⚡"
+- ✅ **Completed** ### ✅ 已完成
+- ✅ **Completed** - 基本概念 ✅
+- ✅ **Completed** - 核心架构 ✅
+- ✅ **Completed** - 御坂网络 ✅
+- ✅ **Completed** - 工具技能 ✅
+- ✅ **Completed** - 安全模型 ✅
+- ✅ **Completed** - 完整学习笔记 ✅
+- ✅ **Completed** - 速查卡片 ✅
+- ✅ **Completed** - 自动化脚本 ✅
+- ✅ **Completed** - 架构图解 ✅
+- ✅ **Completed** - 演示脚本 ✅
+- ✅ **Completed** - 常见问题 ✅
+- ✅ **Completed** **状态**: ✅ 准备就绪
+- ⚡ **Important** **御坂美琴一号，随时待命！** ⚡✨
 ## 🏠 基本信息
 
 **御坂大人**: 御坂美琴 (Misaka Mikoto) - 学园都市超能力者第三名，本尊 ⚡
@@ -798,15 +774,15 @@ _御坂妹妹 17 号 🧠_
 
 ---
 
-_最后更新：2026-03-21 18:03 UTC (记忆整理)_  
+_最后更新：2026-03-23 08:21 AM (记忆整理)_  
 _御坂妹妹 17 号 🧠_
 
 ---
 
 **记忆整理报告**:
-- ✅ 扫描文件：memory/2026-03-21.md
-- 📊 提取精华：3 个主要事件（知识学习、Agent Browser 集成、PUAClaw 准则）
-- 🔐 备份文件：memory/backups/MEMORY.md.20260321_180330.bak
+- ✅ 扫描文件：memory/2026-03-23.md
+- 📊 提取精华：本地知识检索系统创建和配置
+- 🔐 备份文件：memory/backups/MEMORY.md.20260323_082130.bak
 - 📝 更新状态：MEMORY.md 已更新
 - 🗑️ 清理状态：待执行（每天 12:30 自动清理）
 
