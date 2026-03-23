@@ -176,26 +176,30 @@ export const useStockStore = defineStore('stock', () => {
     return stockNames[symbol] || symbol
   }
 
-  // Fetch portfolio summary
+  // Fetch portfolio summary (多样化投资系统)
   const fetchSummary = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/portfolio/summary`)
+      const response = await axios.get(`${API_BASE}/diversified/summary`)
       const data = response.data
+
+      if (!data.success) {
+        throw new Error(data.error || '获取数据失败')
+      }
 
       stats.value = {
         totalEquity: data.total_equity || 0,
-        cash: data.current_cash || 0,
-        invested: data.total_market_value || 0,
-        dayGain: 0, // 后端暂无此数据
+        cash: data.cash || 0,
+        invested: (data.total_equity || 0) - (data.cash || 0),
+        dayGain: 0,
         dayGainPercent: 0,
         totalGain: data.total_pnl || 0,
         totalGainPercent: data.total_pnl_pct || 0,
-        winRate: data.win_rate || 0,
-        totalTrades: data.total_trades || 0,
-        sharpeRatio: data.sharpe_ratio || 0,
-        profitFactor: data.profit_factor || 0,
-        maxDrawdown: data.max_drawdown || 0,
-        volatility: data.volatility || 0
+        winRate: 0,
+        totalTrades: 0,
+        sharpeRatio: 0,
+        profitFactor: 0,
+        maxDrawdown: 0,
+        volatility: 0
       }
     } catch (e) {
       console.error('Failed to fetch summary:', e)
@@ -203,25 +207,25 @@ export const useStockStore = defineStore('stock', () => {
     }
   }
 
-  // Fetch holdings
+  // Fetch holdings (多样化投资系统)
   const fetchHoldings = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/portfolio/positions`)
+      const response = await axios.get(`${API_BASE}/diversified/positions`)
       const data = response.data
 
-      if (data.status === 'empty' || !data.positions) {
+      if (!data.success || !data.positions) {
         holdings.value = []
         return
       }
 
       holdings.value = data.positions.map((pos: any) => ({
         symbol: pos.symbol,
-        name: getStockName(pos.symbol),
+        name: pos.name || getStockName(pos.symbol),
         shares: pos.shares,
-        avgPrice: pos.avg_price,
+        avgPrice: pos.avg_cost,
         currentPrice: pos.current_price,
         marketValue: pos.market_value,
-        costBasis: pos.shares * pos.avg_price,
+        costBasis: pos.shares * pos.avg_cost,
         gainLoss: pos.pnl,
         gainLossPercent: pos.pnl_pct
       }))
@@ -562,6 +566,97 @@ export const useStockStore = defineStore('stock', () => {
     }
   }
 
+  // ============ 多样化投资控制 ============
+
+  // 初始建仓
+  const initialBuild = async () => {
+    try {
+      const response = await axios.post(`${API_BASE}/diversified/initial-build`)
+      if (response.data.success) {
+        await fetchAllData()
+      }
+      return response.data
+    } catch (e) {
+      console.error('Initial build failed:', e)
+      throw e
+    }
+  }
+
+  // 调仓
+  const rebalance = async () => {
+    try {
+      const response = await axios.post(`${API_BASE}/diversified/rebalance`)
+      if (response.data.success) {
+        await fetchAllData()
+      }
+      return response.data
+    } catch (e) {
+      console.error('Rebalance failed:', e)
+      throw e
+    }
+  }
+
+  // 自动运行
+  const autoRun = async () => {
+    try {
+      const response = await axios.post(`${API_BASE}/diversified/auto-run`)
+      if (response.data.success) {
+        await fetchAllData()
+      }
+      return response.data
+    } catch (e) {
+      console.error('Auto run failed:', e)
+      throw e
+    }
+  }
+
+  // 检查止损止盈
+  const checkStopLoss = async () => {
+    try {
+      const response = await axios.post(`${API_BASE}/diversified/check-stop-loss`)
+      if (response.data.success) {
+        await fetchAllData()
+      }
+      return response.data
+    } catch (e) {
+      console.error('Check stop loss failed:', e)
+      throw e
+    }
+  }
+
+  // 获取调度器状态
+  const getSchedulerStatus = async () => {
+    try {
+      const response = await axios.get(`${API_BASE}/diversified/scheduler/status`)
+      return response.data
+    } catch (e) {
+      console.error('Get scheduler status failed:', e)
+      throw e
+    }
+  }
+
+  // 启动调度器
+  const startScheduler = async (intervalMinutes: number = 30) => {
+    try {
+      const response = await axios.post(`${API_BASE}/diversified/scheduler/start?interval_minutes=${intervalMinutes}`)
+      return response.data
+    } catch (e) {
+      console.error('Start scheduler failed:', e)
+      throw e
+    }
+  }
+
+  // 停止调度器
+  const stopScheduler = async () => {
+    try {
+      const response = await axios.post(`${API_BASE}/diversified/scheduler/stop`)
+      return response.data
+    } catch (e) {
+      console.error('Stop scheduler failed:', e)
+      throw e
+    }
+  }
+
   // Computed
   const totalMarketValue = computed(() =>
     holdings.value.reduce((sum, h) => sum + h.marketValue, 0)
@@ -617,6 +712,15 @@ export const useStockStore = defineStore('stock', () => {
     calculateAIRecommendations,
     buyStock,
     sellStock,
+
+    // 多样化投资控制
+    initialBuild,
+    rebalance,
+    autoRun,
+    checkStopLoss,
+    getSchedulerStatus,
+    startScheduler,
+    stopScheduler,
 
     // Computed
     totalMarketValue,

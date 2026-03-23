@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStockStore } from '@/stores/stock'
 
 const store = useStockStore()
+
+// 操作状态
+const isOperating = ref(false)
+const operationMessage = ref('')
+const showResult = ref(false)
 
 const formattedNumber = (num: number) => {
   return new Intl.NumberFormat('zh-CN', {
@@ -17,7 +22,7 @@ const portfolioStats = computed(() => {
   const totalMarket = store.holdings.reduce((sum, h) => sum + h.marketValue, 0)
   const totalGain = totalMarket - totalCost
   const gainPercent = totalCost > 0 ? (totalGain / totalCost) * 100 : 0
-  
+
   return {
     totalCost,
     totalMarket,
@@ -39,6 +44,29 @@ const sortedHoldings = computed(() => {
 
 // 使用store中的stockPerformance（从持仓计算得出）
 const stockPerformance = computed(() => store.stockPerformance)
+
+// 操作处理
+const handleOperation = async (operation: () => Promise<any>, operationName: string) => {
+  isOperating.value = true
+  operationMessage.value = `正在${operationName}...`
+  showResult.value = true
+
+  try {
+    const result = await operation()
+    operationMessage.value = result.message || `${operationName}成功`
+    await store.fetchAllData()
+  } catch (error: any) {
+    operationMessage.value = `${operationName}失败: ${error.message || '未知错误'}`
+  } finally {
+    isOperating.value = false
+    setTimeout(() => { showResult.value = false }, 3000)
+  }
+}
+
+const handleInitialBuild = () => handleOperation(store.initialBuild, '初始建仓')
+const handleRebalance = () => handleOperation(store.rebalance, '调仓')
+const handleAutoRun = () => handleOperation(store.autoRun, '自动运行')
+const handleCheckStopLoss = () => handleOperation(store.checkStopLoss, '检查止损止盈')
 </script>
 
 <template>
@@ -47,6 +75,121 @@ const stockPerformance = computed(() => store.stockPerformance)
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-white mb-2">持仓管理</h1>
       <p class="text-gray-400">查看和管理您的投资组合</p>
+    </div>
+
+    <!-- Control Panel -->
+    <div class="card mb-8">
+      <div class="card-header">
+        <h2 class="card-title">投资控制面板</h2>
+      </div>
+      <div class="p-4">
+        <!-- 操作结果提示 -->
+        <div v-if="showResult" class="mb-4 p-3 rounded-lg" :class="isOperating ? 'bg-blue-500/20 text-blue-300' : 'bg-green-500/20 text-green-300'">
+          <div class="flex items-center">
+            <svg v-if="isOperating" class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>{{ operationMessage }}</span>
+          </div>
+        </div>
+
+        <!-- 按钮组 -->
+        <div class="flex flex-wrap gap-3">
+          <button
+            @click="handleInitialBuild"
+            :disabled="isOperating"
+            class="btn-primary"
+            title="根据配置自动建仓，分散投资于多个板块"
+          >
+            <span class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              初始建仓
+            </span>
+          </button>
+
+          <button
+            @click="handleAutoRun"
+            :disabled="isOperating"
+            class="btn-primary"
+            title="自动运行投资流程：检查止损止盈、调仓"
+          >
+            <span class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              自动运行
+            </span>
+          </button>
+
+          <button
+            @click="handleRebalance"
+            :disabled="isOperating"
+            class="btn-secondary"
+            title="根据当前市场情况调整仓位"
+          >
+            <span class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              调仓
+            </span>
+          </button>
+
+          <button
+            @click="handleCheckStopLoss"
+            :disabled="isOperating"
+            class="btn-secondary"
+            title="检查持仓是否触发止损或止盈"
+          >
+            <span class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+              止损止盈
+            </span>
+          </button>
+
+          <button
+            @click="store.fetchAllData"
+            :disabled="isOperating || store.loading"
+            class="btn-secondary"
+            title="刷新数据"
+          >
+            <span class="flex items-center">
+              <svg class="w-5 h-5 mr-2" :class="store.loading ? 'animate-spin' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              刷新数据
+            </span>
+          </button>
+        </div>
+
+        <!-- 系统信息 -->
+        <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div class="bg-gray-700/50 rounded-lg p-3">
+            <div class="text-gray-400">总资产</div>
+            <div class="text-lg font-bold text-white">{{ formattedNumber(store.stats.totalEquity) }}</div>
+          </div>
+          <div class="bg-gray-700/50 rounded-lg p-3">
+            <div class="text-gray-400">现金</div>
+            <div class="text-lg font-bold text-green-400">{{ formattedNumber(store.stats.cash) }}</div>
+          </div>
+          <div class="bg-gray-700/50 rounded-lg p-3">
+            <div class="text-gray-400">持仓数量</div>
+            <div class="text-lg font-bold text-purple-400">{{ store.holdings.length }} 只</div>
+          </div>
+          <div class="bg-gray-700/50 rounded-lg p-3">
+            <div class="text-gray-400">总收益</div>
+            <div class="text-lg font-bold" :class="store.stats.totalGain >= 0 ? 'text-green-400' : 'text-red-400'">
+              {{ store.stats.totalGain >= 0 ? '+' : '' }}{{ formattedNumber(store.stats.totalGain) }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Portfolio Summary -->

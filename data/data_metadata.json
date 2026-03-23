@@ -1,25 +1,86 @@
 {
-  "stocks": {},
-  "last_update": "2026-03-21 19:02:23",
+  "stocks": {
+    "601398.SS": {
+      "last_update": "2026-03-22 12:39:32",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "600036.SS": {
+      "last_update": "2026-03-22 12:39:32",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "601318.SS": {
+      "last_update": "2026-03-22 12:39:33",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "601166.SS": {
+      "last_update": "2026-03-22 12:39:33",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "600000.SS": {
+      "last_update": "2026-03-22 12:39:33",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "600519.SS": {
+      "last_update": "2026-03-22 12:39:33",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "000858.SZ": {
+      "last_update": "2026-03-22 12:39:39",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "300750.SZ": {
+      "last_update": "2026-03-22 12:39:33",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "002594.SZ": {
+      "last_update": "2026-03-22 12:39:39",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "600276.SS": {
+      "last_update": "2026-03-22 12:39:39",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "601857.SS": {
+      "last_update": "2026-03-22 12:39:38",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    },
+    "600900.SS": {
+      "last_update": "2026-03-22 12:39:38",
+      "records": 4,
+      "latest_date": "2026-03-20 00:00:00"
+    }
+  },
+  "last_update": "2026-03-22 13:53:25",
   "source_health": {
     "东方财富": {
-      "last_check": "2026-03-21 19:02:08",
-      "fail_count": 3,
+      "last_check": "2026-03-22 13:53:11",
+      "fail_count": 4,
       "status": "unhealthy"
     },
     "新浪财经": {
-      "last_check": "2026-03-21 19:02:12",
-      "fail_count": 3,
+      "last_check": "2026-03-22 13:53:19",
+      "fail_count": 5,
       "status": "unhealthy"
     },
     "腾讯行情": {
-      "last_check": "2026-03-21 19:02:18",
-      "fail_count": 3,
+      "last_check": "2026-03-22 13:53:25",
+      "fail_count": 5,
       "status": "unhealthy"
     },
     "AkShare": {
-      "last_check": "2026-03-21 19:02:23",
-      "fail_count": 3,
+      "last_check": "2026-03-22 13:53:22",
+      "fail_count": 5,
       "status": "unhealthy"
     }
   }
