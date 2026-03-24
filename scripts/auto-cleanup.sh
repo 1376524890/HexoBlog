@@ -9,13 +9,21 @@ LOG_FILE="$HOME/.openclaw/backup/backup.log"
 
 # 记录日志
 log() {
-    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+    mkdir -p "$(dirname "$LOG_FILE")" 2>/dev/null || true
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE" 2>/dev/null || true
 }
 
 log "开始清理过期备份..."
 
+# 检查备份目录是否存在
+if [ ! -d "$BACKUP_DIR" ]; then
+    log "备份目录不存在，已创建"
+    mkdir -p "$BACKUP_DIR"
+    log "备份目录创建完成"
+fi
+
 # 找到 7 天前的备份文件
-OLD_BACKUPS=$(find "$BACKUP_DIR" -name "workspace-backup-*.tar.gz" -mtime +7 -type f)
+OLD_BACKUPS=$(find "$BACKUP_DIR" -name "workspace-backup-*.tar.gz" -mtime +7 -type f 2>/dev/null || true)
 
 if [ -z "$OLD_BACKUPS" ]; then
     log "没有需要清理的过期备份"
