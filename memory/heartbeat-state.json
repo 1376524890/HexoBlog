@@ -1,1 +1,1 @@
-{"lastCheck": "2026-03-24T15:55:00Z", "status": "heartbeat_ok", "llmHealthCheckStatus": "monitoring", "daysSinceLastCheck": 2.1, "notes": "心跳触发，系统运行正常，llm-health-check 持续监控中"}
+{"lastCheck": "2026-03-24T19:25:00Z", "status": "heartbeat_triggered", "llmHealthCheckStatus": "known_issue_low_impact", "daysSinceLastCheck": 2, "notes": "心跳触发，系统核心功能正常，llm-health-check 问题是已知低影响问题"}
