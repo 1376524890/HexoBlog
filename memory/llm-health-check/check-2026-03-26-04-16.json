@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-03-26T04:16:07+08:00",
+  "status": "healthy",
+  "checks": {
+    "ssh_tunnel": {
+      "status": "active",
+      "target": "codeserver@39.102.210.43:6122",
+      "local_port": 8000
+    },
+    "vllm_service": {
+      "status": "healthy",
+      "endpoint": "http://localhost:8000/v1/models",
+      "http_code": 200
+    }
+  },
+  "summary": "✅ 所有检查通过 - SSH 隧道和 vLLM 服务正常运行"
+}
