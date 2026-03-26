@@ -4,6 +4,32 @@ _三层架构记忆系统_
 
 ## 📋 系统架构
 
+## 🧠 OpenClaw 知识学习（2026-03-26 精华摘要）⭐⭐⭐⭐⭐
+
+**学习时间**: 2026 年 3 月 26 日 11:43 PM (Asia/Shanghai)  
+**学习目的**: 为明早 7 点汇报做准备  
+**完成度**: 100% ✅ **完全就绪**
+
+**核心收获（2026-03-23 深化知识）**:
+1. **Gateway 架构深化**: Gateway 是调度员，不运行 AI 模型；WebSocket 连接 + Typed API；6 种事件类型；设备身份认证
+2. **Session 管理深化**: Session Key 格式规范；dmScope 配置（多用户推荐 `per-channel-peer`）；Session 维护策略（清理、轮换、上限）
+3. **Cron vs Heartbeat**: Cron 精确定时，Heartbeat 批量处理，两者互补
+4. **四角色闭环体系（V2）**: Planner → Executor → Reviewer → Patrol 完整任务闭环
+
+**记忆口诀**:
+- Gateway 是调度员，不跑 AI
+- Session 是关键状态，定期清理
+- Cron 精确定时，Heartbeat 批量
+- 工具是第一类能力，不是 skill 包裹
+
+**速查卡片**: `docs/OpenClaw-汇报速查卡片 -2026-03-26.md` (10KB)  
+**学习日志**: `memory/2026-03-26.md` (5KB)  
+**准备状态**: ✅ **完全就绪**
+
+---
+
+## 📋 系统架构
+
 ### 记忆系统
 
 - **每日日志** (memory/YYYY-MM-DD.md) - 原始记录，无限存储
