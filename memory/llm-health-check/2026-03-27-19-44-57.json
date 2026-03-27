@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-03-27T19:44:57+08:00",
+  "checks": {
+    "ssh_tunnel": "✅ active",
+    "vllm_health": "✅ healthy"
+  },
+  "overall": "✅ All checks passed"
+}
