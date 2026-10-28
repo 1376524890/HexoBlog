@@ -2,12 +2,24 @@
 // Overlay generated pages onto an existing gh-pages checkout without deleting static files.
 const fs = require('node:fs');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const root = path.resolve(__dirname, '../..');
 if (!process.argv[2]) throw new Error('用法：node tools/novels/prepare-publish.cjs /发布分支目录');
 const target = fs.realpathSync(process.argv[2]);
 if (!fs.existsSync(path.join(target, '.git')) || target === root) throw new Error('目标必须是独立的发布分支检出目录。');
 const publicDir = path.join(root, 'public');
 if (!fs.existsSync(path.join(publicDir, 'novels/tingcheng/050/index.html'))) throw new Error('请先生成并验证小说页面。');
+// Pages recursively checks out submodules before it serves static files. The old
+// publishing branch contained four gitlinks without a .gitmodules configuration.
+if (!fs.existsSync(path.join(target, '.gitmodules'))) {
+  const entries = execFileSync('git', ['-C', target, 'ls-files', '--stage', '-z']).toString().split('\0');
+  for (const entry of entries) {
+    if (!entry.startsWith('160000 ')) continue;
+    const name = entry.slice(entry.indexOf('\t') + 1);
+    execFileSync('git', ['-C', target, 'update-index', '--force-remove', '--', name]);
+  }
+}
+fs.writeFileSync(path.join(target, '.nojekyll'), '');
 let written = 0;
 function copy(directory, relative = '') {
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
