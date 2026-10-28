@@ -21,4 +21,4 @@ npm run server
 
 ## 发布
 
-检查本地预览后提交源码到master，再将Hexo生成的public部署至原有gh-pages分支。发布前核对线上分支，保留独立维护的静态资源。
+检查本地预览后提交源码到master，再将Hexo生成的public部署至原有gh-pages分支。发布前核对线上分支。也可在独立的gh-pages检出目录执行 `node tools/novels/prepare-publish.cjs /发布分支目录`，只加入小说相关页面和入口、补充旧页面导航，保留旧博文和静态资源。
