@@ -29,7 +29,7 @@ hexo.extend.generator.register('novels', function () {
     <article class="novel-book"><p class="novel-eyebrow">三部 · 51章（含第零章）</p><h2>${anchor(base, '听城')}</h2>
     <p>第一部　锈沟 / 第二部　名字 / 第三部　灰刀</p><div class="novel-actions">${anchor(base, '查看目录', 'class="novel-primary"')}${anchor(url(chapters[0]), '从头阅读')}${resume}</div></article></section>`),
     route(base, '《听城》章节目录', `<section class="novel-catalog"><p class="novel-eyebrow">${anchor('/novels/', '小说')} / 听城</p>
-      <h1>听城</h1><p class="novel-muted">三部 · 51章（含第零章） · 按章号顺序阅读</p>
+      <h1>听城</h1><p class="novel-muted">三部 · 51章 · 按章号顺序阅读</p>
       <div class="novel-actions">${anchor(url(chapters[0]), '从头阅读', 'class="novel-primary"')}${resume}</div>
       ${book.parts.map(part => `<section class="novel-volume"><h2>${escape(part.title)}</h2><ol class="novel-chapters">${part.chapters.map(chapter => `<li>${anchor(url(chapter), chapter.title)}</li>`).join('')}</ol></section>`).join('')}
     </section>`)
