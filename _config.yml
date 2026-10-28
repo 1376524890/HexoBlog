@@ -67,6 +67,7 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
+  小说: novels
   学习资料: learning-files
 tag_map:
 
