@@ -17,6 +17,8 @@ npm run server
 
 目录页、章节页和前后章导航由 `scripts/novels.js` 在Hexo生成时自动创建，不进入博文流；分类由入口文章提供。站点仍使用Fluid主题，样式和交互分别在 `source/css/novels.css`、`source/js/novels.js`。
 
+小说封面与概念图保存在 `source/img/novels/tingcheng/`，使用 WebP 格式。封面用于首页入口、小说书架、介绍文章及目录页；三张概念图在独立的 `/novels/tingcheng/art/` 图集中展示，点击可查看大图。章节阅读页与正文不插图。
+
 字号和阅读位置保存在当前浏览器的localStorage；无法访问存储时仍可正常阅读。继续阅读通过目录或小说入口的按钮恢复。深浅色复用Fluid的切换按钮。
 
 ## 发布
