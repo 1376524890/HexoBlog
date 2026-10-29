@@ -9,20 +9,6 @@ body:has(.novel-reader) #board, body:has(.novel-catalog) #board, body:has(.novel
 .novel-book { border: 1px solid var(--line-color); border-radius: 12px; padding: 1.8rem; margin-top: 2rem; }
 .novel-book h2 { font-family: 'Songti SC', SimSun, serif; font-size: 2rem; margin: .8rem 0 1.2rem; }
 .novel-book p { line-height: 1.9; }
-.novel-book-with-cover { display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: center; gap: 2rem; }
-.novel-cover { display: block; line-height: 0; border-radius: 6px; overflow: hidden; box-shadow: 0 8px 24px #0003; }
-.novel-cover img { display: block; width: 100%; height: auto; margin: 0; }
-.novel-book-info { min-width: 0; }
-.novel-book-info .novel-actions { margin-bottom: 0; }
-.novel-catalog-hero { padding: 1rem 0 1.5rem; }
-.novel-entry-cover { display: block; max-width: 260px; margin: 1.8rem auto; }
-.novel-entry-cover img { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 8px 24px #0003; }
-.index-img img[src*="/img/novels/tingcheng/cover.webp"] { object-fit: contain; background: #1b2024; }
-.novel-artwork { margin: 2.5rem 0; }
-.novel-artwork > a { display: block; }
-.novel-artwork img { display: block; width: 100%; height: auto; margin: 0; border-radius: 8px; }
-.novel-artwork figcaption { padding: 1rem 0; }
-.novel-artwork h2 { font-family: 'Songti SC', SimSun, serif; font-size: 1.4rem; margin: .3rem 0 0; border: 0; }
 .novel-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin: 1.5rem 0 2rem; }
 .novel-actions a { padding: .6rem 0; }
 .novel-actions .novel-primary { padding: .6rem 1.1rem; border-radius: 6px; background: var(--link-hover-color); color: #fff; }
@@ -48,7 +34,5 @@ body:has(.novel-reader) #board, body:has(.novel-catalog) #board, body:has(.novel
   body:has(.novel-reader) #board > .container { padding-left: 20px; padding-right: 20px; }
   .novel-chapters { grid-template-columns: 1fr; }
   .novel-book { padding: 1.3rem; }
-  .novel-book-with-cover { grid-template-columns: 1fr; gap: 1.2rem; }
-  .novel-cover { width: 180px; margin: 0 auto; }
   .novel-navigation { font-size: .85rem; }
 }
