@@ -1,0 +1,39 @@
+name: Build static blog
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: static-blog-publish
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          submodules: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Generate site
+        run: npm run build
+      - name: Verify novel pages
+        run: npm run verify:novel
+      - name: Record source version
+        run: printf '%s\n' "$GITHUB_SHA" > public/source-commit.txt
+      - name: Publish static site branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: static-site
+          publish_dir: ./public

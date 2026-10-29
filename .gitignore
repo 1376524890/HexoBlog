@@ -7,6 +7,8 @@ node_modules/
 public/
 .deploy*/
 
-# Systemd service files (system specific)
-~/.config/systemd/user/stock-api.service
-~/.config/systemd/user/stock-frontend.service
+# Local development environments
+.venv*/
+venv/
+.env
+.env.*
