@@ -1,0 +1,38 @@
+/* Scoped to the novel pages; Fluid supplies the navigation and color scheme. */
+body:has(.novel-reader) .header-inner, body:has(.novel-catalog) .header-inner, body:has(.novel-library) .header-inner { min-height: 155px; }
+body:has(.novel-reader) #banner .banner-text, body:has(.novel-catalog) #banner .banner-text, body:has(.novel-library) #banner .banner-text { display: none; }
+body:has(.novel-reader) #board, body:has(.novel-catalog) #board, body:has(.novel-library) #board { margin-top: -2rem; }
+.novel-reader, .novel-library, .novel-catalog { max-width: 760px; margin: auto; padding: 2rem 0; }
+.novel-reader h1, .novel-catalog h1, .novel-library h1 { font-family: 'Songti SC', 'Noto Serif CJK SC', SimSun, serif; font-size: clamp(1.65rem, 4vw, 2.1rem); line-height: 1.6; margin: .6rem 0 1.5rem; font-weight: 600; }
+.novel-eyebrow, .novel-muted { font-size: .88rem; color: var(--sec-text-color); line-height: 1.8; }
+.novel-eyebrow { letter-spacing: .08em; }
+.novel-book { border: 1px solid var(--line-color); border-radius: 12px; padding: 1.8rem; margin-top: 2rem; }
+.novel-book h2 { font-family: 'Songti SC', SimSun, serif; font-size: 2rem; margin: .8rem 0 1.2rem; }
+.novel-book p { line-height: 1.9; }
+.novel-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin: 1.5rem 0 2rem; }
+.novel-actions a { padding: .6rem 0; }
+.novel-actions .novel-primary { padding: .6rem 1.1rem; border-radius: 6px; background: var(--link-hover-color); color: #fff; }
+.novel-volume { margin-top: 2.5rem; }
+.novel-volume h2 { font-size: 1.2rem; padding-bottom: .9rem; border-bottom: 1px solid var(--line-color); }
+.novel-chapters { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 1.5rem; }
+.novel-chapters a { display: block; padding: .85rem .2rem; line-height: 1.6; border-bottom: 1px solid var(--line-color); }
+.novel-navigation { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: .8rem; padding: 1rem 0; border-top: 1px solid var(--line-color); border-bottom: 1px solid var(--line-color); font-size: .92rem; }
+.novel-navigation > :last-child { text-align: right; }
+.novel-navigation [aria-disabled] { color: var(--sec-text-color); }
+.novel-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: .65rem; padding: 1rem 0; font-size: .85rem; color: var(--sec-text-color); }
+.novel-toolbar button { background: transparent; color: var(--text-color); border: 1px solid var(--line-color); border-radius: 5px; min-height: 36px; padding: .25rem .65rem; cursor: pointer; }
+.novel-toolbar button:hover, .novel-toolbar button:focus-visible { border-color: var(--link-hover-color); }
+.novel-body.markdown-body { font-size: var(--novel-font-size,18px); line-height: 1.9; letter-spacing: .025em; overflow-wrap: break-word; padding: 1rem 0 2rem; }
+.novel-body.markdown-body p { text-indent: 2em; margin: 0 0 .85em; text-align: start; }
+.novel-body.markdown-body hr { width: 5rem; height: 1px; margin: 2.5rem auto; }
+.novel-body.markdown-body blockquote p { text-indent: 0; }
+.novel-end { text-align: center; margin-top: 1.3rem; }
+.novel-resume[hidden] { display: none; }
+.novel-reader a:focus-visible, .novel-catalog a:focus-visible, .novel-library a:focus-visible { outline: 2px solid var(--link-hover-color); outline-offset: 4px; }
+@media (max-width: 600px) {
+  .novel-reader, .novel-catalog, .novel-library { padding: 1.2rem 0; }
+  body:has(.novel-reader) #board > .container { padding-left: 20px; padding-right: 20px; }
+  .novel-chapters { grid-template-columns: 1fr; }
+  .novel-book { padding: 1.3rem; }
+  .novel-navigation { font-size: .85rem; }
+}
